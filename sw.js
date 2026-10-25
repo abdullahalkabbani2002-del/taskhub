@@ -1,5 +1,5 @@
 // TaskHub PWA Service Worker
-const CACHE_NAME = 'taskhub-pwa-v1';
+const CACHE_NAME = 'taskhub-pwa-v3';
 const ASSETS_TO_CACHE = [
   './',
   'index.html',
@@ -35,10 +35,8 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  const url = event.request.url;
-
-  // Bypass cache for external APIs like Google Gemini
-  if (url.includes('googleapis.com') || url.includes('github.com')) {
+  // Strictly ignore all cross-origin requests (Gemini API, Google Fonts, external APIs)
+  if (!event.request.url.startsWith(self.location.origin)) {
     return;
   }
 
