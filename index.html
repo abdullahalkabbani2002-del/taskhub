@@ -3563,7 +3563,11 @@
       'دجاج مشوي': { baseQty: 100, unit: 'غرام', cal: 180, p: 28, c: 0, f: 6.5 },
       'صدر دجاج': { baseQty: 100, unit: 'غرام', cal: 165, p: 31, c: 0, f: 3.6 },
       'صدور دجاج': { baseQty: 100, unit: 'غرام', cal: 165, p: 31, c: 0, f: 3.6 },
-      'فخذ دجاج': { baseQty: 1, unit: 'قطعة', cal: 215, p: 24, c: 0, f: 12.5 },
+      'فخذ دجاج': { baseQty: 1, unit: 'قطعة (فخد)', cal: 215, p: 24, c: 0, f: 12.5 },
+      'فخد دجاج': { baseQty: 1, unit: 'قطعة (فخد)', cal: 215, p: 24, c: 0, f: 12.5 },
+      'فخد جاج': { baseQty: 1, unit: 'قطعة (فخد)', cal: 215, p: 24, c: 0, f: 12.5 },
+      'فخذ جاج': { baseQty: 1, unit: 'قطعة (فخد)', cal: 215, p: 24, c: 0, f: 12.5 },
+      'صدر جاج': { baseQty: 100, unit: 'غرام', cal: 165, p: 31, c: 0, f: 3.6 },
       'جوانح دجاج': { baseQty: 1, unit: 'قطعة', cal: 95, p: 8, c: 0, f: 6.8 },
       'شيش طاووق': { baseQty: 1, unit: 'سيخ', cal: 160, p: 26, c: 1, f: 5.5 },
       'وجبة شيش طاووق': { baseQty: 1, unit: 'وجبة', cal: 680, p: 52, c: 65, f: 22 },
@@ -3699,6 +3703,17 @@
       'رز بسمتي مطبوخ': { baseQty: 100, unit: 'غرام', cal: 120, p: 2.6, c: 26, f: 0.4 },
       'رز ابيض مطبوخ بالسمنة': { baseQty: 100, unit: 'غرام', cal: 150, p: 2.7, c: 28, f: 3.2 },
       'رز ابيض': { baseQty: 100, unit: 'غرام', cal: 130, p: 2.7, c: 28, f: 0.3 },
+      'مندي دجاج': { baseQty: 300, unit: 'غرام', cal: 480, p: 28, c: 55, f: 16 },
+      'مندي لحم': { baseQty: 300, unit: 'غرام', cal: 580, p: 32, c: 54, f: 24 },
+      'مندي': { baseQty: 300, unit: 'غرام', cal: 480, p: 28, c: 55, f: 16 },
+      'رز مندي': { baseQty: 200, unit: 'غرام', cal: 320, p: 6, c: 54, f: 9 },
+      'كبسة دجاج': { baseQty: 300, unit: 'غرام', cal: 490, p: 27, c: 56, f: 18 },
+      'كبسة': { baseQty: 300, unit: 'غرام', cal: 490, p: 27, c: 56, f: 18 },
+      'برياني دجاج': { baseQty: 300, unit: 'غرام', cal: 510, p: 26, c: 58, f: 19 },
+      'برياني': { baseQty: 300, unit: 'غرام', cal: 510, p: 26, c: 58, f: 19 },
+      'بخاري دجاج': { baseQty: 300, unit: 'غرام', cal: 500, p: 27, c: 57, f: 17 },
+      'بخاري': { baseQty: 300, unit: 'غرام', cal: 500, p: 27, c: 57, f: 17 },
+      'أوزي': { baseQty: 250, unit: 'صرّة', cal: 450, p: 18, c: 45, f: 22 },
       'رز بني': { baseQty: 100, unit: 'غرام', cal: 111, p: 2.6, c: 23, f: 0.9 },
       'رز بشعيرية': { baseQty: 100, unit: 'غرام', cal: 145, p: 2.8, c: 29, f: 2.1 },
       'رز': { baseQty: 100, unit: 'غرام', cal: 130, p: 2.7, c: 28, f: 0.3 },
@@ -3913,7 +3928,11 @@
         .replace(/\bبسمنة\b/g, ' سمنة ')
         .replace(/\bبزيت\b/g, ' زيت ')
         .replace(/\bبلحمة\b/g, ' لحمة ')
-        .replace(/\bبدجاج\b/g, ' دجاج ');
+        .replace(/\bبدجاج\b/g, ' دجاج ')
+        .replace(/\bجاج\b/g, ' دجاج ')
+        .replace(/\bالجاج\b/g, ' الدجاج ')
+        .replace(/\bفخد\b/g, ' فخذ دجاج ')
+        .replace(/(\d+)\s*(?:غ|غم|g)\b/gi, '$1 غرام ');
 
       // Split narrative clauses by common connectors:
       // "مع", "و", "ثم", "بعدين", "وبعدها", ",", "،", "+"
@@ -4110,7 +4129,9 @@
     const GEMINI_PROJECT_ID = '660726199734';
 
     function getGeminiApiKey() {
-      return localStorage.getItem('TASKHUB_GEMINI_KEY') || DEFAULT_GEMINI_API_KEY;
+      const stored = localStorage.getItem('TASKHUB_GEMINI_KEY');
+      if (stored && stored.trim()) return stored.trim();
+      return DEFAULT_GEMINI_API_KEY;
     }
 
     async function callGeminiNutritionAPI(userText, apiKey) {
@@ -4140,7 +4161,7 @@
 }`;
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 18000);
+      const timeoutId = setTimeout(() => controller.abort(), 20000);
 
       try {
         const res = await fetch(url, {
@@ -4166,7 +4187,8 @@
         clearTimeout(timeoutId);
 
         if (!res.ok) {
-          throw new Error('HTTP ' + res.status);
+          const errDetail = await res.text();
+          throw new Error('HTTP ' + res.status + ': ' + (errDetail || res.statusText));
         }
 
         const data = await res.json();
@@ -4203,10 +4225,12 @@
       `;
 
       let parsedFromGemini = null;
+      let geminiErrorMsg = '';
       if (apiKey) {
         try {
           parsedFromGemini = await callGeminiNutritionAPI(text, apiKey);
         } catch (err) {
+          geminiErrorMsg = err && err.message ? err.message : String(err);
           console.warn('Gemini API request failed, falling back to local Levant NLP:', err);
         }
       }
@@ -4248,7 +4272,7 @@
         currentAIMealPreview = {
           ...parsedLocal,
           isGemini: false,
-          summary: ''
+          summary: geminiErrorMsg ? '⚡ تم الحساب عبر المحرك المحلي البديل بنجاح' : ''
         };
         renderAIPreview();
         return;
@@ -4259,10 +4283,11 @@
       previewBox.innerHTML = `
         <div style="padding:0.8rem; text-align:center; color:var(--text-muted); font-size:0.78rem;">
           <div style="font-weight:700; color:var(--text); margin-bottom:0.3rem;">لم أتمكن من التعرف على الأصناف بدقة</div>
+          ${geminiErrorMsg ? `<div style="font-size:0.68rem; color:var(--primary); margin-bottom:0.4rem;">ملاحظة: تعذر استدعاء الذكاء الاصطناعي (${escapeHtml(geminiErrorMsg)})</div>` : ''}
           <div>اكتب وجبتك بالعامية أو الفصحى مع الكمية، مثلاً:</div>
           <div style="margin-top:0.4rem; color:var(--primary); font-weight:600; font-size:0.75rem; line-height:1.5;">
-            "فطرت 3 بيضات ورغيفين سياحي وكاسة شاي معلقتين سكر"<br>
-            أو "نص فروج مشوي ورز وسلطة خضراء وكانز كولا زيرو"
+            "350غ مندي مع فخد دجاج وكولا دايت"<br>
+            أو "فطرت 3 بيضات ورغيفين سياحي وكاسة شاي معلقتين سكر"
           </div>
           <button class="btn-action" style="margin-top:0.6rem; padding:0.25rem 0.65rem; font-size:0.72rem;" onclick="cancelAIMeal()">إغلاق</button>
         </div>
