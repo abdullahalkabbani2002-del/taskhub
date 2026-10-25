@@ -3905,34 +3905,36 @@
       // 1. Strip leading category headers ending with ':' (e.g. "بروتين شيك: ", "فطور: ", "غداء: ")
       let textClean = text.trim().replace(/^[\u0600-\u06FF\s]+:\s*/, '');
 
-      // Normalize Levant dialect & slang prepositions
+      // Normalize Levant dialect & slang prepositions (using Unicode boundary lookaround)
+      const wb = (word) => new RegExp('(?<=^|[\\s،,.:;!؟])' + word + '(?=$|[\\s،,.:;!؟])', 'g');
+
       let raw = textClean
-        .replace(/\bاليوم\b/g, '')
-        .replace(/\bفطرت\b/g, '')
-        .replace(/\bافطرت\b/g, '')
-        .replace(/\bتغديت\b/g, '')
-        .replace(/\bاتغديت\b/g, '')
-        .replace(/\bتعشيت\b/g, '')
-        .replace(/\bاتعشيت\b/g, '')
-        .replace(/\bاكلت\b/g, '')
-        .replace(/\bأكلت\b/g, '')
-        .replace(/\bشربت\b/g, '')
-        .replace(/\bوجبة\b/g, '')
-        .replace(/\bعصرة\b/g, '')
-        .replace(/\bكانز\b/g, '')
-        .replace(/\bقنينة\b/g, '')
-        .replace(/\bبمعلقتين\b/g, ' 2 معلقة ')
-        .replace(/\bبملعقتين\b/g, ' 2 ملعقة ')
-        .replace(/\bبمعلقة\b/g, ' 1 معلقة ')
-        .replace(/\bبملعقة\b/g, ' 1 ملعقة ')
-        .replace(/\bبسمنة\b/g, ' سمنة ')
-        .replace(/\bبزيت\b/g, ' زيت ')
-        .replace(/\bبلحمة\b/g, ' لحمة ')
-        .replace(/\bبدجاج\b/g, ' دجاج ')
-        .replace(/\bجاج\b/g, ' دجاج ')
-        .replace(/\bالجاج\b/g, ' الدجاج ')
-        .replace(/\bفخد\b/g, ' فخذ دجاج ')
-        .replace(/(\d+)\s*(?:غ|غم|g)\b/gi, '$1 غرام ');
+        .replace(wb('اليوم'), '')
+        .replace(wb('فطرت'), '')
+        .replace(wb('افطرت'), '')
+        .replace(wb('تغديت'), '')
+        .replace(wb('اتغديت'), '')
+        .replace(wb('تعشيت'), '')
+        .replace(wb('اتعشيت'), '')
+        .replace(wb('اكلت'), '')
+        .replace(wb('أكلت'), '')
+        .replace(wb('شربت'), '')
+        .replace(wb('وجبة'), '')
+        .replace(wb('عصرة'), '')
+        .replace(wb('كانز'), '')
+        .replace(wb('قنينة'), '')
+        .replace(wb('بمعلقتين'), ' 2 معلقة ')
+        .replace(wb('بملعقتين'), ' 2 ملعقة ')
+        .replace(wb('بمعلقة'), ' 1 معلقة ')
+        .replace(wb('بملعقة'), ' 1 ملعقة ')
+        .replace(wb('بسمنة'), ' سمنة ')
+        .replace(wb('بزيت'), ' زيت ')
+        .replace(wb('بلحمة'), ' لحمة ')
+        .replace(wb('بدجاج'), ' دجاج ')
+        .replace(wb('جاج'), ' دجاج ')
+        .replace(wb('الجاج'), ' الدجاج ')
+        .replace(wb('فخد'), ' فخذ ')
+        .replace(/(\d+)\s*(?:غ|غم|g)(?=$|[\s،,.:;!؟])/gi, '$1 غرام ');
 
       // Split narrative clauses by common connectors:
       // "مع", "و", "ثم", "بعدين", "وبعدها", ",", "،", "+"
