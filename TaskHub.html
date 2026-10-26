@@ -22,6 +22,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
+  <script>
+    try {
+      if (localStorage.getItem('TASKHUB_THEME') === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.documentElement.classList.remove('dark');
+      }
+    } catch(e) {}
+  </script>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -42,15 +50,15 @@
               glow: 'rgba(224, 79, 22, 0.15)'
             },
             app: {
-              bg: '#09090b',
-              surface: '#111215',
-              surfaceSubtle: '#17181d',
-              surfaceHover: '#1c1e24',
-              border: '#23252d',
-              borderSubtle: '#1a1b22',
-              text: '#f4f4f5',
-              muted: '#8e929f',
-              subtle: '#5c606e'
+              bg: 'var(--app-bg)',
+              surface: 'var(--app-surface)',
+              surfaceSubtle: 'var(--app-surface-subtle)',
+              surfaceHover: 'var(--app-surface-hover)',
+              border: 'var(--app-border)',
+              borderSubtle: 'var(--app-border-subtle)',
+              text: 'var(--app-text)',
+              muted: 'var(--app-muted)',
+              subtle: 'var(--app-subtle)'
             }
           },
           boxShadow: {
@@ -66,19 +74,29 @@
   <style>
     :root {
       color-scheme: dark;
+      --app-bg: #09090b;
+      --app-surface: #111215;
+      --app-surface-subtle: #17181d;
+      --app-surface-hover: #1c1e24;
+      --app-border: #23252d;
+      --app-border-subtle: #1a1b22;
+      --app-text: #f4f4f5;
+      --app-muted: #8e929f;
+      --app-subtle: #5c606e;
     }
-    
+
     * {
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background-color: #09090b;
-      color: #f4f4f5;
+      background-color: var(--app-bg);
+      color: var(--app-text);
       font-feature-settings: "cv02", "cv03", "cv04", "cv11";
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     /* Untitled UI Precision Scrollbars */
@@ -161,6 +179,246 @@
     /* Subtle hairline border styling */
     .hairline-border {
       border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    /* =========================================================
+       LIGHT MODE COMPREHENSIVE OVERRIDES (Untitled UI Crisp Light)
+       ========================================================= */
+    html[data-theme="light"],
+    html:not(.dark) {
+      color-scheme: light;
+      --app-bg: #f8f9fa;
+      --app-surface: #ffffff;
+      --app-surface-subtle: #f4f5f7;
+      --app-surface-hover: #eef1f5;
+      --app-border: #e4e7ec;
+      --app-border-subtle: #eaecf0;
+      --app-text: #101828;
+      --app-muted: #475467;
+      --app-subtle: #667085;
+    }
+
+    html[data-theme="light"] body,
+    html[data-theme="light"] .bg-app-bg,
+    html[data-theme="light"] body.bg-app-bg {
+      background-color: #f8f9fa !important;
+      color: #101828 !important;
+    }
+
+    html[data-theme="light"] .text-app-text,
+    html[data-theme="light"] body.text-app-text {
+      background-color: #f8f9fa !important;
+      color: #101828 !important;
+    }
+
+    /* Scrollbars in Light Mode */
+    html[data-theme="light"] ::-webkit-scrollbar-thumb {
+      background: #d0d5dd !important;
+    }
+    html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+      background: #98a2b3 !important;
+    }
+
+    /* Header & Navigation in Light Mode */
+    html[data-theme="light"] header {
+      background-color: rgba(255, 255, 255, 0.88) !important;
+      border-color: #e4e7ec !important;
+    }
+    html[data-theme="light"] nav.bg-zinc-900/80 {
+      background-color: #f2f4f7 !important;
+      border-color: #e4e7ec !important;
+    }
+    html[data-theme="light"] nav.bg-zinc-950/90 {
+      background-color: rgba(255, 255, 255, 0.95) !important;
+      border-color: #e4e7ec !important;
+    }
+
+    /* Surfaces & Cards */
+    html[data-theme="light"] .bg-app-surface,
+    html[data-theme="light"] .bg-surface {
+      background-color: #ffffff !important;
+      border-color: #e4e7ec !important;
+      box-shadow: 0 1px 3px 0 rgba(16, 24, 40, 0.05), 0 1px 2px -1px rgba(16, 24, 40, 0.03) !important;
+    }
+    html[data-theme="light"] .bg-surface-subtle {
+      background-color: #f8f9fa !important;
+      border-color: #e4e7ec !important;
+    }
+    html[data-theme="light"] .hover\:bg-surface-hover:hover {
+      background-color: #f9fafb !important;
+    }
+
+    /* Zinc Backgrounds translated to Crisp Clean Light */
+    html[data-theme="light"] .bg-zinc-950 {
+      background-color: #ffffff !important;
+    }
+    html[data-theme="light"] .bg-zinc-950/50,
+    html[data-theme="light"] .bg-zinc-950/60,
+    html[data-theme="light"] .bg-zinc-950/70,
+    html[data-theme="light"] .bg-zinc-950/80 {
+      background-color: #f8f9fa !important;
+    }
+    html[data-theme="light"] .bg-zinc-900 {
+      background-color: #f4f5f7 !important;
+    }
+    html[data-theme="light"] .bg-zinc-900/60,
+    html[data-theme="light"] .bg-zinc-900/80,
+    html[data-theme="light"] .bg-zinc-900/90 {
+      background-color: #f4f5f7 !important;
+    }
+    html[data-theme="light"] .hover\:bg-zinc-850:hover,
+    html[data-theme="light"] .hover\:bg-zinc-800:hover {
+      background-color: #eaecf0 !important;
+    }
+    html[data-theme="light"] .bg-zinc-850 {
+      background-color: #eaecf0 !important;
+    }
+    html[data-theme="light"] .bg-zinc-800 {
+      background-color: #eaecf0 !important;
+    }
+
+    /* Borders */
+    html[data-theme="light"] .border-zinc-800,
+    html[data-theme="light"] .border-zinc-700,
+    html[data-theme="light"] .border-zinc-750,
+    html[data-theme="light"] .border-app-border,
+    html[data-theme="light"] .border-surface-border {
+      border-color: #e4e7ec !important;
+    }
+    html[data-theme="light"] .border-zinc-800/40,
+    html[data-theme="light"] .border-zinc-800/50,
+    html[data-theme="light"] .border-zinc-800/60,
+    html[data-theme="light"] .border-zinc-800/80 {
+      border-color: #eaecf0 !important;
+    }
+
+    /* Text Colors in Light Mode */
+    html[data-theme="light"] .text-white {
+      color: #101828 !important;
+    }
+    html[data-theme="light"] .text-zinc-100 {
+      color: #101828 !important;
+    }
+    html[data-theme="light"] .text-zinc-200 {
+      color: #1d2939 !important;
+    }
+    html[data-theme="light"] .text-zinc-300 {
+      color: #344054 !important;
+    }
+    html[data-theme="light"] .text-zinc-400 {
+      color: #475467 !important;
+    }
+    html[data-theme="light"] .text-zinc-500 {
+      color: #667085 !important;
+    }
+    html[data-theme="light"] .text-app-muted {
+      color: #475467 !important;
+    }
+
+    /* Brand elements keep high contrast */
+    html[data-theme="light"] .text-brand {
+      color: #E04F16 !important;
+    }
+    html[data-theme="light"] .bg-brand,
+    html[data-theme="light"] button.bg-brand,
+    html[data-theme="light"] .bg-brand *,
+    html[data-theme="light"] button.bg-brand * {
+      color: #ffffff !important;
+    }
+
+    /* Active Pill Tabs in Light Mode */
+    html[data-theme="light"] .view-tab-btn.bg-zinc-800,
+    html[data-theme="light"] .view-tab-btn.text-white {
+      background-color: #ffffff !important;
+      color: #101828 !important;
+      box-shadow: 0 1px 3px rgba(16, 24, 40, 0.1) !important;
+      border-color: #d0d5dd !important;
+    }
+    html[data-theme="light"] .horizon-pill.bg-zinc-800,
+    html[data-theme="light"] .horizon-pill.text-white {
+      background-color: #ffffff !important;
+      color: #101828 !important;
+      box-shadow: 0 1px 3px rgba(16, 24, 40, 0.1) !important;
+      border-color: #d0d5dd !important;
+    }
+    html[data-theme="light"] .rf-pill.bg-zinc-800,
+    html[data-theme="light"] .rf-pill.text-white {
+      background-color: #ffffff !important;
+      color: #101828 !important;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.1) !important;
+    }
+
+    /* Form Controls & Inputs */
+    html[data-theme="light"] input,
+    html[data-theme="light"] textarea,
+    html[data-theme="light"] select {
+      background-color: #ffffff !important;
+      color: #101828 !important;
+      border-color: #d0d5dd !important;
+    }
+    html[data-theme="light"] input::placeholder,
+    html[data-theme="light"] textarea::placeholder {
+      color: #98a2b3 !important;
+    }
+
+    /* Custom Checkbox in Light Mode */
+    html[data-theme="light"] .checkbox-custom {
+      background-color: #ffffff !important;
+      border-color: #d0d5dd !important;
+    }
+    html[data-theme="light"] .checkbox-custom:checked {
+      background-color: #10b981 !important;
+      border-color: #10b981 !important;
+    }
+
+    /* Modals in Light Mode */
+    html[data-theme="light"] .modal-backdrop {
+      background: rgba(16, 24, 40, 0.45) !important;
+    }
+    html[data-theme="light"] .modal-backdrop > div {
+      background-color: #ffffff !important;
+      border-color: #e4e7ec !important;
+      box-shadow: 0 20px 40px -10px rgba(16, 24, 40, 0.15), 0 1px 3px 0 rgba(16, 24, 40, 0.08) !important;
+    }
+
+    /* Command Palette in Light Mode */
+    html[data-theme="light"] #commandPaletteModal > div {
+      background-color: #ffffff !important;
+      border-color: #e4e7ec !important;
+    }
+    html[data-theme="light"] #commandPaletteModal input {
+      background-color: transparent !important;
+    }
+    html[data-theme="light"] [id^="cpItem-"]:hover {
+      background-color: #f2f4f7 !important;
+    }
+    html[data-theme="light"] [id^="cpItem-"].bg-brand\/15 {
+      background-color: rgba(224, 79, 22, 0.1) !important;
+      border-color: rgba(224, 79, 22, 0.3) !important;
+      color: #E04F16 !important;
+    }
+    html[data-theme="light"] [id^="cpItem-"].bg-brand\/15 * {
+      color: #E04F16 !important;
+    }
+
+    /* Floating Toast in Light Mode */
+    html[data-theme="light"] #toastNotification > div {
+      background-color: #ffffff !important;
+      border-color: #e4e7ec !important;
+      color: #101828 !important;
+      box-shadow: 0 12px 24px -4px rgba(16, 24, 40, 0.12) !important;
+    }
+
+    /* Keyboard Kbd Badges */
+    html[data-theme="light"] kbd {
+      background-color: #f2f4f7 !important;
+      border-color: #d0d5dd !important;
+      color: #344054 !important;
+    }
+
+    /* Progress bar tracks */
+    html[data-theme="light"] .bg-zinc-900.rounded-full {
+      background-color: #eaecf0 !important;
     }
   </style>
 </head>
@@ -4674,23 +4932,47 @@
     }
 
     function toggleTheme() {
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      if (isLight) {
+      const isCurrentlyLight = document.documentElement.getAttribute('data-theme') === 'light';
+      if (isCurrentlyLight) {
         document.documentElement.removeAttribute('data-theme');
         document.documentElement.classList.add('dark');
         localStorage.setItem('TASKHUB_THEME', 'dark');
+        updateThemeUI(false);
+        showToast('تم تفعيل النمط الداكن (Dark Mode)');
       } else {
         document.documentElement.setAttribute('data-theme', 'light');
         document.documentElement.classList.remove('dark');
         localStorage.setItem('TASKHUB_THEME', 'light');
+        updateThemeUI(true);
+        showToast('تم تفعيل النمط الفاتح (Light Mode)');
       }
     }
+
+    function updateThemeUI(isLight) {
+      const btn = document.getElementById('themeBtn');
+      if (btn) {
+        if (isLight) {
+          btn.innerHTML = '<svg class="w-3.5 h-3.5 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>';
+          btn.title = 'تفعيل النمط الداكن (Dark Mode)';
+        } else {
+          btn.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+          btn.title = 'تفعيل النمط الفاتح (Light Mode)';
+        }
+      }
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) metaTheme.setAttribute('content', isLight ? '#f8f9fa' : '#09090b');
+    }
+
     function loadTheme() {
-      if (localStorage.getItem('TASKHUB_THEME') === 'light') {
+      const saved = localStorage.getItem('TASKHUB_THEME');
+      if (saved === 'light') {
         document.documentElement.setAttribute('data-theme', 'light');
         document.documentElement.classList.remove('dark');
+        updateThemeUI(true);
       } else {
+        document.documentElement.removeAttribute('data-theme');
         document.documentElement.classList.add('dark');
+        updateThemeUI(false);
       }
     }
 
