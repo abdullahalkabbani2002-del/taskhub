@@ -1124,13 +1124,27 @@
   <div id="nutritionSettingsModal" class="modal-backdrop">
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-5 shadow-modal space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
-        <h3 class="text-sm font-semibold text-white">إعدادات أهداف التغذية وGemini AI</h3>
+        <h3 class="text-sm font-semibold text-white">إعدادات أهداف التغذية ومفتاح Gemini AI</h3>
         <button onclick="closeNutritionSettingsModal()" class="text-zinc-400 hover:text-white text-xs">✕</button>
       </div>
       
-      <div class="space-y-1.5">
-        <label class="text-xs font-medium text-zinc-300">مفتاح Gemini API Key (اختياري، يوجد مفتاح افتراضي مدمج)</label>
-        <input type="password" id="settingGeminiApiKey" placeholder="AIzaSy..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+      <div class="space-y-2">
+        <div class="flex items-center justify-between">
+          <label class="text-xs font-medium text-zinc-300">مفتاح Google Gemini API Key</label>
+          <span class="text-[10px] text-zinc-500 font-mono">Flash 3.5 &amp; 3.8</span>
+        </div>
+        <div class="flex gap-2">
+          <input type="password" id="settingGeminiApiKey" placeholder="AIzaSy... أو اتركه فارغاً لاستخدام الافتراضي" class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand font-mono">
+          <button type="button" onclick="testGeminiConnection()" class="px-3 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5" title="فحص صلاحية المفتاح مباشرة مع خوادم Google">
+            <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>فحص الاتصال</span>
+          </button>
+        </div>
+        <div class="flex items-center justify-between text-[11px] pt-0.5">
+          <button type="button" onclick="resetGeminiKeyToDefault()" class="text-brand hover:underline font-medium">استعادة المفتاح الافتراضي المدمج</button>
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-zinc-200 underline">احصل على مفتاحك المجاني (AI Studio)</a>
+        </div>
+        <div id="geminiConnectionFeedback" class="hidden text-xs p-2.5 rounded-lg border"></div>
       </div>
 
       <div class="grid grid-cols-2 gap-3 pt-2">
@@ -1480,15 +1494,27 @@
       'فخد دجاج': { baseQty: 1, unit: 'قطعة (فخد)', cal: 215, p: 24, c: 0, f: 12.5 },
       'فخد جاج': { baseQty: 1, unit: 'قطعة (فخد)', cal: 215, p: 24, c: 0, f: 12.5 },
       'فخذ جاج': { baseQty: 1, unit: 'قطعة (فخد)', cal: 215, p: 24, c: 0, f: 12.5 },
+      'فخد': { baseQty: 1, unit: 'قطعة (فخد)', cal: 215, p: 24, c: 0, f: 12.5 },
       'شيش طاووق': { baseQty: 1, unit: 'سيخ', cal: 160, p: 26, c: 1, f: 5.5 },
       'كباب لحم': { baseQty: 1, unit: 'سيخ', cal: 220, p: 18, c: 2, f: 15 },
       'كباب': { baseQty: 1, unit: 'سيخ', cal: 220, p: 18, c: 2, f: 15 },
-      'شاورما دجاج عربي': { baseQty: 1, unit: 'وجبة عربي', cal: 850, p: 46, c: 75, f: 38 },
+      'شاورما عربي دبل': { baseQty: 1, unit: 'وجبة دبل', cal: 1100, p: 62, c: 98, f: 52 },
+      'شاورما عربي': { baseQty: 1, unit: 'وجبة عربي', cal: 850, p: 46, c: 75, f: 38 },
       'شاورما دجاج': { baseQty: 1, unit: 'سندويش', cal: 450, p: 30, c: 42, f: 18 },
       'شاورما لحمة': { baseQty: 1, unit: 'سندويش', cal: 520, p: 26, c: 44, f: 24 },
       'شاورما': { baseQty: 1, unit: 'سندويش', cal: 450, p: 30, c: 42, f: 18 },
+      'بروستد': { baseQty: 1, unit: 'قطعة', cal: 280, p: 25, c: 12, f: 16 },
+      'كرسبي': { baseQty: 100, unit: 'غرام', cal: 260, p: 22, c: 14, f: 14 },
+      'ستيك لحم': { baseQty: 150, unit: 'غرام', cal: 320, p: 38, c: 0, f: 18 },
+      'كبة مقلية': { baseQty: 1, unit: 'قرص', cal: 170, p: 7, c: 15, f: 9 },
+      'كبة مشوية': { baseQty: 1, unit: 'قرص', cal: 210, p: 9, c: 14, f: 13 },
+      'كبة': { baseQty: 1, unit: 'قرص', cal: 170, p: 7, c: 15, f: 9 },
+      'لحمة مفرومة': { baseQty: 100, unit: 'غرام', cal: 250, p: 26, c: 0, f: 17 },
+      'لحم غنم': { baseQty: 100, unit: 'غرام', cal: 290, p: 25, c: 0, f: 21 },
+      'لحم عجل': { baseQty: 100, unit: 'غرام', cal: 210, p: 28, c: 0, f: 11 },
+      'تونة': { baseQty: 1, unit: 'علبة (160غ)', cal: 180, p: 38, c: 0, f: 2 },
 
-      // Rice & Traditional Levant Stews
+      // Rice & Stews
       'مندي دجاج': { baseQty: 300, unit: 'غرام', cal: 480, p: 28, c: 55, f: 16 },
       'مندي لحم': { baseQty: 300, unit: 'غرام', cal: 580, p: 32, c: 54, f: 24 },
       'مندي': { baseQty: 300, unit: 'غرام', cal: 480, p: 28, c: 55, f: 16 },
@@ -1501,40 +1527,118 @@
       'ملوخية مع رز': { baseQty: 1, unit: 'صحن ملوخية ورز', cal: 480, p: 32, c: 52, f: 14 },
       'ملوخية': { baseQty: 1, unit: 'زبدية/صحن', cal: 220, p: 22, c: 12, f: 8 },
       'شاكرية مع رز': { baseQty: 1, unit: 'صحن مع رز', cal: 520, p: 34, c: 48, f: 18 },
+      'شاكرية': { baseQty: 1, unit: 'صحن', cal: 350, p: 28, c: 14, f: 20 },
       'فاصولياء مع رز': { baseQty: 1, unit: 'صحن مع رز', cal: 460, p: 26, c: 58, f: 12 },
+      'فاصولياء': { baseQty: 1, unit: 'صحن', cal: 220, p: 14, c: 26, f: 6 },
       'بامية مع رز': { baseQty: 1, unit: 'صحن مع رز', cal: 440, p: 25, c: 54, f: 13 },
+      'بامية': { baseQty: 1, unit: 'صحن', cal: 210, p: 13, c: 22, f: 7 },
+      'مجدرة برغل': { baseQty: 250, unit: 'صحن', cal: 390, p: 15, c: 65, f: 9 },
       'مجدرة': { baseQty: 250, unit: 'صحن', cal: 380, p: 14, c: 62, f: 8 },
+      'برغل': { baseQty: 150, unit: 'غرام', cal: 170, p: 5, c: 35, f: 1.5 },
+      'فريكة': { baseQty: 150, unit: 'غرام', cal: 190, p: 7, c: 38, f: 2 },
+      'كوسا محشي': { baseQty: 2, unit: 'حبتين', cal: 320, p: 14, c: 36, f: 13 },
+      'ورق عنب': { baseQty: 6, unit: 'حبات', cal: 240, p: 6, c: 34, f: 9 },
+      'يلنجي': { baseQty: 6, unit: 'حبات', cal: 250, p: 4, c: 36, f: 10 },
+      'منسف': { baseQty: 350, unit: 'صحن', cal: 650, p: 38, c: 68, f: 25 },
 
-      // Bread, Rice & Sides
+      // Bread & Sides
       'خبز سياحي': { baseQty: 1, unit: 'رغيف', cal: 260, p: 8.5, c: 53, f: 1.5 },
       'خبز عربي': { baseQty: 1, unit: 'رغيف', cal: 265, p: 9, c: 54, f: 1.5 },
       'خبز صاج': { baseQty: 1, unit: 'رغيف', cal: 210, p: 6.5, c: 44, f: 1.0 },
+      'خبز تنور': { baseQty: 1, unit: 'رغيف', cal: 230, p: 7, c: 48, f: 1.2 },
+      'توست اسمر': { baseQty: 1, unit: 'شريحة', cal: 68, p: 3.5, c: 12, f: 0.9 },
       'توست': { baseQty: 1, unit: 'شريحة', cal: 75, p: 2.5, c: 14, f: 1 },
+      'صمون': { baseQty: 1, unit: 'رغيف', cal: 180, p: 5, c: 34, f: 2 },
       'رز ابيض': { baseQty: 100, unit: 'غرام', cal: 130, p: 2.7, c: 28, f: 0.3 },
+      'رز بشعيرية': { baseQty: 100, unit: 'غرام', cal: 145, p: 2.8, c: 29, f: 2 },
       'رز': { baseQty: 100, unit: 'غرام', cal: 130, p: 2.7, c: 28, f: 0.3 },
       'بطاطا مقلية': { baseQty: 100, unit: 'غرام', cal: 312, p: 3.4, c: 41, f: 15 },
       'بطاطا مسلوقة': { baseQty: 100, unit: 'غرام', cal: 87, p: 1.9, c: 20, f: 0.1 },
+      'بطاطا ودجز': { baseQty: 100, unit: 'غرام', cal: 160, p: 2.5, c: 25, f: 5.5 },
+      'بطاطا': { baseQty: 100, unit: 'غرام', cal: 180, p: 2.5, c: 28, f: 6 },
 
-      // Sports, Breakfast & Extras
+      // Fast Food & Snacks
+      'برغر دجاج': { baseQty: 1, unit: 'ساندويش', cal: 420, p: 26, c: 38, f: 18 },
+      'برغر لحم': { baseQty: 1, unit: 'ساندويش', cal: 480, p: 28, c: 38, f: 24 },
+      'برغر': { baseQty: 1, unit: 'ساندويش', cal: 450, p: 27, c: 38, f: 21 },
+      'بيتزا': { baseQty: 1, unit: 'قطعة (مثلث)', cal: 270, p: 11, c: 31, f: 11 },
+      'مناقيش زعتر': { baseQty: 1, unit: 'منقوشة', cal: 260, p: 6, c: 36, f: 11 },
+      'مناقيش جبنة': { baseQty: 1, unit: 'منقوشة', cal: 330, p: 15, c: 35, f: 14 },
+      'فطيرة سبانخ': { baseQty: 1, unit: 'قطعة', cal: 160, p: 4, c: 22, f: 6 },
+      'فلافل': { baseQty: 1, unit: 'قرص', cal: 55, p: 2.3, c: 5.5, f: 3 },
+      'سندويش فلافل': { baseQty: 1, unit: 'سندويش', cal: 380, p: 13, c: 54, f: 13 },
+
+      // Sports & Supplements
       'واي بروتين': { baseQty: 1, unit: 'سكوب (30غ)', cal: 120, p: 24, c: 2.5, f: 1.5 },
+      'سكوب واي بروتين': { baseQty: 1, unit: 'سكوب (30غ)', cal: 120, p: 24, c: 2.5, f: 1.5 },
+      'سكوب بروتين': { baseQty: 1, unit: 'سكوب (30غ)', cal: 120, p: 24, c: 2.5, f: 1.5 },
+      'بروتين': { baseQty: 1, unit: 'سكوب (30غ)', cal: 120, p: 24, c: 2.5, f: 1.5 },
+      'كرياتين': { baseQty: 5, unit: 'غرام', cal: 0, p: 0, c: 0, f: 0 },
+      'بروتين بار': { baseQty: 1, unit: 'بار (60غ)', cal: 210, p: 20, c: 22, f: 7 },
+
+      // Eggs & Dairy
       'بيض مقلي': { baseQty: 1, unit: 'حبة', cal: 90, p: 6.3, c: 0.4, f: 7.0 },
       'بيض مسلوق': { baseQty: 1, unit: 'حبة', cal: 72, p: 6.3, c: 0.4, f: 4.8 },
+      'بيض عيون': { baseQty: 1, unit: 'حبة', cal: 90, p: 6.3, c: 0.4, f: 7.0 },
+      'أومليت': { baseQty: 2, unit: 'بيضتين', cal: 180, p: 13, c: 1, f: 14 },
       'بيض': { baseQty: 1, unit: 'حبة', cal: 72, p: 6.3, c: 0.4, f: 4.8 },
-      'لبنة': { baseQty: 30, unit: 'غرام/معلقة', cal: 65, p: 3, c: 2, f: 5 },
       'جبنة حلوم': { baseQty: 50, unit: 'غرام', cal: 160, p: 10, c: 1, f: 13 },
+      'جبنة قريش': { baseQty: 100, unit: 'غرام', cal: 98, p: 14, c: 3.4, f: 2.8 },
+      'جبنة شيدر': { baseQty: 30, unit: 'غرام', cal: 120, p: 7, c: 0.4, f: 10 },
+      'جبنة بيضاء': { baseQty: 50, unit: 'غرام', cal: 135, p: 9, c: 1, f: 11 },
+      'جبنة': { baseQty: 50, unit: 'غرام', cal: 140, p: 9, c: 1, f: 11 },
+      'لبنة': { baseQty: 30, unit: 'غرام/معلقة', cal: 65, p: 3, c: 2, f: 5 },
+      'لبن زبادي': { baseQty: 170, unit: 'علبة', cal: 110, p: 7, c: 10, f: 4.5 },
+      'لبن': { baseQty: 200, unit: 'كاسة', cal: 125, p: 6.5, c: 10, f: 6.5 },
+      'حليب خالي الدسم': { baseQty: 250, unit: 'كوب', cal: 90, p: 9, c: 12, f: 0.5 },
+      'حليب كامل الدسم': { baseQty: 250, unit: 'كوب', cal: 155, p: 8, c: 12, f: 8 },
+      'حليب': { baseQty: 250, unit: 'كوب', cal: 130, p: 8.5, c: 12, f: 5 },
+
+      // Breakfast items, Dips & Salads
+      'حمص بطحينة': { baseQty: 100, unit: 'غرام', cal: 180, p: 8, c: 18, f: 9 },
+      'حمص': { baseQty: 100, unit: 'غرام', cal: 170, p: 8, c: 18, f: 8 },
+      'متبل': { baseQty: 100, unit: 'غرام', cal: 135, p: 3, c: 9, f: 10 },
+      'فول مدمس': { baseQty: 150, unit: 'صحن', cal: 180, p: 11, c: 25, f: 4 },
+      'فول': { baseQty: 150, unit: 'صحن', cal: 180, p: 11, c: 25, f: 4 },
+      'مسبحة': { baseQty: 100, unit: 'غرام', cal: 195, p: 8.5, c: 18, f: 11 },
+      'فتة حمص': { baseQty: 250, unit: 'صحن', cal: 390, p: 14, c: 45, f: 18 },
+      'فتة': { baseQty: 250, unit: 'صحن', cal: 390, p: 14, c: 45, f: 18 },
+      'فتوش': { baseQty: 1, unit: 'صحن', cal: 135, p: 2.5, c: 17, f: 6.5 },
+      'تبولة': { baseQty: 1, unit: 'صحن', cal: 145, p: 3, c: 18, f: 7.5 },
       'سلطة خضراء': { baseQty: 1, unit: 'صحن', cal: 45, p: 1.8, c: 8, f: 0.5 },
+      'سلطة سيزر': { baseQty: 1, unit: 'صحن', cal: 260, p: 14, c: 12, f: 17 },
       'سلطة': { baseQty: 1, unit: 'صحن', cal: 45, p: 1.8, c: 8, f: 0.5 },
+      'ثومية': { baseQty: 25, unit: 'ملعقة', cal: 110, p: 0.5, c: 3, f: 11 },
+      'كريم ثوم': { baseQty: 25, unit: 'ملعقة', cal: 110, p: 0.5, c: 3, f: 11 },
+      'توم': { baseQty: 25, unit: 'ملعقة', cal: 110, p: 0.5, c: 3, f: 11 },
+      'مايونيز': { baseQty: 15, unit: 'ملعقة', cal: 100, p: 0.1, c: 0.5, f: 11 },
+      'طحينة': { baseQty: 15, unit: 'ملعقة', cal: 95, p: 2.5, c: 3, f: 8 },
+      'زيت زيتون': { baseQty: 10, unit: 'ملعقة', cal: 90, p: 0, c: 0, f: 10 },
+
+      // Drinks & Fruits
       'كولا دايت': { baseQty: 1, unit: 'كانز (330مل)', cal: 0, p: 0, c: 0, f: 0 },
       'كولا زيرو': { baseQty: 1, unit: 'كانز (330مل)', cal: 0, p: 0, c: 0, f: 0 },
+      'بيبسي دايت': { baseQty: 1, unit: 'كانز (330مل)', cal: 0, p: 0, c: 0, f: 0 },
+      'بيبسي ماكس': { baseQty: 1, unit: 'كانز (330مل)', cal: 0, p: 0, c: 0, f: 0 },
+      'سفن دايت': { baseQty: 1, unit: 'كانز (330مل)', cal: 0, p: 0, c: 0, f: 0 },
       'كولا': { baseQty: 1, unit: 'كانز (330مل)', cal: 140, p: 0, c: 35, f: 0 },
-      'ثومية': { baseQty: 20, unit: 'ملعقة', cal: 95, p: 0.5, c: 2.5, f: 9.5 },
-      'توم': { baseQty: 20, unit: 'معلقة', cal: 95, p: 0.5, c: 2.5, f: 9.5 }
+      'بيبسي': { baseQty: 1, unit: 'كانز (330مل)', cal: 150, p: 0, c: 38, f: 0 },
+      'عصير برتقال': { baseQty: 250, unit: 'كوب', cal: 115, p: 1.8, c: 26, f: 0.5 },
+      'عصير': { baseQty: 250, unit: 'كوب', cal: 120, p: 1, c: 28, f: 0 },
+      'شاي سادة': { baseQty: 1, unit: 'كوب', cal: 2, p: 0, c: 0, f: 0 },
+      'شاي': { baseQty: 1, unit: 'كوب', cal: 35, p: 0, c: 8, f: 0 },
+      'قهوة سادة': { baseQty: 1, unit: 'فنجان', cal: 5, p: 0.3, c: 0, f: 0 },
+      'قهوة': { baseQty: 1, unit: 'فنجان', cal: 30, p: 0.5, c: 6, f: 0.5 },
+      'موز': { baseQty: 1, unit: 'حبة وسط', cal: 95, p: 1.2, c: 24, f: 0.3 },
+      'تفاح': { baseQty: 1, unit: 'حبة', cal: 80, p: 0.4, c: 21, f: 0.2 },
+      'تمر': { baseQty: 3, unit: '3 حبات', cal: 75, p: 0.6, c: 19, f: 0.1 },
+      'شوفان': { baseQty: 50, unit: 'غرام', cal: 190, p: 6.5, c: 33, f: 3.5 }
     };
 
     function normalizeArabic(str) {
       if (!str) return '';
       return str
-        .replace(/[\u064B-\u065F]/g, '')
+        .replace(/[ً-ٟ]/g, '')
         .replace(/[إأآا]/g, 'ا')
         .replace(/ة/g, 'ه')
         .replace(/ى/g, 'ي')
@@ -1559,6 +1663,7 @@
         .replace(wb('أكلت'), '')
         .replace(wb('شربت'), '')
         .replace(wb('وجبة'), '')
+        .replace(wb('صحن'), '')
         .replace(wb('بمعلقتين'), ' 2 معلقة ')
         .replace(wb('بملعقتين'), ' 2 ملعقة ')
         .replace(wb('بمعلقة'), ' 1 معلقة ')
@@ -1570,7 +1675,7 @@
         .replace(wb('جاج'), ' دجاج ')
         .replace(wb('الجاج'), ' الدجاج ')
         .replace(wb('فخد'), ' فخذ ')
-        .replace(/(\d+)\s*(?:غ|غم|g)(?=$|[\s،,.:;!؟])/gi, '$1 غرام ');
+        .replace(/(\d+)\s*(?:غ|غم|g)(?=$|[\\s،,.:;!؟])/gi, '$1 غرام ');
 
       let cleaned = raw.replace(/\s+و(?!(?:اي|رق|افل|ربات|جبة)(?:\s|$))(?=[\u0600-\u06FF])/g, ' و ');
       const rawClauses = cleaned.split(/(?:\s+و\s+|\s+مع\s+|\s+ثم\s+|\s+بعدين\s+|\s+وبعدها\s+|،|,|\+)/i)
@@ -1598,6 +1703,9 @@
           if (normClause.includes('شاورما')) { matchedKey = 'شاورما'; food = FOOD_DB['شاورما']; }
           else if (normClause.includes('مندي')) { matchedKey = 'مندي'; food = FOOD_DB['مندي']; }
           else if (normClause.includes('فخذ') || normClause.includes('فخد')) { matchedKey = 'فخذ دجاج'; food = FOOD_DB['فخذ دجاج']; }
+          else if (normClause.includes('بروتين')) { matchedKey = 'واي بروتين'; food = FOOD_DB['واي بروتين']; }
+          else if (normClause.includes('بطاطا')) { matchedKey = 'بطاطا'; food = FOOD_DB['بطاطا']; }
+          else if (normClause.includes('توم')) { matchedKey = 'توم'; food = FOOD_DB['توم']; }
           else if (normClause.includes('بيض')) { matchedKey = 'بيض'; food = FOOD_DB['بيض']; }
         }
 
@@ -1633,10 +1741,10 @@
           }
         }
 
-        if (/كبير|دبل|عائلي/.test(normClause)) multiplier *= 1.4;
+        if (/كبير|دبل|عائلي/.test(normClause) && !matchedKey.includes('دبل')) multiplier *= 1.4;
         else if (/صغير/.test(normClause)) multiplier *= 0.7;
 
-        let isZeroCal = /دايت|زيرو|بدون\s+سكر|سادة/.test(normClause) && (/كولا|بيبسي|شاي|قهوة/.test(normClause));
+        let isZeroCal = /دايت|زيرو|بدون\s+سكر|سادة/.test(normClause) && (/كولا|بيبسي|شاي|قهوة|سفن/.test(normClause));
         let itemCal = isZeroCal ? 0 : Math.round(food.cal * multiplier);
         let itemP = Math.round((food.p * multiplier) * 10) / 10;
         let itemC = isZeroCal ? 0 : Math.round((food.c * multiplier) * 10) / 10;
@@ -1667,11 +1775,20 @@
     }
 
     /* =========================================================
-       GEMINI 3.5 FLASH AI NUTRITION ENGINE
+       GEMINI FLASH AI NUTRITION ENGINE
        ========================================================= */
+    function sanitizeGeminiKey(raw) {
+      if (!raw || typeof raw !== 'string') return '';
+      let clean = raw.trim().replace(/^Bearer\s+/i, '').replace(/["']/g, '');
+      const m = clean.match(/(?:AIzaSy[A-Za-z0-9_-]{33}|AQ\.[A-Za-z0-9_-]{40,})/);
+      if (m) return m[0].trim();
+      return clean.replace(/\s+/g, '');
+    }
+
     const DEFAULT_GEMINI_API_KEY = (function() {
       try {
-        return atob('QVEuQWI4Uk42S0Jwc1BsblY2aVZzVzdwdmNISGVneGJjWWFoT2U4QzNhQXVVN3dWemFZa1E=');
+        const decoded = atob('QVEuQWI4Uk42S0Jwc1BsblY2aVZzVzdwdmNISEVneGJjWWFoT2U4QzNhQXVVN3dWemFZa1E=');
+        return sanitizeGeminiKey(decoded);
       } catch(e) {
         return '';
       }
@@ -1679,13 +1796,16 @@
 
     function getGeminiApiKey() {
       const stored = localStorage.getItem('TASKHUB_GEMINI_KEY');
-      if (stored && stored.trim()) return stored.trim();
-      return DEFAULT_GEMINI_API_KEY;
+      const cleanStored = sanitizeGeminiKey(stored);
+      if (cleanStored) return cleanStored;
+      return sanitizeGeminiKey(DEFAULT_GEMINI_API_KEY);
     }
 
     async function callGeminiNutritionAPI(userText, apiKey) {
-      const model = 'gemini-3.5-flash';
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const cleanKey = sanitizeGeminiKey(apiKey);
+      if (!cleanKey) throw new Error('مفتاح API غير متوفر');
+
+      const candidateModels = ['gemini-3.5-flash', 'gemini-3.8-flash', 'gemini-2.5-flash-lite'];
 
       const systemPrompt = `أنت خبير تغذية ورياضة ذكي جداً متخصص بالمطبخ الشامي والعربي والوجبات اليومية والرياضية.
 المستخدم سيكتب ما أكله بالعامية السورية/العربية أو الفصحى.
@@ -1709,38 +1829,61 @@
   "summary": "تعليق غذائي ذكي ومختصر ومشجع باللهجة الشامية"
 }`;
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 20000);
+      let lastError = null;
 
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ role: 'user', parts: [{ text: userText }] }],
-            systemInstruction: { parts: [{ text: systemPrompt }] },
-            generationConfig: {
-              responseMimeType: 'application/json',
-              temperature: 0.2
+      for (const model of candidateModels) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(cleanKey)}`;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 18000);
+
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: userText }] }],
+              systemInstruction: { parts: [{ text: systemPrompt }] },
+              generationConfig: {
+                responseMimeType: 'application/json',
+                temperature: 0.2
+              }
+            }),
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+
+          if (!res.ok) {
+            const errDetail = await res.text();
+            let parsedErr = '';
+            try {
+              const errObj = JSON.parse(errDetail);
+              parsedErr = errObj?.error?.message || errDetail;
+            } catch(e) {
+              parsedErr = errDetail;
             }
-          }),
-          signal: controller.signal
-        });
-        clearTimeout(timeoutId);
 
-        if (!res.ok) {
-          const errDetail = await res.text();
-          throw new Error('HTTP ' + res.status + ': ' + (errDetail || res.statusText));
+            if (res.status === 404) {
+              lastError = new Error(`النموذج ${model} غير متاح (${parsedErr})`);
+              continue;
+            }
+            throw new Error(`HTTP ${res.status}: ${parsedErr}`);
+          }
+
+          const data = await res.json();
+          const textPart = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!textPart) throw new Error('استجابة فارغة من الذكاء الاصطناعي');
+          return JSON.parse(textPart);
+        } catch (err) {
+          clearTimeout(timeoutId);
+          lastError = err;
+          // If authentication or argument error, don't keep polling other models
+          if (err && err.message && (err.message.includes('401') || err.message.includes('400') || err.message.includes('API key not valid'))) {
+            throw err;
+          }
         }
-
-        const data = await res.json();
-        const textPart = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!textPart) throw new Error('Empty Gemini response');
-        return JSON.parse(textPart);
-      } catch (err) {
-        clearTimeout(timeoutId);
-        throw err;
       }
+
+      throw lastError || new Error('تعذر استدعاء نماذج الذكاء الاصطناعي');
     }
 
     async function processAIMeal() {
@@ -1760,7 +1903,7 @@
         <div class="p-4 text-center space-y-2">
           <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/20 text-brand text-xs font-bold">
             <span class="inline-block animate-[aiPulse_1.2s_infinite]">✨</span>
-            <span>جاري تحليل الوجبة عبر Google Gemini 3.5 Flash...</span>
+            <span>جاري تحليل الوجبة عبر Google Gemini Flash...</span>
           </div>
           <div class="text-[11px] text-app-muted">تقدير دقيق للأصناف، الحصص، البروتين، الكارب، والدهون</div>
         </div>
@@ -1819,15 +1962,29 @@
       // If both fail:
       previewBox.style.display = 'block';
       previewBox.innerHTML = `
-        <div class="p-4 text-center space-y-2 text-xs">
-          <div class="font-bold text-app-text">لم أتمكن من التعرف على الأصناف بدقة</div>
-          ${geminiErrorMsg ? `<div class="text-[11px] text-brand">ملاحظة: تعذر استدعاء الذكاء الاصطناعي (${escapeHtml(geminiErrorMsg)})</div>` : ''}
+        <div class="p-4 text-center space-y-3 text-xs">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 font-semibold">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>لم أتمكن من التعرف على الأصناف بدقة</span>
+          </div>
+          ${geminiErrorMsg ? `
+            <div class="text-[11px] text-zinc-400 bg-surface p-2.5 rounded-lg border border-surface-border text-right leading-relaxed space-y-1.5">
+              <div class="flex items-center justify-between text-brand font-medium">
+                <span>تنبيه اتصال الذكاء الاصطناعي (Gemini):</span>
+                <button onclick="openNutritionSettingsModal()" class="underline hover:text-white text-[10px]">ضبط / فحص المفتاح</button>
+              </div>
+              <div class="text-zinc-400 font-mono text-[10px] break-all">${escapeHtml(geminiErrorMsg)}</div>
+            </div>
+          ` : ''}
           <div class="text-app-muted">اكتب وجبتك بالعامية أو الفصحى مع الكمية، مثلاً:</div>
-          <div class="text-brand font-semibold text-[11px] leading-relaxed">
+          <div class="text-brand font-medium text-[11px] leading-relaxed bg-brand/5 border border-brand/15 p-2 rounded-lg">
             "350غ مندي مع فخد دجاج وكولا دايت"<br>
             أو "صحن شاورما عربي دبل وبطاطا وتوم وسكوب واي بروتين"
           </div>
-          <button onclick="cancelAIMeal()" class="mt-2 px-3 py-1 bg-surface-subtle hover:bg-surface-hover rounded-lg border border-surface-border text-app-muted">إغلاق</button>
+          <div class="flex items-center justify-center gap-2 pt-1">
+            <button onclick="cancelAIMeal()" class="px-3 py-1.5 bg-surface hover:bg-surface-hover rounded-lg border border-surface-border text-app-muted text-xs transition-colors">إغلاق</button>
+            <button onclick="openNutritionSettingsModal()" class="px-3 py-1.5 bg-brand/15 hover:bg-brand/25 text-brand rounded-lg border border-brand/30 text-xs font-medium transition-colors">إعدادات المفتاح</button>
+          </div>
         </div>
       `;
     }
@@ -2770,7 +2927,13 @@
       document.getElementById('settingTargetProtein').value = healthState.proteinTarget || 150;
       document.getElementById('settingTargetCarbs').value = healthState.carbsTarget || 220;
       document.getElementById('settingTargetFats').value = healthState.fatsTarget || 65;
-      document.getElementById('settingGeminiApiKey').value = localStorage.getItem('TASKHUB_GEMINI_KEY') || DEFAULT_GEMINI_API_KEY;
+      const storedKey = sanitizeGeminiKey(localStorage.getItem('TASKHUB_GEMINI_KEY') || '');
+      document.getElementById('settingGeminiApiKey').value = storedKey;
+      const feedback = document.getElementById('geminiConnectionFeedback');
+      if (feedback) {
+        feedback.innerHTML = '';
+        feedback.className = 'hidden text-xs p-2.5 rounded-lg border';
+      }
       document.getElementById('nutritionSettingsModal').classList.add('active');
     }
     function closeNutritionSettingsModal() {
@@ -2783,13 +2946,84 @@
       healthState.fatsTarget = parseInt(document.getElementById('settingTargetFats').value, 10) || 65;
       saveHealthState();
 
-      const key = document.getElementById('settingGeminiApiKey').value.trim();
-      if (key) localStorage.setItem('TASKHUB_GEMINI_KEY', key);
-      else localStorage.removeItem('TASKHUB_GEMINI_KEY');
+      const rawKey = document.getElementById('settingGeminiApiKey').value;
+      const cleanKey = sanitizeGeminiKey(rawKey);
+      if (cleanKey) {
+        localStorage.setItem('TASKHUB_GEMINI_KEY', cleanKey);
+      } else {
+        localStorage.removeItem('TASKHUB_GEMINI_KEY');
+      }
 
       closeNutritionSettingsModal();
       renderNutritionDashboard();
-      showToast('تم حفظ أهداف التغذية');
+      showToast('تم حفظ أهداف التغذية وإعدادات المفتاح');
+    }
+
+    async function testGeminiConnection() {
+      const input = document.getElementById('settingGeminiApiKey');
+      const feedback = document.getElementById('geminiConnectionFeedback');
+      if (!feedback) return;
+
+      const rawKey = input ? input.value : '';
+      const cleanKey = sanitizeGeminiKey(rawKey) || sanitizeGeminiKey(DEFAULT_GEMINI_API_KEY);
+
+      if (!cleanKey) {
+        feedback.className = 'text-xs p-2.5 rounded-lg border bg-rose-500/10 border-rose-500/30 text-rose-300';
+        feedback.textContent = '❌ لا يوجد مفتاح لفحصه!';
+        feedback.classList.remove('hidden');
+        return;
+      }
+
+      feedback.className = 'text-xs p-2.5 rounded-lg border bg-brand/10 border-brand/30 text-brand flex items-center gap-2';
+      feedback.innerHTML = '<span class="inline-block animate-[aiPulse_1s_infinite]">⚡</span><span>جاري اختبار الاتصال مع Google Gemini...</span>';
+      feedback.classList.remove('hidden');
+
+      const candidateModels = ['gemini-3.5-flash', 'gemini-3.8-flash', 'gemini-2.5-flash-lite'];
+      let successModel = null;
+      let lastError = null;
+
+      for (const m of candidateModels) {
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent(cleanKey)}`;
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: 'Ping' }] }] })
+          });
+          if (res.ok) {
+            successModel = m;
+            break;
+          } else {
+            const errTxt = await res.text();
+            let parsed = '';
+            try { parsed = JSON.parse(errTxt)?.error?.message || errTxt; } catch(e) { parsed = errTxt; }
+            lastError = `HTTP ${res.status}: ${parsed}`;
+          }
+        } catch(err) {
+          lastError = err.message || String(err);
+        }
+      }
+
+      if (successModel) {
+        feedback.className = 'text-xs p-2.5 rounded-lg border bg-emerald-500/10 border-emerald-500/30 text-emerald-300 flex items-center gap-1.5';
+        feedback.innerHTML = `<span>✓</span><span>الاتصال ناجح تماماً مع <strong>${successModel}</strong>! المفتاح جاهز للاستخدام.</span>`;
+      } else {
+        feedback.className = 'text-xs p-2.5 rounded-lg border bg-rose-500/10 border-rose-500/30 text-rose-300 leading-relaxed';
+        feedback.innerHTML = `<div>❌ تعذر الاتصال: ${escapeHtml(lastError || 'خطأ غير معروف')}</div><div class="text-[11px] text-zinc-400 mt-1">تأكد من المفتاح أو اضغط "استعادة المفتاح الافتراضي المدمج".</div>`;
+      }
+    }
+
+    function resetGeminiKeyToDefault() {
+      localStorage.removeItem('TASKHUB_GEMINI_KEY');
+      const input = document.getElementById('settingGeminiApiKey');
+      if (input) input.value = '';
+      const feedback = document.getElementById('geminiConnectionFeedback');
+      if (feedback) {
+        feedback.className = 'text-xs p-2.5 rounded-lg border bg-emerald-500/10 border-emerald-500/30 text-emerald-300';
+        feedback.textContent = '✓ تم استعادة المفتاح الافتراضي المدمج بنجاح.';
+        feedback.classList.remove('hidden');
+      }
+      showToast('تمت استعادة المفتاح الافتراضي');
     }
 
     function openAddTaskModal() { document.getElementById('addTaskModal').classList.add('active'); }
