@@ -459,9 +459,15 @@
             </select>
 
             <!-- Add Button -->
-            <button onclick="handleAddTaskDesktop()" class="px-4 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-semibold transition-colors shadow-sm flex items-center gap-1 flex-shrink-0">
+            <button onclick="handleAddTaskDesktop()" class="px-3.5 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-semibold transition-colors shadow-sm flex items-center gap-1 flex-shrink-0">
               <span>إضافة</span>
               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+
+            <!-- Advanced Task Details Button -->
+            <button type="button" onclick="openAddTaskModal()" class="px-2.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 hover:text-white text-xs font-medium transition-colors flex items-center gap-1.5 flex-shrink-0" title="إضافة مهمة بخيارات وتكرار مخصص وتفاصيل متقدمة">
+              <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              <span class="hidden sm:inline">تفاصيل متقدمة</span>
             </button>
           </div>
 
@@ -539,19 +545,41 @@
             </div>
           </div>
 
-          <!-- Habits Card (Untitled UI Container) -->
+          <!-- Daily Gym, Supplements & Nutrition Routine Checklist -->
           <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
             <div class="flex items-center justify-between pb-2 border-b border-app-border">
               <div class="flex items-center gap-2">
                 <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                <h3 class="text-xs font-semibold text-white">العادات اليومية والانضباط</h3>
+                <div>
+                  <h3 class="text-xs font-semibold text-white">تشيك ليست النادي والصحة</h3>
+                  <div class="text-[10px] text-zinc-400 font-mono" id="routineProgressText">0/0 مكتمل اليوم</div>
+                </div>
               </div>
-              <button onclick="openAddHabitPrompt()" class="text-xs text-brand hover:underline font-medium">+ عادة</button>
+              <div class="flex items-center gap-1.5">
+                <span id="bestHabitStreak" class="text-[10px] font-bold text-amber-400 font-mono hidden">0🔥</span>
+                <span id="todayHabitsDone" class="text-[10px] text-zinc-500 font-mono hidden">0/0</span>
+                <button onclick="openAddRoutineItemModal()" class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-brand/10 hover:bg-brand/20 text-brand border border-brand/20 text-xs font-medium transition-colors" title="إضافة تمرين أو مكمل أو وجبة جديدة">
+                  <span>+ إضافة عنصر</span>
+                </button>
+              </div>
             </div>
 
-            <!-- Habits List -->
+            <!-- Progress bar -->
+            <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+              <div id="todayHabitsBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <!-- Category Filter Pills (All / Workouts / Supplements / Meals) -->
+            <div class="flex items-center gap-1 p-0.5 bg-zinc-900/90 rounded-lg border border-zinc-800 text-[11px]">
+              <button type="button" onclick="filterRoutineCategory('all')" id="rfPill-all" class="rf-pill flex-1 py-1 text-center font-medium rounded-md transition-all text-white bg-zinc-800 shadow-xs">الكل</button>
+              <button type="button" onclick="filterRoutineCategory('workout')" id="rfPill-workout" class="rf-pill flex-1 py-1 text-center font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">🏋️ تمارين</button>
+              <button type="button" onclick="filterRoutineCategory('supplement')" id="rfPill-supplement" class="rf-pill flex-1 py-1 text-center font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">💊 مكملات</button>
+              <button type="button" onclick="filterRoutineCategory('meal')" id="rfPill-meal" class="rf-pill flex-1 py-1 text-center font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">🥗 وجبات</button>
+            </div>
+
+            <!-- Routine Items Checklist List Container -->
             <div id="habitsListContainer" class="space-y-2">
-              <!-- Dynamic habits rendered here -->
+              <!-- Dynamic routine items rendered here -->
             </div>
           </div>
 
@@ -597,12 +625,20 @@
           </p>
         </div>
 
-        <!-- Horizons Segmented Control -->
-        <div class="flex items-center bg-zinc-900 p-1 rounded-xl border border-zinc-800 self-start md:self-auto shadow-inner">
-          <button onclick="setHorizon('daily')" data-hbtn="daily" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-white bg-zinc-800 shadow-sm border border-zinc-700/60">اليوم</button>
-          <button onclick="setHorizon('weekly')" data-hbtn="weekly" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-200">أسبوعي</button>
-          <button onclick="setHorizon('monthly')" data-hbtn="monthly" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-200">شهري</button>
-          <button onclick="setHorizon('yearly')" data-hbtn="yearly" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-200">سنوي</button>
+        <div class="flex items-center gap-2 self-start md:self-auto flex-wrap">
+          <!-- Horizons Segmented Control -->
+          <div class="flex items-center bg-zinc-900 p-1 rounded-xl border border-zinc-800 shadow-inner">
+            <button onclick="setHorizon('daily')" data-hbtn="daily" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-white bg-zinc-800 shadow-sm border border-zinc-700/60">اليوم</button>
+            <button onclick="setHorizon('weekly')" data-hbtn="weekly" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-200">أسبوعي</button>
+            <button onclick="setHorizon('monthly')" data-hbtn="monthly" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-200">شهري</button>
+            <button onclick="setHorizon('yearly')" data-hbtn="yearly" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-200">سنوي</button>
+          </div>
+
+          <!-- Add Task Button -->
+          <button onclick="openAddTaskModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand hover:bg-brand-hover text-white text-xs font-semibold shadow-sm transition-colors">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <span>+ إضافة مهمة</span>
+          </button>
         </div>
       </div>
 
@@ -885,14 +921,17 @@
           </div>
         </div>
 
-        <!-- Gym Workout Tracker -->
+        <!-- Gym Workout Tracker & Fitness Hub -->
         <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
           <div class="flex items-center justify-between pb-2 border-b border-app-border">
             <div class="flex items-center gap-2">
               <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
               <h3 class="text-xs font-semibold text-white">سجل تمارين النادي والأوزان</h3>
             </div>
-            <span id="gymTotalExercises" class="text-xs text-app-muted font-mono">0 تمارين</span>
+            <div class="flex items-center gap-2">
+              <span id="gymTotalExercises" class="text-xs text-app-muted font-mono">0 تمارين</span>
+              <button onclick="openAddRoutineItemModal('workout')" class="text-xs text-brand hover:underline font-medium">+ تفاصيل وتكرار</button>
+            </div>
           </div>
 
           <!-- Add Exercise Bar -->
@@ -900,6 +939,16 @@
             <input type="text" id="newExNameInput" placeholder="اسم التمرين (مثلاً: بنش برس أو سكوات)..." class="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand placeholder:text-zinc-500" onkeydown="if(event.key==='Enter') addNewGymExercise()">
             <input type="text" id="newExSetsInput" placeholder="الجلسات (3x10)" class="w-24 bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand placeholder:text-zinc-500" onkeydown="if(event.key==='Enter') addNewGymExercise()">
             <button onclick="addNewGymExercise()" class="bg-brand hover:bg-brand-hover text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow-sm transition-all">إضافة</button>
+          </div>
+
+          <!-- Quick presets for gym & supplements -->
+          <div class="flex items-center gap-1.5 flex-wrap pt-0.5 text-[11px] text-zinc-500">
+            <span>نماذج سريعة:</span>
+            <button onclick="quickAddGymPreset('بنش برس مستوي', '4x10 @ 75kg')" class="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 transition-colors">+ بنش برس</button>
+            <button onclick="quickAddGymPreset('سكوات بار خلفي', '4x8 @ 90kg')" class="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 transition-colors">+ سكوات</button>
+            <button onclick="quickAddGymPreset('سحب ظهر بار حر', '3x10 @ 65kg')" class="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 transition-colors">+ سحب ظهر</button>
+            <button onclick="openAddRoutineItemModal('supplement')" class="px-2 py-0.5 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 transition-colors">+ مكمل</button>
+            <button onclick="openAddRoutineItemModal('meal')" class="px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 transition-colors">+ وجبة</button>
           </div>
 
           <div id="gymWorkoutList" class="space-y-2 pt-1">
@@ -1025,7 +1074,7 @@
        ========================================== -->
 
   <!-- Modal 1: Edit Task Details & Subtasks -->
-  <div id="editTaskModal" class="modal-backdrop">
+  <div id="taskDetailModal" class="modal-backdrop">
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-5 shadow-modal space-y-4 max-h-[90vh] overflow-y-auto">
       
       <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
@@ -1033,7 +1082,7 @@
           <div class="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center text-brand">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
           </div>
-          <h3 class="text-sm font-semibold text-white">تفاصيل المهمة</h3>
+          <h3 class="text-sm font-semibold text-white">تفاصيل المهمة وتعديل التكرار</h3>
         </div>
         <button onclick="closeTaskDetailModal()" class="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 text-xs">✕</button>
       </div>
@@ -1072,16 +1121,17 @@
 
         <!-- Recurrence -->
         <div class="space-y-1.5">
-          <label class="text-xs font-medium text-zinc-300">نمط التكرار</label>
-          <select id="editTaskRecurrence" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-brand font-medium focus:outline-none focus:border-brand">
+          <label class="text-xs font-medium text-zinc-300">نمط التكرار (Customizable)</label>
+          <select id="editTaskRecurrence" onchange="toggleTaskRecurrenceFields()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-brand font-medium focus:outline-none focus:border-brand">
             <option value="none">بدون تكرار</option>
             <option value="daily">تكرار يومي</option>
             <option value="every_2_days">كل يومين</option>
+            <option value="custom_days">تكرار مخصص كل (X) أيام</option>
+            <option value="specific_days">أيام محددة في الأسبوع</option>
             <option value="weekdays">أيام العمل (أحد-خميس)</option>
             <option value="weekly">تكرار أسبوعي</option>
             <option value="biweekly">كل أسبوعين</option>
             <option value="monthly">تكرار شهري</option>
-            <option value="custom_days">تكرار مخصص (أيام)</option>
           </select>
         </div>
 
@@ -1093,9 +1143,27 @@
       </div>
 
       <!-- Custom Days Group -->
-      <div id="editTaskCustomDaysGroup" style="display:none;" class="space-y-1.5">
+      <div id="editTaskCustomDaysGroup" style="display:none;" class="space-y-1.5 pt-1">
         <label class="text-xs font-medium text-zinc-300">التكرار كل (عدد الأيام):</label>
-        <input type="number" id="editTaskCustomDays" min="1" max="365" value="1" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-zinc-400">كل</span>
+          <input type="number" id="editTaskCustomDays" min="1" max="365" value="1" class="w-24 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand">
+          <span class="text-xs text-zinc-400">أيام</span>
+        </div>
+      </div>
+
+      <!-- Specific Days of Week Pills Selector -->
+      <div id="editTaskSpecificDaysGroup" style="display:none;" class="space-y-1.5 pt-1">
+        <label class="text-xs font-medium text-zinc-300">حدد أيام التكرار في الأسبوع:</label>
+        <div class="grid grid-cols-7 gap-1.5">
+          <button type="button" onclick="toggleTaskEditDay(6)" id="tday-6" class="tday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">سبت</button>
+          <button type="button" onclick="toggleTaskEditDay(0)" id="tday-0" class="tday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">أحد</button>
+          <button type="button" onclick="toggleTaskEditDay(1)" id="tday-1" class="tday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">اثنين</button>
+          <button type="button" onclick="toggleTaskEditDay(2)" id="tday-2" class="tday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">ثلاثاء</button>
+          <button type="button" onclick="toggleTaskEditDay(3)" id="tday-3" class="tday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">أربعاء</button>
+          <button type="button" onclick="toggleTaskEditDay(4)" id="tday-4" class="tday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">خميس</button>
+          <button type="button" onclick="toggleTaskEditDay(5)" id="tday-5" class="tday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">جمعة</button>
+        </div>
       </div>
 
       <!-- Subtasks Checklist -->
@@ -1196,39 +1264,240 @@
     </div>
   </div>
 
-  <!-- Modal 4: Mobile Add Task Modal -->
+  <!-- Modal 4: Comprehensive Add Task Modal (Desktop & Mobile) -->
   <div id="addTaskModal" class="modal-backdrop">
-    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-sm p-5 shadow-modal space-y-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-5 shadow-modal space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
-        <h3 class="text-sm font-semibold text-white">إضافة مهمة جديدة</h3>
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center text-brand">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-white">إضافة مهمة جديدة مفصلة</h3>
+            <p class="text-[11px] text-zinc-400">تحديد الأفق الزمني، الأولوية، التكرار المخصص، وتاريخ الاستحقاق</p>
+          </div>
+        </div>
         <button onclick="closeAddTaskModal()" class="text-zinc-400 hover:text-white text-xs">✕</button>
       </div>
-      <input type="text" id="mTaskTitle" placeholder="عنوان المهمة..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand">
+
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-zinc-300">عنوان المهمة</label>
+        <input type="text" id="mTaskTitle" placeholder="اكتب عنوان المهمة..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand">
+      </div>
       
-      <div class="grid grid-cols-2 gap-2">
-        <select id="mTaskHorizon" class="bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-2.5 py-2 text-white">
-          <option value="daily">اليوم</option>
-          <option value="weekly">أسبوعي</option>
-          <option value="monthly">شهري</option>
-        </select>
-        <select id="mTaskRecurrence" class="bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-2.5 py-2 text-brand">
-          <option value="none">بدون تكرار</option>
-          <option value="daily">يومي</option>
-          <option value="weekly">أسبوعي</option>
-        </select>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">الأفق الزمني</label>
+          <select id="mTaskHorizon" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand">
+            <option value="daily">اليوم (Daily)</option>
+            <option value="weekly">أسبوعي (Weekly)</option>
+            <option value="monthly">شهري (Monthly)</option>
+            <option value="yearly">سنوي (Yearly)</option>
+          </select>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">أولوية أيزنهاور</label>
+          <select id="mTaskEisenhower" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand">
+            <option value="do_first">عاجل ومهم (Do First)</option>
+            <option value="schedule" selected>مهم غير عاجل (Schedule)</option>
+            <option value="delegate">عاجل غير مهم (Delegate)</option>
+            <option value="eliminate">تأجيل وفرز (Backlog)</option>
+          </select>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">نمط التكرار (Recurrence)</label>
+          <select id="mTaskRecurrence" onchange="toggleAddTaskRecurrenceFields()" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-brand font-medium focus:outline-none focus:border-brand">
+            <option value="none">بدون تكرار</option>
+            <option value="daily">تكرار يومي</option>
+            <option value="every_2_days">كل يومين</option>
+            <option value="custom_days">كل عدد مخصص من الأيام</option>
+            <option value="specific_days">أيام محددة في الأسبوع</option>
+            <option value="weekdays">أيام العمل (أحد-خميس)</option>
+            <option value="weekly">تكرار أسبوعي</option>
+            <option value="biweekly">كل أسبوعين</option>
+            <option value="monthly">تكرار شهري</option>
+          </select>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">تاريخ الاستحقاق</label>
+          <input type="date" id="mTaskDueDate" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+        </div>
       </div>
 
-      <select id="mTaskEisenhower" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-2.5 py-2 text-white">
-        <option value="do_first">عاجل ومهم</option>
-        <option value="schedule" selected>مهم غير عاجل</option>
-        <option value="delegate">تفويض</option>
-        <option value="eliminate">تأجيل</option>
-      </select>
-
-      <div class="flex justify-end gap-2 pt-2">
-        <button onclick="closeAddTaskModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 text-xs">إلغاء</button>
-        <button onclick="handleAddTaskMobile()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-medium">إضافة</button>
+      <!-- Add Modal Custom Days Group -->
+      <div id="mTaskCustomDaysGroup" style="display:none;" class="space-y-1.5 pt-1">
+        <label class="text-xs font-medium text-zinc-300">التكرار كل (عدد الأيام):</label>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-zinc-400">كل</span>
+          <input type="number" id="mTaskCustomDays" min="1" max="365" value="2" class="w-24 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand">
+          <span class="text-xs text-zinc-400">أيام</span>
+        </div>
       </div>
+
+      <!-- Add Modal Specific Days of Week Pills Selector -->
+      <div id="mTaskSpecificDaysGroup" style="display:none;" class="space-y-1.5 pt-1">
+        <label class="text-xs font-medium text-zinc-300">حدد أيام التكرار في الأسبوع:</label>
+        <div class="grid grid-cols-7 gap-1.5">
+          <button type="button" onclick="toggleTaskAddDay(6)" id="mtday-6" class="mtday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">سبت</button>
+          <button type="button" onclick="toggleTaskAddDay(0)" id="mtday-0" class="mtday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">أحد</button>
+          <button type="button" onclick="toggleTaskAddDay(1)" id="mtday-1" class="mtday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">اثنين</button>
+          <button type="button" onclick="toggleTaskAddDay(2)" id="mtday-2" class="mtday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">ثلاثاء</button>
+          <button type="button" onclick="toggleTaskAddDay(3)" id="mtday-3" class="mtday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">أربعاء</button>
+          <button type="button" onclick="toggleTaskAddDay(4)" id="mtday-4" class="mtday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">خميس</button>
+          <button type="button" onclick="toggleTaskAddDay(5)" id="mtday-5" class="mtday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">جمعة</button>
+        </div>
+      </div>
+
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-zinc-300">ملاحظات وروابط</label>
+        <textarea id="mTaskNotes" rows="2" placeholder="أي تفاصيل أو ملاحظات إضافية..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-brand"></textarea>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-zinc-800">
+        <button onclick="closeAddTaskModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 text-xs">إلغاء</button>
+        <button onclick="handleAddTaskComprehensive()" class="px-5 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-medium shadow-sm">إضافة المهمة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4.5: Routine Item Modal (Gym Workouts, Supplements, Meals) -->
+  <div id="routineItemModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-5 shadow-modal space-y-4 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <div class="flex items-center gap-2.5">
+          <div id="routineModalIconBg" class="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center text-brand">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
+          </div>
+          <div>
+            <h3 id="routineModalHeading" class="text-sm font-semibold text-white">إضافة عنصر لروتين النادي والصحة</h3>
+            <p class="text-[11px] text-zinc-400">تمرين نادي، مكمل غذائي، أو وجبة يومية بتكرار قابل للتخصيص الكامل</p>
+          </div>
+        </div>
+        <button onclick="closeRoutineItemModal()" class="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 text-xs">✕</button>
+      </div>
+
+      <input type="hidden" id="editRoutineId">
+      <input type="hidden" id="routineItemCategory" value="workout">
+
+      <!-- Category Selector Tabs -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-zinc-300">نوع العنصر</label>
+        <div class="grid grid-cols-3 gap-2 p-1 bg-zinc-950 rounded-xl border border-zinc-800">
+          <button type="button" onclick="setRoutineModalCategory('workout')" id="routineTab-workout" class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all bg-blue-500/15 text-blue-400 border border-blue-500/30">
+            <span>🏋️ تمرين نادي</span>
+          </button>
+          <button type="button" onclick="setRoutineModalCategory('supplement')" id="routineTab-supplement" class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all text-zinc-400 hover:text-zinc-200">
+            <span>💊 مكمل غذائي</span>
+          </button>
+          <button type="button" onclick="setRoutineModalCategory('meal')" id="routineTab-meal" class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all text-zinc-400 hover:text-zinc-200">
+            <span>🥗 وجبة / أكل</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Title Input -->
+      <div class="space-y-1.5">
+        <label id="routineTitleLabel" class="text-xs font-medium text-zinc-300">اسم التمرين</label>
+        <input type="text" id="routineItemTitle" placeholder="مثلاً: بنش برس مستوي (Barbell Bench Press)" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand">
+      </div>
+
+      <!-- Fields for Workout -->
+      <div id="routineWorkoutFields" class="grid grid-cols-2 gap-3">
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">الجلسات والتكرار (Sets x Reps)</label>
+          <input type="text" id="routineWorkoutSets" placeholder="مثلاً: 4x10 أو 3x12" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">الوزن التقديري (Weight)</label>
+          <input type="text" id="routineWorkoutWeight" placeholder="مثلاً: 75kg أو وزن الجسم" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+        </div>
+      </div>
+
+      <!-- Fields for Supplement -->
+      <div id="routineSupplementFields" style="display:none;" class="grid grid-cols-2 gap-3">
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">الجرعة المحددة (Dosage)</label>
+          <input type="text" id="routineSuppDosage" placeholder="مثلاً: 5g أو حبة واحدة أو سكوب" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">توقيت التناول</label>
+          <input type="text" id="routineSuppTiming" placeholder="مثلاً: بعد التمرين، مع الفطور" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+        </div>
+      </div>
+
+      <!-- Fields for Meal -->
+      <div id="routineMealFields" style="display:none;" class="grid grid-cols-2 gap-3">
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">السعرات المستهدفة (kcal)</label>
+          <input type="number" id="routineMealCalories" placeholder="مثلاً: 550" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">البروتين المستهدف (g)</label>
+          <input type="number" id="routineMealProtein" placeholder="مثلاً: 40" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+        </div>
+      </div>
+
+      <!-- Notes / Details -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-zinc-300">ملاحظات إضافية / العضلة المستهدفة</label>
+        <input type="text" id="routineItemNotes" placeholder="مثلاً: التركيز على العضلة، شرب ماء كافي، راحة دقيقة..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+      </div>
+
+      <!-- Recurrence Controls (Customizable) -->
+      <div class="space-y-2 pt-2 border-t border-zinc-800">
+        <div class="flex items-center justify-between">
+          <label class="text-xs font-medium text-zinc-300">نمط التكرار (Recurrence)</label>
+          <span class="text-[11px] text-brand font-medium" id="routineRecurrenceSummary">تكرار يومي</span>
+        </div>
+        
+        <select id="routineItemRecurrence" onchange="handleRoutineRecurrenceChange()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-brand font-medium focus:outline-none focus:border-brand">
+          <option value="daily" selected>تكرار يومي (كل يوم)</option>
+          <option value="every_2_days">كل يومين</option>
+          <option value="custom_days">تكرار مخصص كل (X) أيام</option>
+          <option value="specific_days">أيام محددة في الأسبوع (أيام التمرين)</option>
+          <option value="weekdays">أيام العمل (أحد - خميس)</option>
+          <option value="weekends">عطلة الأسبوع (جمعة - سبت)</option>
+          <option value="weekly">تكرار أسبوعي</option>
+        </select>
+
+        <!-- Custom Days Input -->
+        <div id="routineCustomDaysGroup" style="display:none;" class="space-y-1.5 pt-1">
+          <label class="text-[11px] text-zinc-400">التكرار كل (عدد الأيام):</label>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-zinc-500">كل</span>
+            <input type="number" id="routineCustomDaysInput" min="1" max="90" value="2" class="w-20 bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand">
+            <span class="text-xs text-zinc-500">أيام</span>
+          </div>
+        </div>
+
+        <!-- Specific Days of Week Pills Selector -->
+        <div id="routineSpecificDaysGroup" style="display:none;" class="space-y-2 pt-1">
+          <label class="text-[11px] text-zinc-400">حدد أيام التمرين / التناول في الأسبوع:</label>
+          <div class="grid grid-cols-7 gap-1.5">
+            <button type="button" onclick="toggleRoutineDay(6)" id="rday-6" class="rday-pill py-2 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">سبت</button>
+            <button type="button" onclick="toggleRoutineDay(0)" id="rday-0" class="rday-pill py-2 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">أحد</button>
+            <button type="button" onclick="toggleRoutineDay(1)" id="rday-1" class="rday-pill py-2 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">اثنين</button>
+            <button type="button" onclick="toggleRoutineDay(2)" id="rday-2" class="rday-pill py-2 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">ثلاثاء</button>
+            <button type="button" onclick="toggleRoutineDay(3)" id="rday-3" class="rday-pill py-2 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">أربعاء</button>
+            <button type="button" onclick="toggleRoutineDay(4)" id="rday-4" class="rday-pill py-2 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">خميس</button>
+            <button type="button" onclick="toggleRoutineDay(5)" id="rday-5" class="rday-pill py-2 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center">جمعة</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="flex items-center justify-between pt-3 border-t border-zinc-800">
+        <button type="button" id="routineDeleteBtn" onclick="deleteCurrentRoutineItem()" style="display:none;" class="text-xs text-rose-400 hover:underline">حذف العنصر</button>
+        <div class="flex items-center gap-2 mr-auto">
+          <button type="button" onclick="closeRoutineItemModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 hover:bg-zinc-800 text-zinc-300 text-xs font-medium">إلغاء</button>
+          <button type="button" onclick="saveRoutineItem()" class="px-5 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-medium">حفظ العنصر</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1535,7 +1804,14 @@
     /* =========================================================
        RECURRING TASKS ROLLOVER ENGINE
        ========================================================= */
-    function calculateNextRecurrenceDate(currentDueDateStr, recurrenceType, customDays = 1) {
+    function formatLocalDate(d) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function calculateNextRecurrenceDate(currentDueDateStr, recurrenceType, customDays = 1, recurrenceDays = null) {
       const baseDate = currentDueDateStr ? new Date(currentDueDateStr + 'T00:00:00') : new Date();
       const nextDate = new Date(baseDate);
 
@@ -1545,6 +1821,23 @@
           break;
         case 'every_2_days':
           nextDate.setDate(nextDate.getDate() + 2);
+          break;
+        case 'specific_days':
+          if (Array.isArray(recurrenceDays) && recurrenceDays.length > 0) {
+            let found = false;
+            for (let i = 1; i <= 14; i++) {
+              const testDate = new Date(baseDate);
+              testDate.setDate(testDate.getDate() + i);
+              if (recurrenceDays.includes(testDate.getDay())) {
+                nextDate.setTime(testDate.getTime());
+                found = true;
+                break;
+              }
+            }
+            if (!found) nextDate.setDate(nextDate.getDate() + 1);
+          } else {
+            nextDate.setDate(nextDate.getDate() + 1);
+          }
           break;
         case 'weekdays':
           do {
@@ -1566,11 +1859,11 @@
         default:
           nextDate.setDate(nextDate.getDate() + 1);
       }
-      return nextDate.toISOString().split('T')[0];
+      return formatLocalDate(nextDate);
     }
 
     function handleRecurringTaskCompletion(task) {
-      const nextDate = calculateNextRecurrenceDate(task.dueDate || new Date().toISOString().split('T')[0], task.recurrence, task.recurrenceCustomDays);
+      const nextDate = calculateNextRecurrenceDate(task.dueDate || new Date().toISOString().split('T')[0], task.recurrence, task.recurrenceCustomDays, task.recurrenceDays);
       
       // 1. Archive completion log for today
       const todayISO = new Date().toISOString().split('T')[0];
@@ -1597,7 +1890,7 @@
       showToast(`🔄 تم إنجاز المهمة وتدويرها للتاريخ التالي: ${nextDate} (${label})`);
     }
 
-    function formatRecurrenceLabel(rec, customDays) {
+    function formatRecurrenceLabel(rec, customDays, recDays) {
       switch (rec) {
         case 'daily': return 'يومي';
         case 'every_2_days': return 'كل يومين';
@@ -1606,6 +1899,12 @@
         case 'biweekly': return 'كل أسبوعين';
         case 'monthly': return 'شهري';
         case 'custom_days': return `كل ${customDays || 1} يوم`;
+        case 'specific_days':
+          if (Array.isArray(recDays) && recDays.length > 0) {
+            const dayNames = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
+            return recDays.map(d => dayNames[d]).join('، ');
+          }
+          return 'أيام محددة';
         default: return '';
       }
     }
@@ -2451,82 +2750,547 @@
     }
 
     /* =========================================================
-       HABITS TRACKER & STREAKS
+       ROUTINE CHECKLIST (GYM WORKOUTS, SUPPLEMENTS, MEALS)
        ========================================================= */
-    function toggleHabit(id) {
-      const h = habits.find(x => x.id === id);
-      if (!h) return;
-      h.done = !h.done;
-      const today = new Date().toISOString().split('T')[0];
-      if (h.done) {
-        h.lastDoneDate = today;
-        h.streak = (h.streak || 0) + 1;
-      } else {
-        h.streak = Math.max(0, (h.streak || 1) - 1);
+    const ROUTINE_KEY = 'TASKHUB_ROUTINE_ITEMS_V1';
+    let routineItems = loadRoutineItems();
+    let routineCategoryFilter = 'all';
+    let selectedRoutineDays = [0, 1, 2, 3, 4]; // Default Sun-Thu
+
+    function loadRoutineItems() {
+      try {
+        const raw = localStorage.getItem(ROUTINE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+        
+        // Initialize from habits if available
+        if (Array.isArray(habits) && habits.length > 0) {
+          return habits.map(h => ({
+            id: h.id || genId('r'),
+            title: h.title,
+            category: h.title.includes('سعرات') || h.title.includes('وجبات') ? 'meal' : (h.title.includes('فيتامين') || h.title.includes('مكمل') ? 'supplement' : 'workout'),
+            sets: '',
+            weight: '',
+            dosage: 'حسب الخطة',
+            timing: 'يومياً',
+            calories: 0,
+            protein: 0,
+            notes: '',
+            recurrence: 'daily',
+            customDays: 1,
+            daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+            done: !!h.done,
+            streak: h.streak || 0,
+            lastDoneDate: h.lastDoneDate || null
+          }));
+        }
+        return [];
+      } catch (e) {
+        return [];
       }
-      saveHabits();
-      renderHabits();
-      showToast(h.done ? `🔥 أحسنت! تتابع العادة: ${h.streak} أيام` : 'تم إلغاء التحديد');
     }
 
-    function openAddHabitPrompt() {
-      const title = prompt('اسم العادة اليومية الجديدة:');
-      if (!title || !title.trim()) return;
-      habits.push({
-        id: genId('h'),
-        title: title.trim(),
+    function saveRoutineItems() {
+      localStorage.setItem(ROUTINE_KEY, JSON.stringify(routineItems));
+      // Sync routine items into habits without wiping dynamically added habits
+      routineItems.forEach(r => {
+        const existing = habits.find(h => h.id === r.id);
+        if (existing) {
+          existing.title = r.title;
+          existing.done = r.done;
+          existing.streak = r.streak;
+          existing.lastDoneDate = r.lastDoneDate;
+        } else {
+          habits.push({
+            id: r.id,
+            title: r.title,
+            done: r.done,
+            streak: r.streak,
+            lastDoneDate: r.lastDoneDate
+          });
+        }
+      });
+      saveHabits();
+    }
+
+    function isRoutineDueToday(item) {
+      const today = new Date();
+      const dayOfWeek = today.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+      switch (item.recurrence) {
+        case 'daily':
+          return true;
+        case 'weekdays':
+          return dayOfWeek >= 0 && dayOfWeek <= 4;
+        case 'weekends':
+          return dayOfWeek === 5 || dayOfWeek === 6;
+        case 'specific_days':
+          return Array.isArray(item.daysOfWeek) && item.daysOfWeek.includes(dayOfWeek);
+        case 'every_2_days':
+        case 'custom_days':
+          if (!item.lastDoneDate) return true;
+          const last = new Date(item.lastDoneDate + 'T00:00:00');
+          const diff = Math.floor((today - last) / (86400000));
+          const target = item.recurrence === 'every_2_days' ? 2 : (parseInt(item.customDays, 10) || 1);
+          return diff >= target;
+        case 'weekly':
+          return true;
+        default:
+          return true;
+      }
+    }
+
+    function formatRoutineRecurrence(item) {
+      switch (item.recurrence) {
+        case 'daily': return 'يومي';
+        case 'every_2_days': return 'كل يومين';
+        case 'custom_days': return `كل ${item.customDays || 1} يوم`;
+        case 'specific_days':
+          if (!Array.isArray(item.daysOfWeek) || item.daysOfWeek.length === 0) return 'أيام محددة';
+          const dayNames = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
+          return item.daysOfWeek.map(d => dayNames[d]).join('، ');
+        case 'weekdays': return 'أيام العمل';
+        case 'weekends': return 'عطلة الأسبوع';
+        case 'weekly': return 'أسبوعي';
+        default: return 'يومي';
+      }
+    }
+
+    function getRoutineCategoryBadge(cat) {
+      switch (cat) {
+        case 'workout':
+          return '<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">🏋️ تمرين</span>';
+        case 'supplement':
+          return '<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">💊 مكمل</span>';
+        case 'meal':
+          return '<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">🥗 وجبة</span>';
+        default:
+          return '<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-zinc-800 text-zinc-300">روتين</span>';
+      }
+    }
+
+    function toggleRoutineItem(id) {
+      const item = routineItems.find(r => r.id === id);
+      if (!item) return;
+      const todayISO = new Date().toISOString().split('T')[0];
+      item.done = !item.done;
+      if (item.done) {
+        item.lastDoneDate = todayISO;
+        item.streak = (item.streak || 0) + 1;
+        showToast(`🔥 أحسنت! تتابع الالتزام: ${item.streak} أيام (${item.title})`);
+      } else {
+        item.streak = Math.max(0, (item.streak || 1) - 1);
+        showToast('تم إلغاء التحديد');
+      }
+      saveRoutineItems();
+      renderRoutineChecklist();
+    }
+
+    function filterRoutineCategory(cat) {
+      routineCategoryFilter = cat;
+      const pills = ['all', 'workout', 'supplement', 'meal'];
+      pills.forEach(p => {
+        const el = document.getElementById('rfPill-' + p);
+        if (el) {
+          if (p === cat) {
+            el.className = 'rf-pill flex-1 py-1 text-center font-medium rounded-md transition-all text-white bg-zinc-800 shadow-xs';
+          } else {
+            el.className = 'rf-pill flex-1 py-1 text-center font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200';
+          }
+        }
+      });
+      renderRoutineChecklist();
+    }
+
+    function renderRoutineChecklist() {
+      const container = document.getElementById('habitsListContainer');
+      if (!container) return;
+
+      const totalItems = routineItems.length;
+      const doneItems = routineItems.filter(r => r.done).length;
+      const maxStreak = routineItems.reduce((max, r) => Math.max(max, r.streak || 0), 0);
+
+      // Update KPI widgets
+      const progressText = document.getElementById('routineProgressText');
+      if (progressText) progressText.textContent = `${doneItems}/${totalItems} مكتمل اليوم`;
+      const doneEl = document.getElementById('todayHabitsDone');
+      if (doneEl) doneEl.textContent = `${doneItems}/${totalItems}`;
+      const bestEl = document.getElementById('bestHabitStreak');
+      if (bestEl) bestEl.textContent = `${maxStreak}🔥`;
+      const barEl = document.getElementById('todayHabitsBar');
+      if (barEl) barEl.style.width = (totalItems > 0 ? (doneItems / totalItems) * 100 : 0) + '%';
+
+      // Filter by category
+      let displayed = routineItems;
+      if (routineCategoryFilter !== 'all') {
+        displayed = displayed.filter(r => r.category === routineCategoryFilter);
+      }
+
+      if (displayed.length === 0) {
+        container.innerHTML = `
+          <div class="p-4 text-center border border-dashed border-zinc-800 rounded-xl space-y-2 bg-zinc-950/40">
+            <div class="text-xs text-zinc-400 font-medium">لا توجد عناصر مسجلة في هذا التصنيف</div>
+            <div class="flex items-center justify-center gap-1.5 flex-wrap pt-1">
+              <button onclick="openAddRoutineItemModal('workout')" class="px-2 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[11px] font-medium hover:bg-blue-500/20 transition-all">+ تمرين نادي</button>
+              <button onclick="openAddRoutineItemModal('supplement')" class="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-medium hover:bg-emerald-500/20 transition-all">+ مكمل غذائي</button>
+              <button onclick="openAddRoutineItemModal('meal')" class="px-2 py-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[11px] font-medium hover:bg-amber-500/20 transition-all">+ وجبة يومية</button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = displayed.map(item => {
+        let detailsHtml = '';
+        if (item.category === 'workout' && item.sets) {
+          detailsHtml = `<span class="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-brand font-mono text-[10px]">${escapeHtml(item.sets)}${item.weight ? ' @ ' + escapeHtml(item.weight) : ''}</span>`;
+        } else if (item.category === 'supplement' && (item.dosage || item.timing)) {
+          detailsHtml = `<span class="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-emerald-400 text-[10px]">${escapeHtml(item.dosage || '')}${item.timing ? ' • ' + escapeHtml(item.timing) : ''}</span>`;
+        } else if (item.category === 'meal' && (item.calories || item.protein)) {
+          detailsHtml = `<span class="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-amber-400 font-mono text-[10px]">${item.calories ? item.calories + ' kcal' : ''}${item.protein ? ' • ' + item.protein + 'g بروتين' : ''}</span>`;
+        }
+
+        const recBadge = `<span class="text-[10px] text-zinc-500 font-medium">${formatRoutineRecurrence(item)}</span>`;
+
+        return `
+          <div class="flex items-center justify-between p-2.5 bg-surface-subtle hover:bg-surface-hover border border-surface-border rounded-xl text-xs transition-all gap-2.5 ${item.done ? 'opacity-65' : ''}">
+            <div class="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer" onclick="toggleRoutineItem('${item.id}')">
+              <button type="button" class="w-4.5 h-4.5 rounded border ${item.done ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-zinc-700 bg-zinc-900 hover:border-brand'} flex items-center justify-center flex-shrink-0 transition-colors pointer-events-none">
+                ${item.done ? '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+              </button>
+              <div class="min-w-0 flex-1">
+                <div class="${item.done ? 'line-through text-app-muted' : 'font-medium text-white'} truncate text-xs">${escapeHtml(item.title)}</div>
+                <div class="flex items-center gap-1.5 flex-wrap mt-0.5">
+                  ${getRoutineCategoryBadge(item.category)}
+                  ${detailsHtml}
+                  ${recBadge}
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-1.5 flex-shrink-0">
+              <span class="text-[11px] font-bold text-amber-400 font-mono flex items-center gap-0.5">
+                <span>${item.streak || 0}</span>
+                <span>🔥</span>
+              </span>
+              <button onclick="openEditRoutineItem('${item.id}')" class="p-1 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors" title="تعديل هذا العنصر وتكراره">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button onclick="deleteRoutineItem('${item.id}')" class="p-1 rounded text-zinc-500 hover:text-rose-400 hover:bg-zinc-800 transition-colors" title="حذف">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openAddRoutineItemModal(defaultCat = 'workout') {
+      const modal = document.getElementById('routineItemModal');
+      if (!modal) return;
+      document.getElementById('editRoutineId').value = '';
+      document.getElementById('routineItemTitle').value = '';
+      if (document.getElementById('routineWorkoutSets')) document.getElementById('routineWorkoutSets').value = '';
+      if (document.getElementById('routineWorkoutWeight')) document.getElementById('routineWorkoutWeight').value = '';
+      if (document.getElementById('routineSuppDosage')) document.getElementById('routineSuppDosage').value = '';
+      if (document.getElementById('routineSuppTiming')) document.getElementById('routineSuppTiming').value = '';
+      if (document.getElementById('routineMealCalories')) document.getElementById('routineMealCalories').value = '';
+      if (document.getElementById('routineMealProtein')) document.getElementById('routineMealProtein').value = '';
+      if (document.getElementById('routineItemNotes')) document.getElementById('routineItemNotes').value = '';
+      if (document.getElementById('routineItemRecurrence')) document.getElementById('routineItemRecurrence').value = 'daily';
+      
+      const delBtn = document.getElementById('routineDeleteBtn');
+      if (delBtn) delBtn.style.display = 'none';
+
+      const headEl = document.getElementById('routineModalHeading');
+      if (headEl) headEl.textContent = 'إضافة عنصر لروتين النادي والصحة';
+
+      selectedRoutineDays = [0, 1, 2, 3, 4];
+      renderRoutineDayPills();
+      handleRoutineRecurrenceChange();
+      setRoutineModalCategory(defaultCat);
+
+      modal.classList.add('active');
+      setTimeout(() => {
+        const titleInput = document.getElementById('routineItemTitle');
+        if (titleInput) titleInput.focus();
+      }, 100);
+    }
+
+    function openEditRoutineItem(id) {
+      const item = routineItems.find(r => r.id === id);
+      if (!item) return;
+
+      const modal = document.getElementById('routineItemModal');
+      if (!modal) return;
+
+      document.getElementById('editRoutineId').value = item.id;
+      document.getElementById('routineItemTitle').value = item.title || '';
+      if (document.getElementById('routineWorkoutSets')) document.getElementById('routineWorkoutSets').value = item.sets || '';
+      if (document.getElementById('routineWorkoutWeight')) document.getElementById('routineWorkoutWeight').value = item.weight || '';
+      if (document.getElementById('routineSuppDosage')) document.getElementById('routineSuppDosage').value = item.dosage || '';
+      if (document.getElementById('routineSuppTiming')) document.getElementById('routineSuppTiming').value = item.timing || '';
+      if (document.getElementById('routineMealCalories')) document.getElementById('routineMealCalories').value = item.calories || '';
+      if (document.getElementById('routineMealProtein')) document.getElementById('routineMealProtein').value = item.protein || '';
+      if (document.getElementById('routineItemNotes')) document.getElementById('routineItemNotes').value = item.notes || '';
+      if (document.getElementById('routineItemRecurrence')) document.getElementById('routineItemRecurrence').value = item.recurrence || 'daily';
+
+      const customDaysEl = document.getElementById('routineCustomDaysInput');
+      if (customDaysEl) customDaysEl.value = item.customDays || 2;
+
+      selectedRoutineDays = Array.isArray(item.daysOfWeek) ? [...item.daysOfWeek] : [0, 1, 2, 3, 4];
+      renderRoutineDayPills();
+
+      const delBtn = document.getElementById('routineDeleteBtn');
+      if (delBtn) delBtn.style.display = 'inline-block';
+
+      const headEl = document.getElementById('routineModalHeading');
+      if (headEl) headEl.textContent = 'تعديل عنصر الروتين والتكرار';
+
+      handleRoutineRecurrenceChange();
+      setRoutineModalCategory(item.category || 'workout');
+
+      modal.classList.add('active');
+    }
+
+    function closeRoutineItemModal() {
+      const modal = document.getElementById('routineItemModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function setRoutineModalCategory(cat) {
+      const catInput = document.getElementById('routineItemCategory');
+      if (catInput) catInput.value = cat;
+      const cats = ['workout', 'supplement', 'meal'];
+      cats.forEach(c => {
+        const btn = document.getElementById('routineTab-' + c);
+        if (btn) {
+          if (c === cat) {
+            btn.className = c === 'workout' 
+              ? 'flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all bg-blue-500/15 text-blue-400 border border-blue-500/30'
+              : c === 'supplement'
+              ? 'flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+              : 'flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all bg-amber-500/15 text-amber-400 border border-amber-500/30';
+          } else {
+            btn.className = 'flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all text-zinc-400 hover:text-zinc-200';
+          }
+        }
+      });
+
+      const wf = document.getElementById('routineWorkoutFields');
+      const sf = document.getElementById('routineSupplementFields');
+      const mf = document.getElementById('routineMealFields');
+      const label = document.getElementById('routineTitleLabel');
+      const titleInput = document.getElementById('routineItemTitle');
+
+      if (wf) wf.style.display = (cat === 'workout') ? 'grid' : 'none';
+      if (sf) sf.style.display = (cat === 'supplement') ? 'grid' : 'none';
+      if (mf) mf.style.display = (cat === 'meal') ? 'grid' : 'none';
+
+      if (label) {
+        label.textContent = cat === 'workout' ? 'اسم التمرين' : cat === 'supplement' ? 'اسم المكمل الغذائي' : 'اسم الوجبة / الأكل';
+      }
+      if (titleInput) {
+        titleInput.placeholder = cat === 'workout' ? 'مثلاً: بنش برس أو سكوات...' : cat === 'supplement' ? 'مثلاً: كرياتين مونوهيدرات، أوميغا 3...' : 'مثلاً: وجبة إفطار، سناك قبل التمرين...';
+      }
+    }
+
+    function handleRoutineRecurrenceChange() {
+      const rec = document.getElementById('routineItemRecurrence') ? document.getElementById('routineItemRecurrence').value : 'daily';
+      const cdGroup = document.getElementById('routineCustomDaysGroup');
+      const sdGroup = document.getElementById('routineSpecificDaysGroup');
+      const sumEl = document.getElementById('routineRecurrenceSummary');
+
+      if (cdGroup) cdGroup.style.display = (rec === 'custom_days') ? 'block' : 'none';
+      if (sdGroup) sdGroup.style.display = (rec === 'specific_days') ? 'block' : 'none';
+
+      if (sumEl) {
+        switch (rec) {
+          case 'daily': sumEl.textContent = 'تكرار يومي'; break;
+          case 'every_2_days': sumEl.textContent = 'كل يومين'; break;
+          case 'custom_days': sumEl.textContent = 'كل عدد محدد من الأيام'; break;
+          case 'specific_days': sumEl.textContent = 'أيام محددة في الأسبوع'; break;
+          case 'weekdays': sumEl.textContent = 'أيام العمل'; break;
+          case 'weekends': sumEl.textContent = 'عطلة الأسبوع'; break;
+          case 'weekly': sumEl.textContent = 'تكرار أسبوعي'; break;
+        }
+      }
+    }
+
+    function toggleRoutineDay(dayIdx) {
+      const idx = selectedRoutineDays.indexOf(dayIdx);
+      if (idx > -1) {
+        selectedRoutineDays.splice(idx, 1);
+      } else {
+        selectedRoutineDays.push(dayIdx);
+      }
+      renderRoutineDayPills();
+    }
+
+    function renderRoutineDayPills() {
+      for (let i = 0; i <= 6; i++) {
+        const pill = document.getElementById('rday-' + i);
+        if (pill) {
+          if (selectedRoutineDays.includes(i)) {
+            pill.className = 'rday-pill py-2 text-[11px] font-semibold rounded-lg border border-brand/40 bg-brand/15 text-brand shadow-xs text-center';
+          } else {
+            pill.className = 'rday-pill py-2 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center';
+          }
+        }
+      }
+    }
+
+    function saveRoutineItem() {
+      const titleInput = document.getElementById('routineItemTitle');
+      if (!titleInput || !titleInput.value.trim()) {
+        showToast('يرجى إدخال اسم العنصر');
+        return;
+      }
+
+      const id = document.getElementById('editRoutineId').value;
+      const cat = document.getElementById('routineItemCategory').value || 'workout';
+      const title = titleInput.value.trim();
+      const rec = document.getElementById('routineItemRecurrence') ? document.getElementById('routineItemRecurrence').value : 'daily';
+      const customDays = document.getElementById('routineCustomDaysInput') ? parseInt(document.getElementById('routineCustomDaysInput').value, 10) || 2 : 2;
+      const notes = document.getElementById('routineItemNotes') ? document.getElementById('routineItemNotes').value.trim() : '';
+
+      const sets = document.getElementById('routineWorkoutSets') ? document.getElementById('routineWorkoutSets').value.trim() : '';
+      const weight = document.getElementById('routineWorkoutWeight') ? document.getElementById('routineWorkoutWeight').value.trim() : '';
+      const dosage = document.getElementById('routineSuppDosage') ? document.getElementById('routineSuppDosage').value.trim() : '';
+      const timing = document.getElementById('routineSuppTiming') ? document.getElementById('routineSuppTiming').value.trim() : '';
+      const calories = document.getElementById('routineMealCalories') ? parseInt(document.getElementById('routineMealCalories').value, 10) || 0 : 0;
+      const protein = document.getElementById('routineMealProtein') ? parseInt(document.getElementById('routineMealProtein').value, 10) || 0 : 0;
+
+      let item = id ? routineItems.find(r => r.id === id) : null;
+      if (item) {
+        item.title = title;
+        item.category = cat;
+        item.sets = sets;
+        item.weight = weight;
+        item.dosage = dosage;
+        item.timing = timing;
+        item.calories = calories;
+        item.protein = protein;
+        item.notes = notes;
+        item.recurrence = rec;
+        item.customDays = customDays;
+        item.daysOfWeek = [...selectedRoutineDays];
+      } else {
+        item = {
+          id: genId('r'),
+          title: title,
+          category: cat,
+          sets: sets,
+          weight: weight,
+          dosage: dosage,
+          timing: timing,
+          calories: calories,
+          protein: protein,
+          notes: notes,
+          recurrence: rec,
+          customDays: customDays,
+          daysOfWeek: [...selectedRoutineDays],
+          done: false,
+          streak: 0,
+          lastDoneDate: null
+        };
+        routineItems.push(item);
+      }
+
+      saveRoutineItems();
+      closeRoutineItemModal();
+      renderRoutineChecklist();
+      showToast(`✓ تم حفظ: ${item.title}`);
+    }
+
+    function deleteRoutineItem(id) {
+      if (!confirm('هل تريد حذف هذا العنصر من الروتين؟')) return;
+      routineItems = routineItems.filter(r => r.id !== id);
+      saveRoutineItems();
+      renderRoutineChecklist();
+      showToast('تم حذف العنصر');
+    }
+
+    function deleteCurrentRoutineItem() {
+      const id = document.getElementById('editRoutineId').value;
+      if (!id) return;
+      deleteRoutineItem(id);
+      closeRoutineItemModal();
+    }
+
+    function quickAddGymPreset(name, sets) {
+      routineItems.push({
+        id: genId('r'),
+        title: name,
+        category: 'workout',
+        sets: sets,
+        weight: '',
+        dosage: '',
+        timing: '',
+        calories: 0,
+        protein: 0,
+        notes: '',
+        recurrence: 'daily',
+        customDays: 1,
+        daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
         done: false,
         streak: 0,
         lastDoneDate: null
       });
-      saveHabits();
-      renderHabits();
-      showToast('تمت إضافة عادة جديدة');
+
+      if (!healthState.gymWorkouts) healthState.gymWorkouts = [];
+      healthState.gymWorkouts.push({
+        id: genId('ex'),
+        name: name,
+        sets: sets,
+        done: false,
+        date: new Date().toISOString().split('T')[0]
+      });
+      saveHealthState();
+      saveRoutineItems();
+      renderRoutineChecklist();
+      renderGymWorkout();
+      showToast(`✓ تمت إضافة تمرين: ${name}`);
+    }
+
+    // Legacy Habit Wrappers to keep tests 100% green
+    function renderHabits() {
+      renderRoutineChecklist();
+    }
+
+    function openAddHabitPrompt() {
+      openAddRoutineItemModal();
+    }
+
+    function toggleHabit(id) {
+      const h = habits.find(x => x.id === id);
+      if (h) {
+        h.done = !h.done;
+        const today = new Date().toISOString().split('T')[0];
+        if (h.done) {
+          h.lastDoneDate = today;
+          h.streak = (h.streak || 0) + 1;
+        } else {
+          h.streak = Math.max(0, (h.streak || 1) - 1);
+        }
+        const r = routineItems.find(x => x.id === id);
+        if (r) {
+          r.done = h.done;
+          r.streak = h.streak;
+          r.lastDoneDate = h.lastDoneDate;
+        }
+        saveHabits();
+        renderRoutineChecklist();
+        showToast(h.done ? '🔥 أحسنت! تتابع العادة: ' + h.streak + ' أيام' : 'تم إلغاء التحديد');
+        return;
+      }
+      toggleRoutineItem(id);
     }
 
     function deleteHabit(id, e) {
-      e.stopPropagation();
-      if (!confirm('هل تريد حذف هذه العادة؟')) return;
-      habits = habits.filter(h => h.id !== id);
-      saveHabits();
-      renderHabits();
-    }
-
-    function renderHabits() {
-      const container = document.getElementById('habitsListContainer');
-      if (!container) return;
-
-      const doneCount = habits.filter(h => h.done).length;
-      const total = habits.length;
-      const maxStreak = habits.reduce((max, h) => Math.max(max, h.streak || 0), 0);
-
-      const doneEl = document.getElementById('todayHabitsDone');
-      if (doneEl) doneEl.textContent = `${doneCount}/${total}`;
-      const bestEl = document.getElementById('bestHabitStreak');
-      if (bestEl) bestEl.textContent = `${maxStreak}🔥`;
-      const barEl = document.getElementById('todayHabitsBar');
-      if (barEl) barEl.style.width = (total > 0 ? (doneCount / total) * 100 : 0) + '%';
-
-      if (habits.length === 0) {
-        container.innerHTML = `<div class="p-3 text-center text-xs text-app-muted">لا توجد عادات. اضغط "+ عادة" لإضافة واحدة.</div>`;
-        return;
-      }
-
-      container.innerHTML = habits.map(h => `
-        <div onclick="toggleHabit('${h.id}')" class="flex items-center justify-between p-2.5 bg-surface-subtle hover:bg-surface-hover border border-surface-border rounded-xl text-xs cursor-pointer transition-all">
-          <div class="flex items-center gap-2.5 flex-1 min-w-0">
-            <input type="checkbox" ${h.done ? 'checked' : ''} class="w-4 h-4 accent-emerald-500 rounded cursor-pointer pointer-events-none">
-            <span class="${h.done ? 'line-through text-app-muted' : 'font-semibold text-app-text'} truncate">${escapeHtml(h.title)}</span>
-          </div>
-          <div class="flex items-center gap-2 flex-shrink-0">
-            <span class="text-[11px] font-bold text-amber-400 font-mono flex items-center gap-0.5">
-              <span>${h.streak || 0}</span>
-              <span>🔥</span>
-            </span>
-            <button onclick="deleteHabit('${h.id}', event)" class="text-app-muted hover:text-rose-400 p-0.5 text-xs">✕</button>
-          </div>
-        </div>
-      `).join('');
+      if (e) e.stopPropagation();
+      deleteRoutineItem(id);
     }
 
     /* =========================================================
@@ -2628,22 +3392,109 @@
       showToast('تم حذف المهمة');
     }
 
+    let selectedTaskAddDays = [0, 1, 2, 3, 4];
+    let selectedTaskEditDays = [0, 1, 2, 3, 4];
+
+    function toggleTaskRecurrenceFields() {
+      const recEl = document.getElementById('editTaskRecurrence');
+      const rec = recEl ? recEl.value : 'none';
+      const cdGroup = document.getElementById('editTaskCustomDaysGroup');
+      const sdGroup = document.getElementById('editTaskSpecificDaysGroup');
+      if (cdGroup) cdGroup.style.display = (rec === 'custom_days') ? 'block' : 'none';
+      if (sdGroup) sdGroup.style.display = (rec === 'specific_days') ? 'block' : 'none';
+    }
+
+    function toggleTaskEditDay(dayIdx) {
+      const idx = selectedTaskEditDays.indexOf(dayIdx);
+      if (idx > -1) {
+        selectedTaskEditDays.splice(idx, 1);
+      } else {
+        selectedTaskEditDays.push(dayIdx);
+      }
+      renderTaskEditDayPills();
+    }
+
+    function renderTaskEditDayPills() {
+      for (let i = 0; i <= 6; i++) {
+        const pill = document.getElementById('tday-' + i);
+        if (pill) {
+          if (selectedTaskEditDays.includes(i)) {
+            pill.className = 'tday-pill py-1.5 text-[11px] font-semibold rounded-lg border border-brand/40 bg-brand/15 text-brand shadow-xs text-center';
+          } else {
+            pill.className = 'tday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center';
+          }
+        }
+      }
+    }
+
+    function toggleAddTaskRecurrenceFields() {
+      const recEl = document.getElementById('mTaskRecurrence');
+      const rec = recEl ? recEl.value : 'none';
+      const cdGroup = document.getElementById('mTaskCustomDaysGroup');
+      const sdGroup = document.getElementById('mTaskSpecificDaysGroup');
+      if (cdGroup) cdGroup.style.display = (rec === 'custom_days') ? 'block' : 'none';
+      if (sdGroup) sdGroup.style.display = (rec === 'specific_days') ? 'block' : 'none';
+    }
+
+    function toggleTaskAddDay(dayIdx) {
+      const idx = selectedTaskAddDays.indexOf(dayIdx);
+      if (idx > -1) {
+        selectedTaskAddDays.splice(idx, 1);
+      } else {
+        selectedTaskAddDays.push(dayIdx);
+      }
+      renderTaskAddDayPills();
+    }
+
+    function renderTaskAddDayPills() {
+      for (let i = 0; i <= 6; i++) {
+        const pill = document.getElementById('mtday-' + i);
+        if (pill) {
+          if (selectedTaskAddDays.includes(i)) {
+            pill.className = 'mtday-pill py-1.5 text-[11px] font-semibold rounded-lg border border-brand/40 bg-brand/15 text-brand shadow-xs text-center';
+          } else {
+            pill.className = 'mtday-pill py-1.5 text-[11px] font-medium rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white transition-all text-center';
+          }
+        }
+      }
+    }
+
     function openTaskDetails(id) {
       const task = taskData.tasks.find(t => t.id === id);
       if (!task) return;
 
-      document.getElementById('editTaskId').value = task.id;
-      document.getElementById('editTaskTitle').value = task.title;
-      document.getElementById('editTaskHorizon').value = task.horizon || 'daily';
-      document.getElementById('editTaskEisenhower').value = task.eisenhower || 'schedule';
-      document.getElementById('editTaskRecurrence').value = task.recurrence || 'none';
+      const modal = document.getElementById('taskDetailModal') || document.getElementById('editTaskModal');
+      if (!modal) return;
+
+      const idEl = document.getElementById('editTaskId');
+      const titleEl = document.getElementById('editTaskTitle');
+      const horEl = document.getElementById('editTaskHorizon');
+      const eisEl = document.getElementById('editTaskEisenhower');
+      const recEl = document.getElementById('editTaskRecurrence');
+      const dueEl = document.getElementById('editTaskDueDate');
+      const notesEl = document.getElementById('editTaskNotes');
+      const customDaysEl = document.getElementById('editTaskCustomDays');
+
+      if (idEl) idEl.value = task.id;
+      if (titleEl) titleEl.value = task.title || '';
+      if (horEl) horEl.value = task.horizon || 'daily';
+      if (eisEl) eisEl.value = task.eisenhower || 'schedule';
+      if (recEl) recEl.value = task.recurrence || 'none';
+      if (dueEl) dueEl.value = task.dueDate || '';
+      if (notesEl) notesEl.value = task.notes || '';
+      if (customDaysEl) customDaysEl.value = task.recurrenceCustomDays || 1;
+
+      selectedTaskEditDays = Array.isArray(task.recurrenceDays) ? [...task.recurrenceDays] : [0, 1, 2, 3, 4];
+      renderTaskEditDayPills();
+      toggleTaskRecurrenceFields();
 
       renderModalSubtasks(task);
-      document.getElementById('taskDetailModal').classList.add('active');
+      modal.classList.add('active');
     }
 
     function closeTaskDetailModal() {
-      document.getElementById('taskDetailModal').classList.remove('active');
+      const modal = document.getElementById('taskDetailModal') || document.getElementById('editTaskModal');
+      if (modal) modal.classList.remove('active');
     }
 
     function saveTaskDetails() {
@@ -2655,11 +3506,95 @@
       task.horizon = document.getElementById('editTaskHorizon').value;
       task.eisenhower = document.getElementById('editTaskEisenhower').value;
       task.recurrence = document.getElementById('editTaskRecurrence').value;
+      task.dueDate = document.getElementById('editTaskDueDate') ? document.getElementById('editTaskDueDate').value || null : null;
+      task.notes = document.getElementById('editTaskNotes') ? document.getElementById('editTaskNotes').value.trim() : '';
+
+      const customDaysEl = document.getElementById('editTaskCustomDays');
+      if (customDaysEl && task.recurrence === 'custom_days') {
+        task.recurrenceCustomDays = parseInt(customDaysEl.value, 10) || 1;
+      }
+
+      if (task.recurrence === 'specific_days') {
+        task.recurrenceDays = [...selectedTaskEditDays];
+      }
 
       saveData();
       closeTaskDetailModal();
       renderAll();
-      showToast('تم حفظ تفاصيل المهمة');
+      showToast('✓ تم حفظ تفاصيل المهمة والتكرار بنجاح');
+    }
+
+    function openAddTaskModal() {
+      const modal = document.getElementById('addTaskModal');
+      if (!modal) return;
+      const titleEl = document.getElementById('mTaskTitle');
+      const dueEl = document.getElementById('mTaskDueDate');
+      const notesEl = document.getElementById('mTaskNotes');
+      const horEl = document.getElementById('mTaskHorizon');
+      const recEl = document.getElementById('mTaskRecurrence');
+      const eisEl = document.getElementById('mTaskEisenhower');
+
+      if (titleEl) titleEl.value = '';
+      if (dueEl) dueEl.value = new Date().toISOString().split('T')[0];
+      if (notesEl) notesEl.value = '';
+      if (horEl) horEl.value = currentHorizon || 'daily';
+      if (recEl) recEl.value = 'none';
+      if (eisEl) eisEl.value = 'schedule';
+
+      selectedTaskAddDays = [0, 1, 2, 3, 4];
+      renderTaskAddDayPills();
+      toggleAddTaskRecurrenceFields();
+
+      modal.classList.add('active');
+      setTimeout(() => { if (titleEl) titleEl.focus(); }, 100);
+    }
+
+    function closeAddTaskModal() {
+      const modal = document.getElementById('addTaskModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function handleAddTaskComprehensive() {
+      const titleEl = document.getElementById('mTaskTitle');
+      if (!titleEl || !titleEl.value.trim()) {
+        showToast('يرجى كتابة عنوان للمهمة');
+        return;
+      }
+      const title = titleEl.value.trim();
+      const horizon = document.getElementById('mTaskHorizon') ? document.getElementById('mTaskHorizon').value : 'daily';
+      const eisenhower = document.getElementById('mTaskEisenhower') ? document.getElementById('mTaskEisenhower').value : 'schedule';
+      const recurrence = document.getElementById('mTaskRecurrence') ? document.getElementById('mTaskRecurrence').value : 'none';
+      const dueDate = document.getElementById('mTaskDueDate') ? document.getElementById('mTaskDueDate').value : null;
+      const notes = document.getElementById('mTaskNotes') ? document.getElementById('mTaskNotes').value.trim() : '';
+      
+      let customDays = 1;
+      const cdEl = document.getElementById('mTaskCustomDays');
+      if (cdEl && recurrence === 'custom_days') customDays = parseInt(cdEl.value, 10) || 1;
+
+      const newTask = {
+        id: genId('t'),
+        title: title,
+        status: horizon === 'daily' ? 'today' : 'inbox',
+        horizon: horizon,
+        eisenhower: eisenhower,
+        recurrence: recurrence,
+        recurrenceCustomDays: customDays,
+        recurrenceDays: recurrence === 'specific_days' ? [...selectedTaskAddDays] : null,
+        dueDate: dueDate,
+        notes: notes,
+        subtasks: [],
+        createdAt: Date.now()
+      };
+
+      taskData.tasks.unshift(newTask);
+      saveData();
+      closeAddTaskModal();
+      renderAll();
+      showToast(`✓ تمت إضافة: ${newTask.title}`);
+    }
+
+    function handleAddTaskMobile() {
+      handleAddTaskComprehensive();
     }
 
     function renderModalSubtasks(task) {
@@ -2833,7 +3768,7 @@
       const isDone = t.status === 'done';
       const hasSubtasks = t.subtasks && t.subtasks.length > 0;
       const doneSubtasks = hasSubtasks ? t.subtasks.filter(s => s.done).length : 0;
-      const recLabel = formatRecurrenceLabel(t.recurrence, t.recurrenceCustomDays);
+      const recLabel = formatRecurrenceLabel(t.recurrence, t.recurrenceCustomDays, t.recurrenceDays);
       const isDoFirst = t.eisenhower === 'do_first';
 
       return `
