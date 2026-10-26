@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>القباني | Al-Kabbani Life OS</title>
+  <title>القباني | TaskHub OS</title>
   
   <!-- PWA & Mobile Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -12,107 +12,97 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="TaskHub">
   <meta name="application-name" content="TaskHub">
-  <meta name="theme-color" content="#12100E">
+  <meta name="theme-color" content="#09090b">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 
-  <!-- Typography: IBM Plex Sans Arabic -->
+  <!-- Typography: IBM Plex Sans Arabic + Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS CDN configured with Untitled UI + Al-Kabbani Tokens -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['"IBM Plex Sans Arabic"', '"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"Plus Jakarta Sans"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']
+          },
           colors: {
             brand: {
-              DEFAULT: '#E94B18',
-              hover: '#D43C0C',
-              light: '#FF7347',
-              glow: 'rgba(233, 75, 24, 0.18)',
-              subtle: 'rgba(233, 75, 24, 0.08)'
-            },
-            surface: {
-              DEFAULT: '#1B1815',
-              subtle: '#24201C',
-              hover: '#2E2823',
-              border: '#332D28',
-              borderSubtle: '#28231E'
+              DEFAULT: '#E04F16',
+              hover: '#C63F0B',
+              subtle: 'rgba(224, 79, 22, 0.08)',
+              border: 'rgba(224, 79, 22, 0.25)',
+              glow: 'rgba(224, 79, 22, 0.15)'
             },
             app: {
-              bg: '#12100E',
-              text: '#F5F0E8',
-              muted: '#8D857B',
-              subtle: '#5C544B'
+              bg: '#09090b',
+              surface: '#111215',
+              surfaceSubtle: '#17181d',
+              surfaceHover: '#1c1e24',
+              border: '#23252d',
+              borderSubtle: '#1a1b22',
+              text: '#f4f4f5',
+              muted: '#8e929f',
+              subtle: '#5c606e'
             }
           },
-          fontFamily: {
-            sans: ['"IBM Plex Sans Arabic"', 'system-ui', 'sans-serif']
-          },
           boxShadow: {
-            'card': '0 1px 3px 0 rgba(0, 0, 0, 0.25), 0 1px 2px -1px rgba(0, 0, 0, 0.25)',
-            'card-hover': '0 4px 12px 0 rgba(0, 0, 0, 0.4), 0 0 1px 1px rgba(233, 75, 24, 0.15)',
-            'glow': '0 0 20px -3px rgba(233, 75, 24, 0.25)'
+            'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.4)',
+            'card': '0 2px 8px -2px rgba(0, 0, 0, 0.5), 0 1px 4px -1px rgba(0, 0, 0, 0.3)',
+            'modal': '0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 1px 3px 0 rgba(0, 0, 0, 0.4)'
           }
         }
       }
-    }
+    };
   </script>
 
   <style>
     :root {
-      --bg: #12100E;
-      --surface: #1B1815;
-      --surface-subtle: #24201C;
-      --surface-hover: #2E2823;
-      --surface-border: #332D28;
-      --text: #F5F0E8;
-      --text-muted: #8D857B;
-      --primary: #E94B18;
-      --primary-hover: #D43C0C;
-      --primary-glow: rgba(233, 75, 24, 0.18);
-      --font: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+      color-scheme: dark;
     }
-
-    [data-theme="light"] {
-      --bg: #F9F6F0;
-      --surface: #FFFFFF;
-      --surface-subtle: #F2ECE1;
-      --surface-hover: #E9E1D2;
-      --surface-border: #DDD4C5;
-      --text: #1F1B18;
-      --text-muted: #73695E;
-      --primary: #E94B18;
-      --primary-glow: rgba(233, 75, 24, 0.12);
+    
+    * {
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: var(--font);
-      background-color: var(--bg);
-      color: var(--text);
+      background-color: #09090b;
+      color: #f4f4f5;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
       -webkit-font-smoothing: antialiased;
-      margin: 0;
-      padding: 0;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
     }
 
-    /* Untitled UI Custom Scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--surface-border); border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+    /* Untitled UI Precision Scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #23252d;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #333642;
+    }
 
-    /* Modals & Animations */
+    /* Modal Backdrop */
     .modal-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.72);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       z-index: 9999;
@@ -120,80 +110,106 @@
       justify-content: center;
       padding: 1rem;
     }
-    .modal-backdrop.active { display: flex; animation: modalFadeIn 0.2s ease-out; }
-    @keyframes modalFadeIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
+    .modal-backdrop.active {
+      display: flex;
+      animation: modalScaleIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalScaleIn {
+      from { opacity: 0; transform: scale(0.97) translateY(4px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    @keyframes aiPulse {
-      0%, 100% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.15); opacity: 1; }
+    /* Custom Checkbox */
+    .checkbox-custom {
+      appearance: none;
+      width: 1.125rem;
+      height: 1.125rem;
+      border: 1.5px solid #333642;
+      border-radius: 0.375rem;
+      background: #17181d;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+    .checkbox-custom:hover {
+      border-color: #E04F16;
+    }
+    .checkbox-custom:checked {
+      background: #10b981;
+      border-color: #10b981;
+    }
+    .checkbox-custom:checked::before {
+      content: "";
+      width: 0.65rem;
+      height: 0.65rem;
+      clip-path: polygon(14% 44%, 0 60%, 40% 100%, 100% 20%, 84% 6%, 38% 68%);
+      background-color: white;
     }
 
-    .meta-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 9999px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      white-space: nowrap;
+    /* Subtle Focus Ring */
+    .focus-ring {
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .focus-ring:focus-visible, .focus-ring:focus {
+      border-color: #E04F16 !important;
+      box-shadow: 0 0 0 1px #E04F16 !important;
     }
 
-    /* PWA Floating Install Banner */
-    .pwa-banner-slide {
-      animation: bannerSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes bannerSlideUp {
-      from { transform: translateY(40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    /* Subtle hairline border styling */
+    .hairline-border {
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
   </style>
 </head>
-<body class="bg-app-bg text-app-text min-h-screen flex flex-col pb-20 md:pb-8 selection:bg-brand/20 selection:text-brand">
+<body class="bg-app-bg text-app-text min-h-screen flex flex-col pb-20 md:pb-6 selection:bg-brand/20 selection:text-brand">
 
   <!-- ==========================================
-       TOP APP SHELL (Untitled UI Header)
+       TOP APP SHELL (Untitled UI Minimal Header)
        ========================================== -->
-  <header class="sticky top-0 z-40 w-full bg-surface/90 backdrop-blur-md border-b border-surface-border">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-4">
+  <header class="sticky top-0 z-40 w-full bg-app-bg/85 backdrop-blur-xl border-b border-app-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
       
       <!-- Brand Logo + Identity -->
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-brand/10 border border-brand/25 flex items-center justify-center text-brand flex-shrink-0 shadow-sm shadow-brand/10">
-          <!-- Al-Kabbani Brand Seal -->
-          <svg class="w-5 h-5 fill-current" viewBox="0 0 69.4134 69.7739">
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-brand flex-shrink-0 shadow-sm">
+          <!-- Al-Kabbani Brand Seal SVG -->
+          <svg class="w-4.5 h-4.5 fill-current" viewBox="0 0 69.4134 69.7739">
             <path d="M47.4256 55.7748 C53.8661 55.7748 60.704 54.7062 65.9734 52.9467 C63.9891 60.967 56.7747 66.8933 48.1879 66.8933 L21.2244 66.8933 C13.6786 66.8933 7.1954 62.3057 4.3725 55.7533 C4.8878 55.764 5.4029 55.7748 5.9288 55.7748 C14.0544 55.7748 22.8132 54.0692 28.2658 51.4461 L29.6076 50.7443 C30.4235 51.5002 31.2821 52.2126 32.1515 52.7415 L32.1623 52.7415 C35.876 54.8464 41.4471 55.7748 47.4256 55.7748 M66.5328 21.3289 L66.5328 43.3825 C61.5826 44.6239 55.6907 45.0341 51.1395 45.0341 C47.6512 45.0341 44.2699 44.7859 41.4149 44.2567 C44.5491 41.3314 46.3846 37.6396 46.3846 33.3002 C46.3846 27.4063 42.9498 24.4916 38.0873 24.4916 C30.477 24.4916 23.9294 31.7242 23.9294 39.0213 C23.9294 40.5325 24.2085 42.0547 24.7344 43.5011 L22.577 43.9222 C18.5839 44.6778 13.99 45.0341 9.6319 45.0341 C7.2922 45.0341 4.995 44.9261 2.8806 44.6887 L2.8806 21.3289 C2.8806 11.1385 11.0919 2.8806 21.2244 2.8806 L48.1879 2.8806 C58.3205 2.8806 66.5328 11.1385 66.5328 21.3289 M43.1213 14.0424 L38.259 9.1307 L33.9012 13.5134 L29.554 9.1307 L24.6165 14.0963 L24.6165 14.798 L29.554 19.8176 L33.9012 15.3917 L38.259 19.8176 L43.1213 14.9058 L43.1213 14.0424"/>
           </svg>
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-extrabold text-sm sm:text-base tracking-tight text-app-text">القباني</span>
-            <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-brand/10 text-brand border border-brand/20">TaskHub OS</span>
-          </div>
-          <span class="hidden sm:block text-[11px] text-app-muted">منظومة الإنتاجية والتغذية الذكية</span>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-sm tracking-tight text-white">القباني</span>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">Life OS</span>
         </div>
       </div>
 
-      <!-- Desktop View Switcher (Untitled UI Segmented Controls) -->
-      <nav class="hidden md:flex items-center bg-surface-subtle p-1 rounded-xl border border-surface-border">
-        <button onclick="switchView('today')" id="tabBtn-today" class="view-tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-brand bg-surface shadow-sm">
-          <span>☀️</span>
+      <!-- Desktop View Switcher (Untitled UI Segmented Pill Controls) -->
+      <nav class="hidden md:flex items-center bg-zinc-900/80 p-0.5 rounded-xl border border-zinc-800/80">
+        <!-- Tab 1: Today -->
+        <button onclick="switchView('today')" id="tabBtn-today" class="view-tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-white bg-zinc-800 shadow-sm border border-zinc-700/60">
+          <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
           <span>اليوم والتركيز</span>
         </button>
-        <button onclick="switchView('tasks')" id="tabBtn-tasks" class="view-tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-app-muted hover:text-app-text">
-          <span>⚡</span>
+
+        <!-- Tab 2: Tasks -->
+        <button onclick="switchView('tasks')" id="tabBtn-tasks" class="view-tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-zinc-400 hover:text-zinc-200">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
           <span>المهام والمصفوفة</span>
         </button>
-        <button onclick="switchView('nutrition')" id="tabBtn-nutrition" class="view-tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-app-muted hover:text-app-text">
-          <span>🥗</span>
-          <span>التغذية والرياضة</span>
-          <span class="text-[10px] px-1.5 py-0.2 bg-brand/15 text-brand rounded-full font-bold">AI</span>
+
+        <!-- Tab 3: Nutrition -->
+        <button onclick="switchView('nutrition')" id="tabBtn-nutrition" class="view-tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-zinc-400 hover:text-zinc-200">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span>التغذية الذكية</span>
+          <span class="text-[9px] px-1 py-0.2 bg-brand/15 text-brand rounded font-mono font-semibold">AI</span>
         </button>
-        <button onclick="switchView('reviews')" id="tabBtn-reviews" class="view-tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-app-muted hover:text-app-text">
-          <span>📊</span>
+
+        <!-- Tab 4: Reviews -->
+        <button onclick="switchView('reviews')" id="tabBtn-reviews" class="view-tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-zinc-400 hover:text-zinc-200">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
           <span>المراجعات والطقوس</span>
         </button>
       </nav>
@@ -201,240 +217,285 @@
       <!-- Top Actions (Focus Timer, Search, Install, Theme) -->
       <div class="flex items-center gap-2">
         
-        <!-- Pomodoro Pill -->
-        <button onclick="togglePomodoro()" id="topPomoBtn" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-subtle border border-surface-border text-xs font-semibold hover:border-brand/40 transition-colors" title="مؤقت التركيز (بومودورو)">
-          <span id="pomoDot" class="w-2 h-2 rounded-full bg-app-muted"></span>
-          <svg class="w-3.5 h-3.5 text-app-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span id="topPomoTimer" class="font-mono text-app-text">25:00</span>
+        <!-- Pomodoro Focus Pill -->
+        <button onclick="togglePomodoro()" id="topPomoBtn" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs font-medium hover:border-zinc-700 transition-colors" title="مؤقت التركيز (بومودورو)">
+          <span id="pomoDot" class="w-2 h-2 rounded-full bg-zinc-600"></span>
+          <span id="topPomoTimer" class="font-mono text-zinc-200 text-xs tracking-tight">25:00</span>
+          <svg class="w-3 h-3 text-zinc-400" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
 
         <!-- Quick Search Trigger -->
-        <button onclick="focusSearch()" class="hidden lg:flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-surface-subtle border border-surface-border text-xs text-app-muted hover:text-app-text hover:border-surface-border/80 transition-colors" title="بحث سريع (Ctrl + /)">
+        <button onclick="focusSearch()" class="hidden lg:flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors" title="بحث سريع (Ctrl + /)">
           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <span class="text-[11px]">بحث...</span>
-          <kbd class="px-1.5 py-0.5 text-[10px] bg-surface rounded border border-surface-border font-mono text-app-subtle">/</kbd>
+          <kbd class="px-1 text-[10px] bg-zinc-800 rounded border border-zinc-700 font-mono text-zinc-400">/</kbd>
         </button>
 
         <!-- PWA Install Button -->
-        <button onclick="triggerPWAInstall()" id="pwaInstallHeaderBtn" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-brand/10 border border-brand/25 text-brand text-xs font-bold hover:bg-brand/20 transition-all" title="تثبيت التطبيق على جهازك">
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span class="hidden sm:inline">تثبيت App</span>
-          <span class="sm:hidden">📲</span>
+        <button onclick="triggerPWAInstall()" id="pwaInstallHeaderBtn" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-medium hover:border-zinc-700 hover:text-white transition-all" title="تثبيت التطبيق على جهازك">
+          <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span class="hidden sm:inline">تثبيت</span>
         </button>
 
         <!-- Cloud Sync Modal Trigger -->
-        <button onclick="openCloudSyncModal()" id="syncStatusBtn" class="p-1.5 rounded-lg bg-surface-subtle border border-surface-border text-app-muted hover:text-app-text transition-colors" title="المزامنة السحابية">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+        <button onclick="openCloudSyncModal()" id="syncStatusBtn" class="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors" title="المزامنة السحابية">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
         </button>
 
         <!-- Theme Toggle -->
-        <button onclick="toggleTheme()" id="themeBtn" class="p-1.5 rounded-lg bg-surface-subtle border border-surface-border text-app-muted hover:text-app-text transition-colors" title="الوضع الليلي / النهاري">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <button onclick="toggleTheme()" id="themeBtn" class="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors" title="تبديل النمط">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
 
       </div>
     </div>
   </header>
 
-  <!-- ==========================================
-       MAIN CONTENT CONTAINER
-       ========================================== -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 flex-1 w-full">
+  <!-- Global Floating Toast Notification -->
+  <div id="toastNotification" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 transition-all duration-200 pointer-events-none opacity-0 -translate-y-2">
+    <div class="px-3.5 py-2 rounded-xl bg-zinc-900/95 border border-zinc-700/80 shadow-modal text-xs font-medium text-zinc-100 flex items-center gap-2.5 backdrop-blur-md">
+      <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
+      <span id="toastMessage">تم الإجراء بنجاح</span>
+    </div>
+  </div>
 
-    <!-- Global Floating / In-App Notification Toast -->
-    <div id="toastNotification" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 pointer-events-none opacity-0 -translate-y-2">
-      <div class="px-4 py-2.5 rounded-xl bg-surface border border-brand/40 shadow-2xl shadow-brand/20 text-xs font-semibold text-app-text flex items-center gap-2.5">
-        <span class="w-2 h-2 rounded-full bg-brand animate-ping"></span>
-        <span id="toastMessage">تم الحفظ بنجاح</span>
+  <!-- Mobile Bottom Navigation Bar (Untitled UI Mobile Dock) -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-800/80 px-2 py-1.5 flex items-center justify-around">
+    <button onclick="switchView('today')" id="mNav-today" class="m-nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-lg text-brand font-medium text-[11px] transition-colors">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      <span>اليوم</span>
+    </button>
+    <button onclick="switchView('tasks')" id="mNav-tasks" class="m-nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-lg text-zinc-500 font-medium text-[11px] transition-colors">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+      <span>المهام</span>
+    </button>
+    <button onclick="switchView('nutrition')" id="mNav-nutrition" class="m-nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-lg text-zinc-500 font-medium text-[11px] transition-colors">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      <span>الصحة</span>
+    </button>
+    <button onclick="switchView('reviews')" id="mNav-reviews" class="m-nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-lg text-zinc-500 font-medium text-[11px] transition-colors">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+      <span>الطقوس</span>
+    </button>
+  </nav>
+
+  <!-- PWA Standalone Floating Install Prompt -->
+  <div id="pwaFloatingBanner" class="fixed bottom-20 md:bottom-6 right-4 sm:right-6 z-40 max-w-sm hidden">
+    <div class="bg-zinc-900 border border-zinc-700/80 rounded-2xl p-4 shadow-modal backdrop-blur-xl flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center text-brand flex-shrink-0">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-white">تثبيت تطبيق TaskHub</div>
+          <div class="text-[11px] text-zinc-400">وصول فوري بدون إنترنت من شاشتك</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="triggerPWAInstall()" class="px-3 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-medium transition-colors">تثبيت</button>
+        <button onclick="dismissPWABanner()" class="p-1 rounded-lg text-zinc-400 hover:text-zinc-200 text-xs">✕</button>
       </div>
     </div>
+  </div>
 
-    <!-- VIEW 1: TODAY & FOCUS (اليوم والتركيز) -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex-1 w-full">
+    <!-- ==========================================
+         VIEW 1: TODAY & FOCUS (اليوم والتركيز)
+         ========================================== -->
     <section id="view-today" class="view-panel space-y-6">
       
-      <!-- Top Untitled UI KPI Cards Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <!-- KPI 1: إنجاز اليوم -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card hover:border-surface-hover transition-all">
+      <!-- Date & Header Sub-bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1 border-b border-app-border">
+        <div>
+          <h1 class="text-lg font-semibold text-white tracking-tight flex items-center gap-2">
+            <span>لوحة اليوم والتركيز</span>
+          </h1>
+          <p class="text-xs text-app-muted mt-0.5" id="todayHeaderDate">اليوم، 26 أكتوبر 2026</p>
+        </div>
+        
+        <!-- Ritual Action Triggers -->
+        <div class="flex items-center gap-2">
+          <button onclick="openMorningModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 text-xs font-medium transition-colors">
+            <svg class="w-3.5 h-3.5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+            <span>طقس الصباح</span>
+          </button>
+          <button onclick="openShutdownModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 text-xs font-medium transition-colors">
+            <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            <span>إغلاق اليوم</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Untitled UI KPI Metric Cards Row -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        
+        <!-- Metric 1: Daily Completion -->
+        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/80 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
             <span>إنجاز اليوم</span>
-            <span class="text-brand">🎯</span>
+            <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
           </div>
           <div class="flex items-baseline gap-2 mb-2">
-            <span class="text-2xl font-extrabold text-app-text font-mono" id="todayDonePercent">0%</span>
-            <span class="text-xs text-app-muted" id="todayDoneRatio">0 / 0 مهام</span>
+            <span class="text-2xl font-bold text-white font-mono" id="todayDonePercent">0%</span>
+            <span class="text-xs text-app-muted font-mono" id="todayDoneRatio">0 / 0 مهام</span>
           </div>
-          <div class="w-full h-1.5 bg-surface-subtle rounded-full overflow-hidden">
-            <div id="todayProgressBar" class="h-full bg-brand rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+            <div id="todayProgressBar" class="h-full bg-brand rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
         </div>
 
-        <!-- KPI 2: مؤقت التركيز اليومي -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card hover:border-surface-hover transition-all">
+        <!-- Metric 2: Deep Work Sessions -->
+        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/80 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
             <span>جلسات التركيز</span>
-            <span class="text-amber-500">⏱️</span>
+            <svg class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
-          <div class="flex items-baseline gap-2 mb-2">
-            <span class="text-2xl font-extrabold text-app-text font-mono" id="todayPomoCount">0</span>
-            <span class="text-xs text-app-muted">جلسة (25د)</span>
+          <div class="flex items-baseline gap-2 mb-1.5">
+            <span class="text-2xl font-bold text-white font-mono" id="todayPomoCount">0</span>
+            <span class="text-xs text-app-muted">جلسة</span>
           </div>
-          <div class="text-[11px] text-app-muted flex items-center gap-1 font-mono">
-            <span class="text-emerald-500 font-semibold" id="todayPomoMins">0 دقيقة</span> تركيز عميق
+          <div class="text-[11px] text-zinc-400 flex items-center gap-1 font-mono">
+            <span class="text-emerald-400 font-semibold" id="todayPomoMins">0 دقيقة</span>
+            <span>تركيز عميق</span>
           </div>
         </div>
 
-        <!-- KPI 3: العادات والتتابع Streak -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card hover:border-surface-hover transition-all">
+        <!-- Metric 3: Habits & Streaks -->
+        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/80 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
             <span>العادات اليومية</span>
-            <span class="text-orange-400">🔥</span>
+            <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
           </div>
           <div class="flex items-baseline gap-2 mb-2">
-            <span class="text-2xl font-extrabold text-app-text font-mono" id="todayHabitsDone">0/3</span>
-            <span class="text-xs text-emerald-500 font-bold" id="bestHabitStreak">0🔥</span>
+            <span class="text-2xl font-bold text-white font-mono" id="todayHabitsDone">0/3</span>
+            <span class="text-xs text-emerald-400 font-mono font-medium" id="bestHabitStreak">0🔥</span>
           </div>
-          <div class="w-full h-1.5 bg-surface-subtle rounded-full overflow-hidden">
-            <div id="todayHabitsBar" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+            <div id="todayHabitsBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
         </div>
 
-        <!-- KPI 4: السعرات اليومية -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card hover:border-surface-hover transition-all">
+        <!-- Metric 4: Daily Calorie Intake -->
+        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/80 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
-            <span>السعرات والماكروز</span>
-            <span class="text-rose-400">🥗</span>
+            <span>السعرات اليومية</span>
+            <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
-          <div class="flex items-baseline gap-1.5 mb-2">
-            <span class="text-2xl font-extrabold text-app-text font-mono" id="todayCalKpi">0</span>
-            <span class="text-xs text-app-muted">/ <span id="todayCalTargetKpi">2200</span></span>
+          <div class="flex items-baseline gap-1.5 mb-1.5">
+            <span class="text-2xl font-bold text-white font-mono" id="todayCalKpi">0</span>
+            <span class="text-xs text-app-muted font-mono">/ <span id="todayCalTargetKpi">2200</span></span>
           </div>
-          <div class="text-[11px] text-brand font-semibold flex items-center justify-between">
-            <span id="todayProtKpi">0g بروتين</span>
-            <span class="text-app-muted cursor-pointer hover:underline" onclick="switchView('nutrition')">تفاصيل ←</span>
+          <div class="text-[11px] text-zinc-400 flex items-center justify-between font-mono">
+            <span id="todayProtKpi" class="text-brand font-semibold">0g بروتين</span>
+            <span class="text-app-muted cursor-pointer hover:text-white transition-colors" onclick="switchView('nutrition')">تفاصيل ←</span>
           </div>
         </div>
+
       </div>
 
       <!-- Quick Capture Bar (Linear / Raycast Style) -->
-      <div class="bg-surface border border-surface-border rounded-2xl p-2.5 shadow-card focus-within:border-brand/50 transition-all">
+      <div class="bg-app-surface border border-app-border rounded-xl p-2.5 shadow-subtle focus-within:border-zinc-700 transition-all">
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           
-          <div class="flex items-center gap-2 flex-1 px-2">
-            <svg class="w-4 h-4 text-brand flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <input type="text" id="taskTitleDesktop" placeholder="اكتب أي مهمة جديدة واضغط Enter... (اختصار: N)" class="w-full bg-transparent border-none text-sm text-app-text placeholder:text-app-muted/60 focus:outline-none" onkeydown="if(event.key==='Enter') handleAddTaskDesktop()">
+          <div class="flex items-center gap-2.5 flex-1 px-2">
+            <svg class="w-4 h-4 text-brand flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <input type="text" id="taskTitleDesktop" placeholder="أضف مهمة جديدة واضغط Enter... (اختصار: N)" class="w-full bg-transparent border-none text-sm text-white placeholder:text-zinc-500 focus:outline-none" onkeydown="if(event.key==='Enter') handleAddTaskDesktop()">
           </div>
 
-          <div class="flex items-center gap-1.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-surface-border justify-between sm:justify-end">
+          <div class="flex items-center gap-1.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-app-border justify-between sm:justify-end">
             <!-- Horizon Tag -->
-            <select id="taskHorizonDesktop" class="bg-surface-subtle border border-surface-border text-app-muted text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand">
-              <option value="daily">يومي (اليوم)</option>
+            <select id="taskHorizonDesktop" class="bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand">
+              <option value="daily">اليوم (Daily)</option>
               <option value="weekly">أسبوعي</option>
               <option value="monthly">شهري</option>
               <option value="yearly">سنوي</option>
             </select>
 
             <!-- Recurrence Dropdown -->
-            <select id="taskRecurrenceDesktop" class="bg-surface-subtle border border-surface-border text-brand text-xs font-semibold rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand">
+            <select id="taskRecurrenceDesktop" class="bg-zinc-900 border border-zinc-800 text-brand text-xs font-medium rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand">
               <option value="none">بدون تكرار</option>
-              <option value="daily">🔄 يومي</option>
-              <option value="every_2_days">🔄 كل يومين</option>
-              <option value="weekdays">🔄 أيام الدوام (أحد-خميس)</option>
-              <option value="weekly">🔄 أسبوعي</option>
-              <option value="biweekly">🔄 كل أسبوعين</option>
-              <option value="monthly">🔄 شهري</option>
+              <option value="daily">تكرار يومي</option>
+              <option value="every_2_days">كل يومين</option>
+              <option value="weekdays">أيام العمل (أحد-خميس)</option>
+              <option value="weekly">تكرار أسبوعي</option>
+              <option value="biweekly">كل أسبوعين</option>
+              <option value="monthly">تكرار شهري</option>
             </select>
 
             <!-- Eisenhower Priority -->
-            <select id="taskEisenhowerDesktop" class="bg-surface-subtle border border-surface-border text-app-muted text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand">
-              <option value="do_first">🔴 عاجل ومهم</option>
-              <option value="schedule" selected>🔵 مهم غير عاجل</option>
-              <option value="delegate">🟡 تفويض</option>
-              <option value="eliminate">⚪ حذف/مؤجل</option>
+            <select id="taskEisenhowerDesktop" class="bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand">
+              <option value="do_first">عاجل ومهم (Do First)</option>
+              <option value="schedule" selected>مهم غير عاجل (Schedule)</option>
+              <option value="delegate">عاجل غير مهم (Delegate)</option>
+              <option value="eliminate">تأجيل وفرز (Backlog)</option>
             </select>
 
-            <!-- Add Button -->
-            <button onclick="handleAddTaskDesktop()" class="bg-brand hover:bg-brand-hover text-white text-xs font-bold px-3.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1">
-              <span>إضافة</span>
-              <span>↵</span>
+            <button onclick="handleAddTaskDesktop()" class="px-3.5 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-medium transition-colors shadow-sm">
+              إضافة
             </button>
           </div>
 
         </div>
       </div>
 
-      <!-- Main Layout: 2 Columns (Left: Today Focus Priorities, Right: Habits & Rituals) -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Main Layout: 2 Columns (Tasks on Right, Habits/Widgets on Left) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
-        <!-- Column 1 & 2: Focus Priorities List -->
-        <div class="lg:col-span-2 space-y-4">
-          <div class="flex items-center justify-between pb-2 border-b border-surface-border">
+        <!-- Column 1 & 2: Today Focus Tasks (Untitled UI List View) -->
+        <div class="lg:col-span-2 space-y-3">
+          <div class="flex items-center justify-between px-1">
             <div class="flex items-center gap-2">
-              <h2 class="text-base font-bold text-app-text flex items-center gap-2">
-                <span>📌</span>
-                <span>قائمة أولويات اليوم</span>
-              </h2>
-              <span id="todayTasksPill" class="text-xs px-2 py-0.5 rounded-full font-bold bg-surface-subtle border border-surface-border text-app-muted">0 مهام</span>
+              <h2 class="text-sm font-semibold text-white">مهام اليوم ذات الأولوية</h2>
+              <span id="todayTasksPill" class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-900 text-zinc-400 border border-zinc-800">0 مهام</span>
             </div>
-            
-            <div class="flex items-center gap-2">
-              <button onclick="openMorningModal()" class="text-xs px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 font-semibold hover:bg-amber-500/20 transition-all flex items-center gap-1.5">
-                <span>🌅</span>
-                <span class="hidden sm:inline">طقس الصباح</span>
-              </button>
-              <button onclick="openShutdownModal()" class="text-xs px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-semibold hover:bg-indigo-500/20 transition-all flex items-center gap-1.5">
-                <span>🌙</span>
-                <span class="hidden sm:inline">إغلاق المساء</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Tasks List Container -->
-          <div id="todayTaskList" class="space-y-2">
-            <!-- Rendered dynamically -->
+            <button onclick="openAddTaskModal()" class="text-xs text-brand hover:underline font-medium sm:hidden">+ إضافة مهمة</button>
           </div>
 
           <!-- Empty State -->
-          <div id="todayEmptyState" class="hidden p-8 text-center bg-surface border border-dashed border-surface-border rounded-2xl">
-            <span class="text-3xl block mb-2">🎉</span>
-            <div class="text-sm font-bold text-app-text mb-1">لا توجد مهام متبقية لليوم!</div>
-            <div class="text-xs text-app-muted max-w-sm mx-auto mb-4">أنجزت جميع المهام المجدولة اليوم، أو يمكنك إضافة أولوية جديدة من الشريط أعلاه.</div>
-            <button onclick="document.getElementById('taskTitleDesktop').focus()" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-brand/10 border border-brand/20 text-brand hover:bg-brand/20 transition-all">
-              + إضافة مهمة لليوم
-            </button>
+          <div id="todayEmptyState" class="hidden p-8 rounded-xl border border-dashed border-zinc-800 text-center space-y-2 bg-app-surface/40">
+            <div class="w-10 h-10 mx-auto rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3 class="text-xs font-semibold text-zinc-300">لا توجد مهام مجدولة لليوم</h3>
+            <p class="text-[11px] text-zinc-500 max-w-xs mx-auto">صندوق مهامك فارغ الآن. أضف مهمة جديدة بالأعلى أو اختر من مصفوفة أيزنهاور.</p>
+          </div>
+
+          <!-- Active Task Items List -->
+          <div id="todayTaskList" class="space-y-2">
+            <!-- Dynamic task items injected via JS -->
           </div>
         </div>
 
-        <!-- Column 3: Habits Tracker & Mini Routine Cards -->
+        <!-- Column 3: Habits & Quick Widgets -->
         <div class="space-y-4">
           
           <!-- Habits Card (Untitled UI Container) -->
-          <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card">
-            <div class="flex items-center justify-between mb-3 pb-2 border-b border-surface-border">
-              <h3 class="text-xs font-bold text-app-text flex items-center gap-1.5">
-                <span>🔥</span>
-                <span>العادات اليومية والـ Streak</span>
-              </h3>
-              <button onclick="openAddHabitPrompt()" class="text-xs text-brand font-bold hover:underline">+ عادة</button>
+          <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-app-border">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <h3 class="text-xs font-semibold text-white">العادات اليومية</h3>
+              </div>
+              <button onclick="openAddHabitPrompt()" class="text-xs text-brand hover:underline font-medium">+ عادة</button>
             </div>
 
+            <!-- Habits List -->
             <div id="habitsListContainer" class="space-y-2">
-              <!-- Rendered dynamically -->
+              <!-- Dynamic habits rendered here -->
             </div>
           </div>
 
-          <!-- Gym & Training Quick Widget -->
-          <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card">
-            <div class="flex items-center justify-between mb-3 pb-2 border-b border-surface-border">
-              <h3 class="text-xs font-bold text-app-text flex items-center gap-1.5">
-                <span>🏋️‍♂️</span>
-                <span>تمرين النادي اليوم</span>
-              </h3>
-              <button onclick="switchView('nutrition')" class="text-xs text-brand font-bold hover:underline">عرض الكل ←</button>
+          <!-- Quick Gym Widget -->
+          <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-app-border">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
+                <h3 class="text-xs font-semibold text-white">تمارين الجيم اليوم</h3>
+              </div>
+              <button onclick="switchView('nutrition')" class="text-xs text-brand hover:underline font-medium">عرض السجل ←</button>
             </div>
-
-            <div id="gymQuickList" class="space-y-1.5">
-              <!-- Dynamic preview of gym exercises -->
+            
+            <div class="text-[11px] text-zinc-400">
+              سجل تمارينك وجلساتك بدقة داخل تبويب الصحة والتغذية.
             </div>
           </div>
 
@@ -444,75 +505,74 @@
 
     </section>
 
-    <!-- VIEW 2: TASKS & EISENHOWER MATRIX (المهام والمصفوفة) -->
+    <!-- ==========================================
+         VIEW 2: TASKS & EISENHOWER MATRIX (المهام والمصفوفة)
+         ========================================== -->
     <section id="view-tasks" class="view-panel hidden space-y-6">
       
-      <!-- Horizon Switcher Header -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-2 border-b border-surface-border">
+      <!-- View Header & Horizon Switcher -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-app-border">
         <div>
-          <h2 class="text-base font-bold text-app-text flex items-center gap-2">
-            <span>⚡</span>
-            <span>إدارة المهام ومصفوفة أيزنهاور</span>
-          </h2>
-          <span class="text-xs text-app-muted">تنظيم الأولويات عبر الآفاق الزمنية الأربعة</span>
+          <h2 class="text-base font-semibold text-white tracking-tight">مصفوفة أيزنهاور الاستراتيجية</h2>
+          <p class="text-xs text-app-muted mt-0.5">تصنيف المهام حسب الأهمية والإلحاح لاتخاذ قرارات تنفيذية حاسمة</p>
         </div>
 
-        <!-- Segmented Horizon Switcher -->
-        <div class="flex items-center bg-surface-subtle p-1 rounded-xl border border-surface-border">
-          <button onclick="setHorizon('daily')" data-hbtn="daily" class="horizon-pill px-3 py-1 text-xs font-bold rounded-lg text-brand bg-surface shadow-sm transition-all">يومي</button>
-          <button onclick="setHorizon('weekly')" data-hbtn="weekly" class="horizon-pill px-3 py-1 text-xs font-semibold rounded-lg text-app-muted hover:text-app-text transition-all">أسبوعي</button>
-          <button onclick="setHorizon('monthly')" data-hbtn="monthly" class="horizon-pill px-3 py-1 text-xs font-semibold rounded-lg text-app-muted hover:text-app-text transition-all">شهري</button>
-          <button onclick="setHorizon('yearly')" data-hbtn="yearly" class="horizon-pill px-3 py-1 text-xs font-semibold rounded-lg text-app-muted hover:text-app-text transition-all">سنوي</button>
+        <!-- Horizons Segmented Control -->
+        <div class="flex items-center bg-zinc-900 p-0.5 rounded-lg border border-zinc-800 self-start sm:self-auto">
+          <button onclick="setHorizon('daily')" data-hbtn="daily" class="horizon-pill px-3 py-1 text-xs font-medium rounded-md transition-all text-white bg-zinc-800 shadow-sm border border-zinc-700/60">اليوم</button>
+          <button onclick="setHorizon('weekly')" data-hbtn="weekly" class="horizon-pill px-3 py-1 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">أسبوعي</button>
+          <button onclick="setHorizon('monthly')" data-hbtn="monthly" class="horizon-pill px-3 py-1 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">شهري</button>
+          <button onclick="setHorizon('yearly')" data-hbtn="yearly" class="horizon-pill px-3 py-1 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">سنوي</button>
         </div>
       </div>
 
-      <!-- Eisenhower 4-Quadrant Matrix (Untitled UI Grid) -->
+      <!-- Eisenhower 4-Quadrant Matrix (Untitled UI 2x2 Grid) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
         <!-- Q1: Do First (عاجل ومهم) -->
-        <div class="bg-surface border border-rose-500/25 rounded-2xl p-4 shadow-card">
-          <div class="flex items-center justify-between mb-3 pb-2 border-b border-surface-border">
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all">
+          <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-              <span class="font-bold text-xs text-app-text">1. عاجل ومهم (افعل فوراً)</span>
+              <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+              <span class="font-medium text-xs text-white">1. افعل فوراً (عاجل ومهم)</span>
             </div>
-            <span id="matrixCount-do_first" class="text-xs font-mono font-bold text-rose-400 px-2 py-0.5 bg-rose-500/10 rounded-full">0</span>
+            <span id="matrixCount-do_first" class="text-xs font-mono font-semibold text-rose-400 px-2 py-0.5 bg-rose-500/10 rounded-full border border-rose-500/20">0</span>
           </div>
           <div id="matrixList-do_first" class="space-y-2 min-h-[90px]"></div>
         </div>
 
-        <!-- Q2: Schedule (مهم غير عاجل - منطقة التميز) -->
-        <div class="bg-surface border border-blue-500/25 rounded-2xl p-4 shadow-card">
-          <div class="flex items-center justify-between mb-3 pb-2 border-b border-surface-border">
+        <!-- Q2: Schedule (مهم وغير عاجل) -->
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all">
+          <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-              <span class="font-bold text-xs text-app-text">2. مهم غير عاجل (جدول وخطط)</span>
+              <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+              <span class="font-medium text-xs text-white">2. خطط وجدول (مهم غير عاجل)</span>
             </div>
-            <span id="matrixCount-schedule" class="text-xs font-mono font-bold text-blue-400 px-2 py-0.5 bg-blue-500/10 rounded-full">0</span>
+            <span id="matrixCount-schedule" class="text-xs font-mono font-semibold text-blue-400 px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20">0</span>
           </div>
           <div id="matrixList-schedule" class="space-y-2 min-h-[90px]"></div>
         </div>
 
-        <!-- Q3: Delegate (عاجل غير مهم) -->
-        <div class="bg-surface border border-amber-500/25 rounded-2xl p-4 shadow-card">
-          <div class="flex items-center justify-between mb-3 pb-2 border-b border-surface-border">
+        <!-- Q3: Delegate (عاجل وغير مهم) -->
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all">
+          <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-              <span class="font-bold text-xs text-app-text">3. عاجل غير مهم (فوّض وأتمت)</span>
+              <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+              <span class="font-medium text-xs text-white">3. فوّض أو أتمت (عاجل غير مهم)</span>
             </div>
-            <span id="matrixCount-delegate" class="text-xs font-mono font-bold text-amber-400 px-2 py-0.5 bg-amber-500/10 rounded-full">0</span>
+            <span id="matrixCount-delegate" class="text-xs font-mono font-semibold text-amber-400 px-2 py-0.5 bg-amber-500/10 rounded-full border border-amber-500/20">0</span>
           </div>
           <div id="matrixList-delegate" class="space-y-2 min-h-[90px]"></div>
         </div>
 
         <!-- Q4: Eliminate (غير عاجل وغير مهم) -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card">
-          <div class="flex items-center justify-between mb-3 pb-2 border-b border-surface-border">
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all">
+          <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-app-muted"></span>
-              <span class="font-bold text-xs text-app-text">4. غير عاجل وغير مهم (احذف أو أرجئ)</span>
+              <span class="w-2 h-2 rounded-full bg-zinc-500"></span>
+              <span class="font-medium text-xs text-white">4. أرجئ أو احذف (غير عاجل وغير مهم)</span>
             </div>
-            <span id="matrixCount-eliminate" class="text-xs font-mono font-bold text-app-muted px-2 py-0.5 bg-surface-subtle rounded-full">0</span>
+            <span id="matrixCount-eliminate" class="text-xs font-mono font-semibold text-zinc-400 px-2 py-0.5 bg-zinc-800 rounded-full border border-zinc-700">0</span>
           </div>
           <div id="matrixList-eliminate" class="space-y-2 min-h-[90px]"></div>
         </div>
@@ -520,125 +580,135 @@
       </div>
 
       <!-- Task Backlog & Archive -->
-      <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card">
-        <div class="flex items-center justify-between mb-3 pb-2 border-b border-surface-border">
+      <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle">
+        <div class="flex items-center justify-between mb-3 pb-2 border-b border-app-border">
           <div class="flex items-center gap-2">
-            <span>📥</span>
-            <span class="font-bold text-xs text-app-text">صندوق الوارد والمهام المؤجلة (Inbox & Backlog)</span>
+            <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+            <span class="font-semibold text-xs text-white">صندوق الوارد والمهام المؤجلة (Inbox & Backlog)</span>
           </div>
-          <span id="backlogCount" class="text-xs text-app-muted">0 مهام</span>
+          <span id="backlogCount" class="text-xs text-app-muted font-mono">0 مهام</span>
         </div>
         <div id="backlogTasksContainer" class="space-y-2"></div>
       </div>
 
     </section>
 
-    <!-- VIEW 3: HEALTH & AI NUTRITION (الصحة والتغذية والرياضة) -->
+    <!-- ==========================================
+         VIEW 3: HEALTH & AI NUTRITION (الصحة والتغذية والرياضة)
+         ========================================== -->
     <section id="view-nutrition" class="view-panel hidden space-y-6">
       
       <!-- Top Macro KPI Cards (Untitled UI Stat Cards) -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
         
         <!-- Calories Card -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card">
+        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/60 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
             <span>السعرات المستهلكة</span>
-            <button onclick="openNutritionSettingsModal()" class="text-brand hover:underline font-bold text-[11px]">تعديل الهدف ⚙️</button>
+            <button onclick="openNutritionSettingsModal()" class="text-brand hover:underline font-medium text-[11px] flex items-center gap-1">
+              <span>تعديل الهدف</span>
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
           </div>
           <div class="flex items-baseline gap-1.5 mb-2">
-            <span class="text-2xl font-extrabold text-app-text font-mono" id="nutriCalsConsumed">0</span>
-            <span class="text-xs text-app-muted">/ <span id="nutriCalsTarget">2200</span></span>
+            <span class="text-2xl font-bold text-white font-mono" id="nutriCalsConsumed">0</span>
+            <span class="text-xs text-app-muted font-mono">/ <span id="nutriCalsTarget">2200</span></span>
           </div>
-          <div class="w-full h-1.5 bg-surface-subtle rounded-full overflow-hidden mb-1.5">
-            <div id="calProgressBar" class="h-full bg-brand rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden mb-1.5">
+            <div id="calProgressBar" class="h-full bg-brand rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
-          <div class="text-[11px] text-app-muted" id="calRemainingText">المتبقي: 2200 سعرة</div>
+          <div class="text-[11px] text-app-muted font-mono" id="calRemainingText">المتبقي: 2200 سعرة</div>
         </div>
 
         <!-- Protein Card -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card">
+        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/60 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
             <span>البروتين (Protein)</span>
-            <span>🥩</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
           </div>
           <div class="flex items-baseline gap-1.5 mb-2">
-            <span class="text-2xl font-extrabold text-app-text font-mono" id="nutriProteinConsumed">0g</span>
-            <span class="text-xs text-app-muted">/ <span id="nutriProteinTarget">150g</span></span>
+            <span class="text-2xl font-bold text-white font-mono" id="nutriProteinConsumed">0g</span>
+            <span class="text-xs text-app-muted font-mono">/ <span id="nutriProteinTarget">150g</span></span>
           </div>
-          <div class="w-full h-1.5 bg-surface-subtle rounded-full overflow-hidden mb-1.5">
-            <div id="protProgressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden mb-1.5">
+            <div id="protProgressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
-          <div class="text-[11px] text-emerald-500 font-semibold" id="protRemainingText">متبقي: 150g</div>
+          <div class="text-[11px] text-emerald-400 font-mono" id="protRemainingText">متبقي: 150g</div>
         </div>
 
         <!-- Carbs Card -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card">
+        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/60 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
             <span>الكاربوهيدرات (Carbs)</span>
-            <span>🌾</span>
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
           </div>
           <div class="flex items-baseline gap-1.5 mb-2">
-            <span class="text-2xl font-extrabold text-app-text font-mono" id="nutriCarbsConsumed">0g</span>
-            <span class="text-xs text-app-muted">/ <span id="nutriCarbsTarget">220g</span></span>
+            <span class="text-2xl font-bold text-white font-mono" id="nutriCarbsConsumed">0g</span>
+            <span class="text-xs text-app-muted font-mono">/ <span id="nutriCarbsTarget">220g</span></span>
           </div>
-          <div class="w-full h-1.5 bg-surface-subtle rounded-full overflow-hidden mb-1.5">
-            <div id="carbsProgressBar" class="h-full bg-amber-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden mb-1.5">
+            <div id="carbsProgressBar" class="h-full bg-amber-500 rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
-          <div class="text-[11px] text-app-muted" id="carbsRemainingText">متبقي: 220g</div>
+          <div class="text-[11px] text-app-muted font-mono" id="carbsRemainingText">متبقي: 220g</div>
         </div>
 
         <!-- Fats Card -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card">
+        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/60 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
             <span>الدهون الصحية (Fats)</span>
-            <span>🥑</span>
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
           </div>
           <div class="flex items-baseline gap-1.5 mb-2">
-            <span class="text-2xl font-extrabold text-app-text font-mono" id="nutriFatsConsumed">0g</span>
-            <span class="text-xs text-app-muted">/ <span id="nutriFatsTarget">65g</span></span>
+            <span class="text-2xl font-bold text-white font-mono" id="nutriFatsConsumed">0g</span>
+            <span class="text-xs text-app-muted font-mono">/ <span id="nutriFatsTarget">65g</span></span>
           </div>
-          <div class="w-full h-1.5 bg-surface-subtle rounded-full overflow-hidden mb-1.5">
-            <div id="fatsProgressBar" class="h-full bg-blue-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden mb-1.5">
+            <div id="fatsProgressBar" class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
-          <div class="text-[11px] text-app-muted" id="fatsRemainingText">متبقي: 65g</div>
+          <div class="text-[11px] text-app-muted font-mono" id="fatsRemainingText">متبقي: 65g</div>
         </div>
 
       </div>
 
-      <!-- Gemini AI Nutrition Calculator & Narrative Logger -->
-      <div class="bg-surface border border-brand/35 rounded-2xl p-4 sm:p-5 shadow-card shadow-brand/5 space-y-4">
+      <!-- Gemini AI Nutrition Engine (Raycast / Modern SaaS Style) -->
+      <div class="bg-app-surface border border-app-border rounded-xl p-4 sm:p-5 shadow-subtle space-y-4">
         
-        <div class="flex items-center justify-between pb-3 border-b border-surface-border">
+        <div class="flex items-center justify-between pb-3 border-b border-app-border">
           <div class="flex items-center gap-2.5">
-            <span class="w-7 h-7 rounded-lg bg-brand/10 border border-brand/30 flex items-center justify-center text-brand font-bold text-sm">✨</span>
+            <div class="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-brand">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            </div>
             <div>
-              <h3 class="text-sm font-bold text-app-text">حاسبة السعرات بالذكاء الاصطناعي (Gemini 3.5 Flash)</h3>
-              <p class="text-xs text-app-muted">اكتب وجبتك بالعامية السورية مع الكميات ليتم تفصيل الماكروز بدقة</p>
+              <h3 class="text-sm font-semibold text-white">حاسبة التغذية الذكية بالذكاء الاصطناعي</h3>
+              <p class="text-xs text-app-muted">اكتب وجبتك بالعامية (مثلاً: "350غ مندي مع فخد دجاج"، "سكوب واي بروتين") وسيقوم النظام بتفكيكها بدقة</p>
             </div>
           </div>
-          <button onclick="openNutritionSettingsModal()" class="text-xs text-brand hover:underline font-bold">مفتاح API 🔑</button>
+          <button onclick="openNutritionSettingsModal()" class="text-xs text-zinc-400 hover:text-white font-medium flex items-center gap-1">
+            <svg class="w-3.5 h-3.5 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-2-2 2 2"/><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/></svg>
+            <span>مفتاح API</span>
+          </button>
         </div>
 
         <!-- AI Meal Input Bar -->
         <div class="flex gap-2">
-          <input type="text" id="aiMealInput" placeholder="اكتب شو أكلت: مثلاً '350غ مندي مع فخد دجاج وكولا دايت' أو 'صحن شاورما عربي دبل وبطاطا وتوم وسكوب واي بروتين'..." class="flex-1 bg-surface-subtle border border-surface-border rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-app-text focus:outline-none focus:border-brand placeholder:text-app-muted/60" onkeydown="if(event.key==='Enter') processAIMeal()">
-          <button onclick="processAIMeal()" class="bg-brand hover:bg-brand-hover text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl shadow-md shadow-brand/20 transition-all flex items-center gap-1.5 flex-shrink-0">
-            <span>احسب</span>
-            <span>✨</span>
+          <input type="text" id="aiMealInput" placeholder="شو أكلت اليوم؟ مثلاً: '350غ مندي مع فخد دجاج وكولا دايت' أو 'كاسة حليب وموزة مع معلقة عسل'..." class="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-brand placeholder:text-zinc-500" onkeydown="if(event.key==='Enter') processAIMeal()">
+          <button onclick="processAIMeal()" class="bg-brand hover:bg-brand-hover text-white text-xs sm:text-sm font-medium px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center gap-1.5 flex-shrink-0">
+            <span>تحليل ذكي</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
           </button>
         </div>
 
         <!-- AI Preview Box (Appears when analyzing meal) -->
-        <div id="aiMealPreviewBox" style="display:none;" class="bg-surface-subtle border border-brand/30 rounded-xl p-4 space-y-3"></div>
+        <div id="aiMealPreviewBox" style="display:none;" class="bg-zinc-900/90 border border-zinc-800 rounded-xl p-4 space-y-3"></div>
 
-        <!-- Quick Log Chips -->
+        <!-- Quick Log Chips (Modern Tag Buttons) -->
         <div class="flex items-center gap-1.5 flex-wrap pt-1 text-xs text-app-muted">
-          <span class="text-[11px] font-semibold text-app-subtle">إضافة سريعة:</span>
-          <button onclick="quickAddFood('سكوب واي بروتين', 120, 24, 2, 1.5)" class="px-2.5 py-1 rounded-lg bg-surface-subtle border border-surface-border hover:border-brand/40 text-app-muted hover:text-app-text transition-all">+ سكوب بروتين (120 كالوري)</button>
-          <button onclick="quickAddFood('2 بيض مسلوق', 144, 12.6, 0.8, 9.6)" class="px-2.5 py-1 rounded-lg bg-surface-subtle border border-surface-border hover:border-brand/40 text-app-muted hover:text-app-text transition-all">+ بيضتين (144 كالوري)</button>
-          <button onclick="quickAddFood('موزة متوسطة', 105, 1.3, 27, 0.3)" class="px-2.5 py-1 rounded-lg bg-surface-subtle border border-surface-border hover:border-brand/40 text-app-muted hover:text-app-text transition-all">+ موزة (105 كالوري)</button>
-          <button onclick="quickAddFood('علبة تونة بالماء', 130, 28, 0, 1)" class="px-2.5 py-1 rounded-lg bg-surface-subtle border border-surface-border hover:border-brand/40 text-app-muted hover:text-app-text transition-all">+ علبة تونة (130 كالوري)</button>
-          <button onclick="quickAddFood('كوب حليب', 150, 8, 12, 8)" class="px-2.5 py-1 rounded-lg bg-surface-subtle border border-surface-border hover:border-brand/40 text-app-muted hover:text-app-text transition-all">+ كاسة حليب (150 كالوري)</button>
+          <span class="text-[11px] font-medium text-zinc-500">إضافة سريعة:</span>
+          <button onclick="quickAddFood('سكوب واي بروتين', 120, 24, 2, 1.5)" class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white transition-all">+ سكوب بروتين (120 كالوري)</button>
+          <button onclick="quickAddFood('2 بيض مسلوق', 144, 12.6, 0.8, 9.6)" class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white transition-all">+ بيضتين (144 كالوري)</button>
+          <button onclick="quickAddFood('موزة متوسطة', 105, 1.3, 27, 0.3)" class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white transition-all">+ موزة (105 كالوري)</button>
+          <button onclick="quickAddFood('علبة تونة بالماء', 130, 28, 0, 1)" class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white transition-all">+ علبة تونة (130 كالوري)</button>
+          <button onclick="quickAddFood('كوب حليب', 150, 8, 12, 8)" class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white transition-all">+ كاسة حليب (150 كالوري)</button>
         </div>
 
       </div>
@@ -647,13 +717,13 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         <!-- Logged Meals Timeline -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card">
-          <div class="flex items-center justify-between mb-3 pb-2 border-b border-surface-border">
-            <h3 class="text-xs font-bold text-app-text flex items-center gap-1.5">
-              <span>🍽️</span>
-              <span>سجل وجبات اليوم</span>
-            </h3>
-            <span id="loggedMealsCount" class="text-xs text-app-muted">0 وجبات</span>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-app-border">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <h3 class="text-xs font-semibold text-white">سجل وجبات اليوم</h3>
+            </div>
+            <span id="loggedMealsCount" class="text-xs text-app-muted font-mono">0 وجبات</span>
           </div>
 
           <div id="loggedMealsList" class="space-y-2">
@@ -662,20 +732,20 @@
         </div>
 
         <!-- Gym Workout Tracker -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-4 shadow-card space-y-3">
-          <div class="flex items-center justify-between pb-2 border-b border-surface-border">
-            <h3 class="text-xs font-bold text-app-text flex items-center gap-1.5">
-              <span>🏋️‍♂️</span>
-              <span>سجل تمارين النادي والأوزان</span>
-            </h3>
-            <span id="gymTotalExercises" class="text-xs text-app-muted">0 تمارين</span>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-app-border">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
+              <h3 class="text-xs font-semibold text-white">سجل تمارين النادي والأوزان</h3>
+            </div>
+            <span id="gymTotalExercises" class="text-xs text-app-muted font-mono">0 تمارين</span>
           </div>
 
           <!-- Add Exercise Bar -->
           <div class="flex gap-2">
-            <input type="text" id="newExNameInput" placeholder="اسم التمرين (مثلاً: بنش برس أو سكوات)..." class="flex-1 bg-surface-subtle border border-surface-border rounded-xl px-3 py-1.5 text-xs text-app-text focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addNewGymExercise()">
-            <input type="text" id="newExSetsInput" placeholder="الجلسات (3x10)" class="w-24 bg-surface-subtle border border-surface-border rounded-xl px-2.5 py-1.5 text-xs text-app-text text-center focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addNewGymExercise()">
-            <button onclick="addNewGymExercise()" class="bg-brand hover:bg-brand-hover text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-sm transition-all">إضافة</button>
+            <input type="text" id="newExNameInput" placeholder="اسم التمرين (مثلاً: بنش برس أو سكوات)..." class="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand placeholder:text-zinc-500" onkeydown="if(event.key==='Enter') addNewGymExercise()">
+            <input type="text" id="newExSetsInput" placeholder="الجلسات (3x10)" class="w-24 bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand placeholder:text-zinc-500" onkeydown="if(event.key==='Enter') addNewGymExercise()">
+            <button onclick="addNewGymExercise()" class="bg-brand hover:bg-brand-hover text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow-sm transition-all">إضافة</button>
           </div>
 
           <div id="gymWorkoutList" class="space-y-2 pt-1">
@@ -687,427 +757,419 @@
 
     </section>
 
-    <!-- VIEW 4: REVIEWS & RITUALS (المراجعات والطقوس والتقارير) -->
+    <!-- ==========================================
+         VIEW 4: REVIEWS & RITUALS (المراجعات والطقوس والتقارير)
+         ========================================== -->
     <section id="view-reviews" class="view-panel hidden space-y-6">
       
-      <div class="pb-2 border-b border-surface-border">
-        <h2 class="text-base font-bold text-app-text flex items-center gap-2">
-          <span>📊</span>
-          <span>المراجعات الدورية، النسخ الاحتياطي، والطقوس اليومية</span>
+      <div class="pb-2 border-b border-app-border">
+        <h2 class="text-base font-semibold text-white tracking-tight flex items-center gap-2">
+          <span>المراجعات الدورية، الطقوس، وإدارة البيانات</span>
         </h2>
-        <span class="text-xs text-app-muted">مراجعة Sunsama الصباحية، إغلاق اليوم المسائي، وتصدير البيانات</span>
+        <span class="text-xs text-app-muted">طقوس التخطيط اليومي Sunsama، إغلاق اليوم، والنسخ الاحتياطي السحابي والمحلي</span>
       </div>
 
+      <!-- Sunsama Dual Rituals Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
-        <!-- Ritual 1: Morning Planning Session -->
-        <div class="bg-surface border border-amber-500/25 rounded-2xl p-5 shadow-card space-y-3">
+        <!-- Morning Planning Ritual Card -->
+        <div class="bg-app-surface border border-app-border rounded-xl p-5 shadow-subtle space-y-4">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-400 text-lg">🌅</div>
+            <div class="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-amber-400">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+            </div>
             <div>
-              <h3 class="font-bold text-sm text-app-text">جلسة التخطيط الصباحية (Morning Ritual)</h3>
-              <p class="text-xs text-app-muted">تحديد 3-5 أولويات فقط لتجنب الإرهاق وتحقيق أقصى تركيز</p>
+              <h3 class="text-sm font-semibold text-white">طقس الصباح والتركيز (Morning Ritual)</h3>
+              <p class="text-xs text-app-muted">تحديد أولويات اليوم الـ 3 الأساسية وترتيب المهام الواقعية</p>
             </div>
           </div>
-          <button onclick="openMorningModal()" class="w-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/25 font-bold text-xs py-2 rounded-xl transition-all">
-            بدء جلسة الصباح ←
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            وفق منهجية Sunsama، ابدأ يومك بفرز صندوق الوارد واختيار 3 إلى 5 مهام جوهرية فقط لتجنب التشتت والإرهاق.
+          </p>
+          <button onclick="openMorningModal()" class="w-full py-2.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-700/80 text-white text-xs font-medium transition-colors flex items-center justify-center gap-2">
+            <span>بدء التخطيط الصباحي</span>
+            <svg class="w-3.5 h-3.5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
         </div>
 
-        <!-- Ritual 2: Evening Shutdown -->
-        <div class="bg-surface border border-indigo-500/25 rounded-2xl p-5 shadow-card space-y-3">
+        <!-- Evening Shutdown Ritual Card -->
+        <div class="bg-app-surface border border-app-border rounded-xl p-5 shadow-subtle space-y-4">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400 text-lg">🌙</div>
+            <div class="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-indigo-400">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </div>
             <div>
-              <h3 class="font-bold text-sm text-app-text">إغلاق اليوم ومراجعة الإنجاز (Shutdown Ritual)</h3>
-              <p class="text-xs text-app-muted">تصفية الذهن، أرشفة ما تم إنجازه، وتجهيز الغد براحة بال</p>
+              <h3 class="text-sm font-semibold text-white">طقس الإغلاق المسائي (Evening Shutdown)</h3>
+              <p class="text-xs text-app-muted">مراجعة ما تم إنجازه، ترحيل المؤجل، وتفريغ الذهن</p>
             </div>
           </div>
-          <button onclick="openShutdownModal()" class="w-full bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/25 font-bold text-xs py-2 rounded-xl transition-all">
-            بدء إغلاق اليوم ←
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            أنهِ يوم العمل بوعي: راجع إنجازاتك، دوّن ملاحظات التقدم، وانقل المهام غير المنتهية للغد لتنعم براحة بال تامة.
+          </p>
+          <button onclick="openShutdownModal()" class="w-full py-2.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-700/80 text-white text-xs font-medium transition-colors flex items-center justify-center gap-2">
+            <span>بدء إغلاق اليوم</span>
+            <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
         </div>
 
-        <!-- Data & Backup Tools -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-5 shadow-card space-y-3">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-surface-subtle border border-surface-border flex items-center justify-center text-app-text text-lg">💾</div>
+      </div>
+
+      <!-- Data Export & Cloud Backup Management -->
+      <div class="bg-app-surface border border-app-border rounded-xl p-5 shadow-subtle space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-app-border">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-brand">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
             <div>
-              <h3 class="font-bold text-sm text-app-text">النسخ الاحتياطي والاستعادة</h3>
-              <p class="text-xs text-app-muted">تصدير كامل بياناتك كملف JSON مشفر محلياً أو استعادتها</p>
+              <h3 class="text-sm font-semibold text-white">إدارة البيانات والنسخ الاحتياطي (Data Ownership)</h3>
+              <p class="text-xs text-app-muted">بياناتك ملكك بالكامل. احتفظ بنسخ احتياطية دورية أو صدرها إلى Excel</p>
             </div>
           </div>
-          <button onclick="openBackupModal()" class="w-full bg-surface-subtle hover:bg-surface-hover text-app-text border border-surface-border font-bold text-xs py-2 rounded-xl transition-all">
-            إدارة النسخ الاحتياطي
-          </button>
         </div>
 
-        <!-- Export CSV & Excel -->
-        <div class="bg-surface border border-surface-border rounded-2xl p-5 shadow-card space-y-3">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 text-lg">📑</div>
-            <div>
-              <h3 class="font-bold text-sm text-app-text">تصدير إلى Excel (CSV)</h3>
-              <p class="text-xs text-app-muted">تحميل شيت إكسل جاهز بجميع المهام والعادات وسجلات التغذية</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+          <!-- Download JSON -->
+          <button onclick="downloadBackupJSON()" class="p-3.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-right transition-all group">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs font-semibold text-white group-hover:text-brand transition-colors">تحميل نسخة JSON</span>
+              <svg class="w-4 h-4 text-zinc-500 group-hover:text-brand transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </div>
-          </div>
-          <button onclick="exportToExcel()" class="w-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/25 font-bold text-xs py-2 rounded-xl transition-all">
-            تحميل ملف Excel CSV ↓
+            <p class="text-[11px] text-zinc-500">نسخة احتياطية مشفرة وشاملة لكل المهام والعادات والوجبات</p>
+          </button>
+
+          <!-- Export Excel / CSV -->
+          <button onclick="exportToExcel()" class="p-3.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-right transition-all group">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs font-semibold text-white group-hover:text-emerald-400 transition-colors">تصدير Excel / CSV</span>
+              <svg class="w-4 h-4 text-zinc-500 group-hover:text-emerald-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <p class="text-[11px] text-zinc-500">تصدير جداول البيانات متوافقة مع Excel وGoogle Sheets</p>
+          </button>
+
+          <!-- Cloud Sync Settings -->
+          <button onclick="openCloudSyncModal()" class="p-3.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-right transition-all group">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs font-semibold text-white group-hover:text-blue-400 transition-colors">المزامنة السحابية</span>
+              <svg class="w-4 h-4 text-zinc-500 group-hover:text-blue-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+            </div>
+            <p class="text-[11px] text-zinc-500">ربط مع خادم خارجي أو مزامنة متعددة الأجهزة</p>
           </button>
         </div>
 
       </div>
 
     </section>
-
   </main>
 
   <!-- ==========================================
-       MOBILE BOTTOM APP BAR (Untitled UI Style)
-       ========================================== -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md border-t border-surface-border px-3 py-2 flex items-center justify-around">
-    
-    <button onclick="switchView('today')" id="mNav-today" class="m-nav-btn flex flex-col items-center gap-1 text-brand">
-      <span class="text-lg">☀️</span>
-      <span class="text-[10px] font-bold">اليوم</span>
-    </button>
-
-    <button onclick="switchView('tasks')" id="mNav-tasks" class="m-nav-btn flex flex-col items-center gap-1 text-app-muted">
-      <span class="text-lg">⚡</span>
-      <span class="text-[10px] font-bold">المهام</span>
-    </button>
-
-    <!-- FAB Add Button -->
-    <button onclick="openAddTaskModal()" class="w-12 h-12 -mt-5 rounded-full bg-brand hover:bg-brand-hover text-white flex items-center justify-center shadow-lg shadow-brand/35 text-xl font-bold transition-transform active:scale-95" title="إضافة مهمة جديدة">
-      +
-    </button>
-
-    <button onclick="switchView('nutrition')" id="mNav-nutrition" class="m-nav-btn flex flex-col items-center gap-1 text-app-muted">
-      <span class="text-lg">🥗</span>
-      <span class="text-[10px] font-bold">التغذية</span>
-    </button>
-
-    <button onclick="switchView('reviews')" id="mNav-reviews" class="m-nav-btn flex flex-col items-center gap-1 text-app-muted">
-      <span class="text-lg">📊</span>
-      <span class="text-[10px] font-bold">المراجعات</span>
-    </button>
-
-  </nav>
-
-  <!-- ==========================================
-       PWA INSTALL FLOATING BANNER
-       ========================================== -->
-  <div id="pwaFloatingInstallBanner" class="hidden fixed bottom-20 md:bottom-6 left-3 sm:left-6 right-3 sm:right-auto z-40 pwa-banner-slide bg-surface border border-brand/40 rounded-2xl p-3 sm:p-4 shadow-2xl shadow-black/80 max-w-sm flex items-center gap-3">
-    <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white text-lg flex-shrink-0 shadow-md shadow-brand/20">📲</div>
-    <div class="flex-1 min-w-0 text-right">
-      <div class="text-xs font-bold text-app-text">تثبيت تطبيق TaskHub</div>
-      <div class="text-[11px] text-app-muted">تجربة فائقة السرعة مع حاسبة السعرات وأوفلاين</div>
-    </div>
-    <div class="flex items-center gap-1.5 flex-shrink-0">
-      <button onclick="triggerPWAInstall()" class="px-3 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-bold shadow-sm">تثبيت</button>
-      <button onclick="dismissPWABanner()" class="p-1 rounded-lg text-app-muted hover:text-app-text text-xs">✕</button>
-    </div>
-  </div>
-
-  <!-- ==========================================
-       ALL DIALOG MODALS (Untitled UI Standard)
+       MODALS SYSTEM (Untitled UI Dialog Patterns)
        ========================================== -->
 
-  <!-- Modal 1: Morning Planning -->
-  <div class="modal-backdrop" id="morningModal" onclick="if(event.target===this) closeMorningModal()">
-    <div class="bg-surface border border-surface-border rounded-2xl w-full max-w-md p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-surface-border">
-        <div class="flex items-center gap-2">
-          <span>🌅</span>
-          <h3 class="text-sm font-bold text-app-text">طقس التخطيط الصباحي (Sunsama Ritual)</h3>
-        </div>
-        <button onclick="closeMorningModal()" class="text-app-muted hover:text-app-text text-sm">✕</button>
-      </div>
-      <p class="text-xs text-app-muted leading-relaxed">
-        سر الإنتاجية الهادئة: <strong>لا تضع أكثر من 3-5 أولويات لليوم</strong> حتى تنهيها بكفاءة وتتجنب التشتت.
-      </p>
-      <div class="space-y-2">
-        <label class="text-xs font-bold text-app-text block">اختر المهام ذات الأولوية القصوى لليوم:</label>
-        <div id="morningTasksSelectionList" class="space-y-1.5 max-h-56 overflow-y-auto pr-1"></div>
-      </div>
-      <div class="flex gap-2 pt-2">
-        <input type="text" id="morningQuickInput" placeholder="+ أولوية جديدة سريعة..." class="flex-1 bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs text-app-text focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addQuickMorningTask()">
-        <button onclick="addQuickMorningTask()" class="bg-brand text-white text-xs font-bold px-3 py-2 rounded-xl">إضافة</button>
-      </div>
-      <div class="flex justify-end gap-2 pt-3 border-t border-surface-border">
-        <button onclick="closeMorningModal()" class="px-3.5 py-1.5 rounded-lg border border-surface-border text-xs text-app-muted hover:text-app-text">إلغاء</button>
-        <button onclick="saveMorningPriorities()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-bold shadow-sm">اعتماد خطة اليوم ✓</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal 2: Evening Shutdown -->
-  <div class="modal-backdrop" id="shutdownModal" onclick="if(event.target===this) closeShutdownModal()">
-    <div class="bg-surface border border-surface-border rounded-2xl w-full max-w-md p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-surface-border">
-        <div class="flex items-center gap-2">
-          <span>🌙</span>
-          <h3 class="text-sm font-bold text-app-text">إغلاق اليوم ومراجعة الإنجاز</h3>
-        </div>
-        <button onclick="closeShutdownModal()" class="text-app-muted hover:text-app-text text-sm">✕</button>
-      </div>
-      <div id="shutdownSummaryContent" class="space-y-3">
-        <!-- Rendered dynamically -->
-      </div>
-      <div class="flex justify-end gap-2 pt-3 border-t border-surface-border">
-        <button onclick="closeShutdownModal()" class="px-3.5 py-1.5 rounded-lg border border-surface-border text-xs text-app-muted hover:text-app-text">إلغاء</button>
-        <button onclick="finishShutdown()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-bold shadow-sm">إتمام إغلاق اليوم وتدوير المهام ✓</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal 3: Task Detail & Subtasks Modal -->
-  <div class="modal-backdrop" id="taskDetailModal" onclick="if(event.target===this) closeTaskDetailModal()">
-    <div class="bg-surface border border-surface-border rounded-2xl w-full max-w-lg p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-surface-border">
-        <h3 class="text-sm font-bold text-app-text">تفاصيل المهمة والخطوات الفرعية</h3>
-        <button onclick="closeTaskDetailModal()" class="text-app-muted hover:text-app-text text-sm">✕</button>
-      </div>
-      <div class="space-y-3">
-        <input type="hidden" id="editTaskId">
-        <div>
-          <label class="text-xs text-app-muted block mb-1">عنوان المهمة:</label>
-          <input type="text" id="editTaskTitle" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs sm:text-sm text-app-text focus:outline-none focus:border-brand">
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="text-xs text-app-muted block mb-1">الأفق الزمني:</label>
-            <select id="editTaskHorizon" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs text-app-text focus:outline-none focus:border-brand">
-              <option value="daily">يومي</option>
-              <option value="weekly">أسبوعي</option>
-              <option value="monthly">شهري</option>
-              <option value="yearly">سنوي</option>
-            </select>
+  <!-- Modal 1: Edit Task Details & Subtasks -->
+  <div id="editTaskModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-5 shadow-modal space-y-4 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center text-brand">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
           </div>
-          <div>
-            <label class="text-xs text-app-muted block mb-1">مصفوفة أيزنهاور:</label>
-            <select id="editTaskEisenhower" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs text-app-text focus:outline-none focus:border-brand">
-              <option value="do_first">🔴 عاجل ومهم</option>
-              <option value="schedule">🔵 مهم غير عاجل</option>
-              <option value="delegate">🟡 تفويض</option>
-              <option value="eliminate">⚪ حذف/تأجيل</option>
-            </select>
-          </div>
+          <h3 class="text-sm font-semibold text-white">تفاصيل المهمة</h3>
         </div>
-        <div>
-          <label class="text-xs text-app-muted block mb-1">التكرار التلقائي (Recurrence):</label>
-          <select id="editTaskRecurrence" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs text-brand font-semibold focus:outline-none focus:border-brand">
-            <option value="none">بدون تكرار</option>
-            <option value="daily">🔄 يومي</option>
-            <option value="every_2_days">🔄 كل يومين</option>
-            <option value="weekdays">🔄 أيام الدوام (أحد-خميس)</option>
-            <option value="weekly">🔄 أسبوعي</option>
-            <option value="biweekly">🔄 كل أسبوعين</option>
-            <option value="monthly">🔄 شهري</option>
+        <button onclick="closeTaskDetailModal()" class="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 text-xs">✕</button>
+      </div>
+
+      <input type="hidden" id="editTaskId">
+
+      <!-- Title Input -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-zinc-300">عنوان المهمة</label>
+        <input type="text" id="editTaskTitle" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand">
+      </div>
+
+      <!-- Controls Grid -->
+      <div class="grid grid-cols-2 gap-3">
+        <!-- Horizon -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">الأفق الزمني</label>
+          <select id="editTaskHorizon" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+            <option value="daily">اليوم (Daily)</option>
+            <option value="weekly">أسبوعي</option>
+            <option value="monthly">شهري</option>
+            <option value="yearly">سنوي</option>
           </select>
         </div>
-        <div class="space-y-2 pt-2 border-t border-surface-border">
-          <label class="text-xs font-bold text-app-text block">المهام الفرعية (Subtasks):</label>
-          <div id="modalSubtasksList" class="space-y-1.5 max-h-40 overflow-y-auto"></div>
-          <div class="flex gap-2">
-            <input type="text" id="modalNewSubtaskInput" placeholder="+ خطوة فرعية جديدة..." class="flex-1 bg-surface-subtle border border-surface-border rounded-xl px-3 py-1.5 text-xs text-app-text focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addSubtaskInModal()">
-            <button onclick="addSubtaskInModal()" class="bg-surface-subtle hover:bg-surface-hover border border-surface-border text-xs px-3 py-1.5 rounded-xl font-bold">إضافة</button>
-          </div>
+
+        <!-- Eisenhower Priority -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">أولوية أيزنهاور</label>
+          <select id="editTaskEisenhower" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+            <option value="do_first">عاجل ومهم (Do First)</option>
+            <option value="schedule">مهم غير عاجل (Schedule)</option>
+            <option value="delegate">عاجل غير مهم (Delegate)</option>
+            <option value="eliminate">تأجيل وفرز (Backlog)</option>
+          </select>
+        </div>
+
+        <!-- Recurrence -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">نمط التكرار</label>
+          <select id="editTaskRecurrence" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-brand font-medium focus:outline-none focus:border-brand">
+            <option value="none">بدون تكرار</option>
+            <option value="daily">تكرار يومي</option>
+            <option value="every_2_days">كل يومين</option>
+            <option value="weekdays">أيام العمل (أحد-خميس)</option>
+            <option value="weekly">تكرار أسبوعي</option>
+            <option value="biweekly">كل أسبوعين</option>
+            <option value="monthly">تكرار شهري</option>
+            <option value="custom_days">تكرار مخصص (أيام)</option>
+          </select>
+        </div>
+
+        <!-- Due Date -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-medium text-zinc-300">تاريخ الاستحقاق</label>
+          <input type="date" id="editTaskDueDate" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
         </div>
       </div>
-      <div class="flex justify-end gap-2 pt-3 border-t border-surface-border">
-        <button onclick="closeTaskDetailModal()" class="px-3.5 py-1.5 rounded-lg border border-surface-border text-xs text-app-muted hover:text-app-text">إلغاء</button>
-        <button onclick="saveTaskDetails()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-bold shadow-sm">حفظ التغييرات ✓</button>
+
+      <!-- Custom Days Group -->
+      <div id="editTaskCustomDaysGroup" style="display:none;" class="space-y-1.5">
+        <label class="text-xs font-medium text-zinc-300">التكرار كل (عدد الأيام):</label>
+        <input type="number" id="editTaskCustomDays" min="1" max="365" value="1" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+      </div>
+
+      <!-- Subtasks Checklist -->
+      <div class="space-y-2 pt-1 border-t border-zinc-800">
+        <div class="flex items-center justify-between">
+          <label class="text-xs font-medium text-zinc-300">المهام الفرعية (Subtasks)</label>
+          <span class="text-[11px] text-zinc-500" id="modalSubtaskCount">0</span>
+        </div>
+
+        <div id="modalSubtasksList" class="space-y-1.5 max-h-36 overflow-y-auto"></div>
+
+        <div class="flex gap-2 pt-1">
+          <input type="text" id="newSubtaskInput" placeholder="أضف خطوة فرعية..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addSubtaskInModal()">
+          <button onclick="addSubtaskInModal()" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-medium">إضافة</button>
+        </div>
+      </div>
+
+      <!-- Notes / Details -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-zinc-300">ملاحظات وروابط</label>
+        <textarea id="editTaskNotes" rows="2" placeholder="أي تفاصيل إضافية..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-brand"></textarea>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="flex items-center justify-between pt-3 border-t border-zinc-800">
+        <button onclick="deleteTask(document.getElementById('editTaskId').value); closeTaskDetailModal();" class="text-xs text-rose-400 hover:underline">حذف المهمة</button>
+        <div class="flex items-center gap-2">
+          <button onclick="closeTaskDetailModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 hover:bg-zinc-800 text-zinc-300 text-xs font-medium">إلغاء</button>
+          <button onclick="saveTaskDetails()" class="px-4 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-medium">حفظ التغييرات</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 2: Sunsama Morning Planning Ritual -->
+  <div id="morningModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-5 shadow-modal space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center text-amber-400">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-white">طقس الصباح والتركيز (Sunsama)</h3>
+            <p class="text-[11px] text-zinc-400">اختر أولويات اليوم الأساسية (3 إلى 5 مهام كحد أقصى)</p>
+          </div>
+        </div>
+        <button onclick="closeMorningModal()" class="p-1 rounded-lg text-zinc-400 hover:text-white">✕</button>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex gap-2">
+          <input type="text" id="quickMorningTaskInput" placeholder="أضف مهمة جديدة للصباح مباشرة..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addQuickMorningTask()">
+          <button onclick="addQuickMorningTask()" class="px-3 py-1.5 bg-brand hover:bg-brand-hover text-white rounded-lg text-xs font-medium">إضافة</button>
+        </div>
+        <div id="morningTasksSelectionList" class="space-y-2 max-h-60 overflow-y-auto pt-2"></div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-zinc-800">
+        <button onclick="closeMorningModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 text-xs font-medium">إلغاء</button>
+        <button onclick="saveMorningPriorities()" class="px-4 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-medium">تأكيد أولويات اليوم</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Sunsama Evening Shutdown Ritual -->
+  <div id="shutdownModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-5 shadow-modal space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center text-indigo-400">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-white">طقس الإغلاق المسائي (Evening Shutdown)</h3>
+            <p class="text-[11px] text-zinc-400">مراجعة إنجازات اليوم والترحيل المنظم للغد</p>
+          </div>
+        </div>
+        <button onclick="closeShutdownModal()" class="p-1 rounded-lg text-zinc-400 hover:text-white">✕</button>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <h4 class="text-xs font-semibold text-emerald-400 mb-1.5">✓ تم إنجازه اليوم:</h4>
+          <div id="shutdownCompletedTasksList" class="space-y-1.5 max-h-36 overflow-y-auto bg-zinc-950 p-2.5 rounded-lg border border-zinc-800"></div>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold text-amber-400 mb-1.5">⏳ مهام غير مكتملة (سيتم ترحيلها للغد):</h4>
+          <div id="shutdownPendingTasksList" class="space-y-1.5 max-h-36 overflow-y-auto bg-zinc-950 p-2.5 rounded-lg border border-zinc-800"></div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-zinc-800">
+        <button onclick="closeShutdownModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 text-xs font-medium">إغلاق</button>
+        <button onclick="finishShutdown()" class="px-4 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-medium">إنهاء ومغادرة العمل</button>
       </div>
     </div>
   </div>
 
   <!-- Modal 4: Mobile Add Task Modal -->
-  <div class="modal-backdrop" id="addTaskModal" onclick="if(event.target===this) closeAddTaskModal()">
-    <div class="bg-surface border border-surface-border rounded-2xl w-full max-w-sm p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-surface-border">
-        <h3 class="text-sm font-bold text-app-text">إضافة مهمة جديدة</h3>
-        <button onclick="closeAddTaskModal()" class="text-app-muted hover:text-app-text text-sm">✕</button>
+  <div id="addTaskModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-sm p-5 shadow-modal space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <h3 class="text-sm font-semibold text-white">إضافة مهمة جديدة</h3>
+        <button onclick="closeAddTaskModal()" class="text-zinc-400 hover:text-white text-xs">✕</button>
       </div>
-      <div class="space-y-3">
-        <input type="text" id="mTaskTitle" placeholder="عنوان المهمة..." class="w-full bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs sm:text-sm text-app-text focus:outline-none focus:border-brand">
-        <div class="grid grid-cols-2 gap-2">
-          <select id="mTaskHorizon" class="bg-surface-subtle border border-surface-border text-xs rounded-xl px-2.5 py-2 text-app-text">
-            <option value="daily">يومي</option>
-            <option value="weekly">أسبوعي</option>
-            <option value="monthly">شهري</option>
-            <option value="yearly">سنوي</option>
-          </select>
-          <select id="mTaskEisenhower" class="bg-surface-subtle border border-surface-border text-xs rounded-xl px-2.5 py-2 text-app-text">
-            <option value="do_first">🔴 عاجل ومهم</option>
-            <option value="schedule" selected>🔵 مهم غير عاجل</option>
-            <option value="delegate">🟡 تفويض</option>
-            <option value="eliminate">⚪ حذف/تأجيل</option>
-          </select>
-        </div>
-        <select id="mTaskRecurrence" class="w-full bg-surface-subtle border border-surface-border text-xs text-brand font-semibold rounded-xl px-2.5 py-2">
+      <input type="text" id="mTaskTitle" placeholder="عنوان المهمة..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand">
+      
+      <div class="grid grid-cols-2 gap-2">
+        <select id="mTaskHorizon" class="bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-2.5 py-2 text-white">
+          <option value="daily">اليوم</option>
+          <option value="weekly">أسبوعي</option>
+          <option value="monthly">شهري</option>
+        </select>
+        <select id="mTaskRecurrence" class="bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-2.5 py-2 text-brand">
           <option value="none">بدون تكرار</option>
-          <option value="daily">🔄 يومي</option>
-          <option value="every_2_days">🔄 كل يومين</option>
-          <option value="weekdays">🔄 أيام الدوام (أحد-خميس)</option>
-          <option value="weekly">🔄 أسبوعي</option>
-          <option value="biweekly">🔄 كل أسبوعين</option>
-          <option value="monthly">🔄 شهري</option>
+          <option value="daily">يومي</option>
+          <option value="weekly">أسبوعي</option>
         </select>
       </div>
-      <div class="flex justify-end gap-2 pt-3 border-t border-surface-border">
-        <button onclick="closeAddTaskModal()" class="px-3.5 py-1.5 rounded-lg border border-surface-border text-xs text-app-muted">إلغاء</button>
-        <button onclick="handleAddTaskMobile()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-bold">إضافة المهمة ✓</button>
+
+      <select id="mTaskEisenhower" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-2.5 py-2 text-white">
+        <option value="do_first">عاجل ومهم</option>
+        <option value="schedule" selected>مهم غير عاجل</option>
+        <option value="delegate">تفويض</option>
+        <option value="eliminate">تأجيل</option>
+      </select>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeAddTaskModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 text-xs">إلغاء</button>
+        <button onclick="handleAddTaskMobile()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-medium">إضافة</button>
       </div>
     </div>
   </div>
 
   <!-- Modal 5: Nutrition Goals & Gemini API Key Settings -->
-  <div class="modal-backdrop" id="nutritionSettingsModal" onclick="if(event.target===this) closeNutritionSettingsModal()">
-    <div class="bg-surface border border-surface-border rounded-2xl w-full max-w-md p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-surface-border">
-        <h3 class="text-sm font-bold text-app-text flex items-center gap-2">
-          <span>🥗</span>
-          <span>أهداف التغذية ومفتاح Gemini API</span>
-        </h3>
-        <button onclick="closeNutritionSettingsModal()" class="text-app-muted hover:text-app-text text-sm">✕</button>
+  <div id="nutritionSettingsModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-5 shadow-modal space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <h3 class="text-sm font-semibold text-white">إعدادات أهداف التغذية وGemini AI</h3>
+        <button onclick="closeNutritionSettingsModal()" class="text-zinc-400 hover:text-white text-xs">✕</button>
       </div>
-      <div class="space-y-3">
-        <div>
-          <label class="text-xs text-app-muted block mb-1">السعرات المستهدفة يومياً (Calories):</label>
-          <input type="number" id="settingTargetCalories" value="2200" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs text-app-text focus:outline-none focus:border-brand">
+      
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-zinc-300">مفتاح Gemini API Key (اختياري، يوجد مفتاح افتراضي مدمج)</label>
+        <input type="password" id="settingGeminiApiKey" placeholder="AIzaSy..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <div class="space-y-1">
+          <label class="text-xs text-zinc-400">هدف السعرات (kcal)</label>
+          <input type="number" id="settingTargetCalories" value="2200" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white">
         </div>
-        <div class="grid grid-cols-3 gap-2">
-          <div>
-            <label class="text-[11px] text-app-muted block mb-1">بروتين (غ):</label>
-            <input type="number" id="settingTargetProtein" value="150" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-2.5 py-1.5 text-xs text-app-text focus:outline-none focus:border-brand">
-          </div>
-          <div>
-            <label class="text-[11px] text-app-muted block mb-1">كارب (غ):</label>
-            <input type="number" id="settingTargetCarbs" value="220" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-2.5 py-1.5 text-xs text-app-text focus:outline-none focus:border-brand">
-          </div>
-          <div>
-            <label class="text-[11px] text-app-muted block mb-1">دهون (غ):</label>
-            <input type="number" id="settingTargetFats" value="65" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-2.5 py-1.5 text-xs text-app-text focus:outline-none focus:border-brand">
-          </div>
+        <div class="space-y-1">
+          <label class="text-xs text-zinc-400">هدف البروتين (g)</label>
+          <input type="number" id="settingTargetProtein" value="150" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white">
         </div>
-        <div class="pt-2 border-t border-surface-border">
-          <label class="text-xs font-semibold text-app-text block mb-1">مفتاح Google Gemini API:</label>
-          <input type="password" id="settingGeminiApiKey" placeholder="AQ... أو AIzaSy..." class="w-full bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs text-app-text focus:outline-none focus:border-brand font-mono">
-          <p class="text-[11px] text-app-muted mt-1 leading-relaxed">
-            المفتاح مفعّل ومضبوط آلياً مع <strong>Gemini 3.5 Flash</strong> لفهم الأكلات الشامية والماكروز. في حال عدم وجود اتصال يعمل المحرك المحلي فوراً بدون إنترنت.
-          </p>
+        <div class="space-y-1">
+          <label class="text-xs text-zinc-400">هدف الكارب (g)</label>
+          <input type="number" id="settingTargetCarbs" value="220" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white">
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs text-zinc-400">هدف الدهون (g)</label>
+          <input type="number" id="settingTargetFats" value="65" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white">
         </div>
       </div>
-      <div class="flex justify-end gap-2 pt-3 border-t border-surface-border">
-        <button onclick="closeNutritionSettingsModal()" class="px-3.5 py-1.5 rounded-lg border border-surface-border text-xs text-app-muted">إلغاء</button>
-        <button onclick="saveNutritionSettings()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-bold">حفظ الإعدادات ✓</button>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-zinc-800">
+        <button onclick="closeNutritionSettingsModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 text-xs">إلغاء</button>
+        <button onclick="saveNutritionSettings()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-medium">حفظ الإعدادات</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal 6: Backup & Restore Modal -->
-  <div class="modal-backdrop" id="backupModal" onclick="if(event.target===this) closeBackupModal()">
-    <div class="bg-surface border border-surface-border rounded-2xl w-full max-w-md p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-surface-border">
-        <h3 class="text-sm font-bold text-app-text">النسخ الاحتياطي والاستعادة</h3>
-        <button onclick="closeBackupModal()" class="text-app-muted hover:text-app-text text-sm">✕</button>
+  <!-- Modal 6: Cloud Sync Settings -->
+  <div id="cloudSyncModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-5 shadow-modal space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <h3 class="text-sm font-semibold text-white">إعدادات المزامنة السحابية</h3>
+        <button onclick="closeCloudSyncModal()" class="text-zinc-400 hover:text-white text-xs">✕</button>
       </div>
-      <p class="text-xs text-app-muted leading-relaxed">
-        بياناتك مخزنة محلياً بالكامل على متصفحك. يمكنك تنزيل نسخة احتياطية كاملة واستعادتها في أي وقت على أي جهاز آخر.
-      </p>
       <div class="space-y-2">
-        <button onclick="downloadBackupJSON()" class="w-full py-2.5 rounded-xl bg-brand/10 border border-brand/25 text-brand hover:bg-brand/20 text-xs font-bold transition-all flex items-center justify-center gap-2">
-          <span>💾</span>
-          <span>تنزيل نسخة احتياطية (Download JSON Backup)</span>
-        </button>
-        <div class="pt-2">
-          <label class="block text-xs font-semibold text-app-text mb-1">استعادة من ملف نسخة سابقة:</label>
-          <input type="file" id="backupFileInput" accept=".json" class="w-full text-xs text-app-muted file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-surface-subtle file:text-app-text hover:file:bg-surface-hover">
-        </div>
+        <label class="text-xs text-zinc-400">رابط الخادم (Server API URL)</label>
+        <input type="text" id="cloudSyncUrl" placeholder="https://api.yourdomain.com/taskhub" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white">
+        <label class="text-xs text-zinc-400 mt-2 block">رمز الأمان (Token)</label>
+        <input type="password" id="cloudSyncToken" placeholder="Bearer Token..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white">
       </div>
-      <div class="flex justify-end pt-3 border-t border-surface-border">
-        <button onclick="closeBackupModal()" class="px-4 py-1.5 rounded-lg border border-surface-border text-xs text-app-muted">إغلاق</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal 7: Cloud Sync Modal -->
-  <div class="modal-backdrop" id="cloudSyncModal" onclick="if(event.target===this) closeCloudSyncModal()">
-    <div class="bg-surface border border-surface-border rounded-2xl w-full max-w-md p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-surface-border">
-        <h3 class="text-sm font-bold text-app-text">المزامنة السحابية (Cloud Sync)</h3>
-        <button onclick="closeCloudSyncModal()" class="text-app-muted hover:text-app-text text-sm">✕</button>
-      </div>
-      <div class="space-y-3">
-        <div>
-          <label class="text-xs text-app-muted block mb-1">رابط الـ Webhook السحابي (Google Apps Script / n8n / Worker):</label>
-          <input type="url" id="cloudWebhookUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs text-app-text focus:outline-none focus:border-brand font-mono">
-        </div>
-        <div>
-          <label class="text-xs text-app-muted block mb-1">مفتاح الأمان السري (Secret Key):</label>
-          <input type="password" id="cloudSecretKey" class="w-full bg-surface-subtle border border-surface-border rounded-xl px-3 py-2 text-xs text-app-text focus:outline-none focus:border-brand font-mono">
-        </div>
-      </div>
-      <div class="flex justify-between items-center pt-3 border-t border-surface-border">
-        <button onclick="testCloudSync()" class="text-xs text-brand hover:underline font-bold">مزامنة يدوية الآن</button>
+      <div class="flex items-center justify-between pt-3 border-t border-zinc-800">
+        <button onclick="testCloudSync()" class="text-xs text-blue-400 hover:underline">اختبار الاتصال</button>
         <div class="flex gap-2">
-          <button onclick="closeCloudSyncModal()" class="px-3.5 py-1.5 rounded-lg border border-surface-border text-xs text-app-muted">إلغاء</button>
-          <button onclick="saveCloudConfig()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-bold">حفظ</button>
+          <button onclick="closeCloudSyncModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 text-xs">إلغاء</button>
+          <button onclick="saveCloudConfig()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-medium">حفظ التكوين</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal 8: Keyboard Shortcuts Modal -->
-  <div class="modal-backdrop" id="shortcutsModal" onclick="if(event.target===this) closeShortcutsModal()">
-    <div class="bg-surface border border-surface-border rounded-2xl w-full max-w-md p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-surface-border">
-        <h3 class="text-sm font-bold text-app-text">اختصارات لوحة المفاتيح السريعة (Keyboard Shortcuts)</h3>
-        <button onclick="closeShortcutsModal()" class="text-app-muted hover:text-app-text text-sm">✕</button>
+  <!-- Modal 7: Shortcuts Cheat Sheet -->
+  <div id="shortcutsModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-sm p-5 shadow-modal space-y-3">
+      <div class="flex items-center justify-between pb-2 border-b border-zinc-800">
+        <h3 class="text-sm font-semibold text-white">اختصارات لوحة المفاتيح</h3>
+        <button onclick="closeShortcutsModal()" class="text-zinc-400 hover:text-white text-xs">✕</button>
       </div>
-      <div class="space-y-2 text-xs">
-        <div class="flex items-center justify-between py-1.5 border-b border-surface-border/50">
-          <span class="text-app-muted">إضافة مهمة جديدة</span>
-          <kbd class="px-2 py-0.5 bg-surface-subtle rounded border border-surface-border font-mono font-bold text-app-text">N</kbd>
+      <div class="space-y-2 text-xs text-zinc-300">
+        <div class="flex justify-between items-center py-1 border-b border-zinc-800/60">
+          <span>التركيز على إدخال مهمة</span>
+          <kbd class="px-2 py-0.5 bg-zinc-800 rounded border border-zinc-700 font-mono text-[10px]">N</kbd>
         </div>
-        <div class="flex items-center justify-between py-1.5 border-b border-surface-border/50">
-          <span class="text-app-muted">البحث في المهام</span>
-          <kbd class="px-2 py-0.5 bg-surface-subtle rounded border border-surface-border font-mono font-bold text-app-text">/</kbd>
+        <div class="flex justify-between items-center py-1 border-b border-zinc-800/60">
+          <span>البحث السريع</span>
+          <kbd class="px-2 py-0.5 bg-zinc-800 rounded border border-zinc-700 font-mono text-[10px]">/</kbd>
         </div>
-        <div class="flex items-center justify-between py-1.5 border-b border-surface-border/50">
-          <span class="text-app-muted">تشغيل/إيقاف مؤقت بومودورو</span>
-          <kbd class="px-2 py-0.5 bg-surface-subtle rounded border border-surface-border font-mono font-bold text-app-text">P</kbd>
+        <div class="flex justify-between items-center py-1 border-b border-zinc-800/60">
+          <span>تشغيل / إيقاف البومودورو</span>
+          <kbd class="px-2 py-0.5 bg-zinc-800 rounded border border-zinc-700 font-mono text-[10px]">P</kbd>
         </div>
-        <div class="flex items-center justify-between py-1.5 border-b border-surface-border/50">
-          <span class="text-app-muted">عرض اليوم</span>
-          <kbd class="px-2 py-0.5 bg-surface-subtle rounded border border-surface-border font-mono font-bold text-app-text">1</kbd>
+        <div class="flex justify-between items-center py-1 border-b border-zinc-800/60">
+          <span>التنقل بين التبويبات</span>
+          <kbd class="px-2 py-0.5 bg-zinc-800 rounded border border-zinc-700 font-mono text-[10px]">1 - 4</kbd>
         </div>
-        <div class="flex items-center justify-between py-1.5 border-b border-surface-border/50">
-          <span class="text-app-muted">عرض المهام والمصفوفة</span>
-          <kbd class="px-2 py-0.5 bg-surface-subtle rounded border border-surface-border font-mono font-bold text-app-text">2</kbd>
+        <div class="flex justify-between items-center py-1">
+          <span>إغلاق أي نافذة منبثقة</span>
+          <kbd class="px-2 py-0.5 bg-zinc-800 rounded border border-zinc-700 font-mono text-[10px]">Esc</kbd>
         </div>
-        <div class="flex items-center justify-between py-1.5 border-b border-surface-border/50">
-          <span class="text-app-muted">عرض التغذية والسعرات</span>
-          <kbd class="px-2 py-0.5 bg-surface-subtle rounded border border-surface-border font-mono font-bold text-app-text">3</kbd>
-        </div>
-        <div class="flex items-center justify-between py-1.5 border-b border-surface-border/50">
-          <span class="text-app-muted">عرض المراجعات والطقوس</span>
-          <kbd class="px-2 py-0.5 bg-surface-subtle rounded border border-surface-border font-mono font-bold text-app-text">4</kbd>
-        </div>
-        <div class="flex items-center justify-between py-1.5">
-          <span class="text-app-muted">إغلاق أي نافذة منبثقة</span>
-          <kbd class="px-2 py-0.5 bg-surface-subtle rounded border border-surface-border font-mono font-bold text-app-text">Esc</kbd>
-        </div>
-      </div>
-      <div class="flex justify-end pt-3 border-t border-surface-border">
-        <button onclick="closeShortcutsModal()" class="px-4 py-1.5 rounded-lg border border-surface-border text-xs text-app-muted">إغلاق</button>
       </div>
     </div>
   </div>
 
-  <!-- SCRIPT ENGINE (Core State, NLP, Gemini, Recurrence, PWA) -->
-  <script>
+<script>
+
     /* =========================================================
        AL-KABBANI TASKHUB LIFE OS - APPLICATION CORE
        Untitled UI Component Architecture + Gemini 3.5 Flash Engine
@@ -1144,7 +1206,7 @@
     let currentAIMealPreview = null;
 
     // View Navigation (Untitled UI Tabs)
-    function switchView(viewName) {
+        function switchView(viewName) {
       currentView = viewName;
       document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
       const activePanel = document.getElementById('view-' + viewName);
@@ -1152,39 +1214,39 @@
 
       // Update Desktop tabs
       document.querySelectorAll('.view-tab-btn').forEach(btn => {
-        btn.classList.remove('text-brand', 'bg-surface', 'shadow-sm');
-        btn.classList.add('text-app-muted');
+        btn.classList.remove('text-white', 'bg-zinc-800', 'shadow-sm', 'border-zinc-700/60');
+        btn.classList.add('text-zinc-400');
       });
       const activeTabBtn = document.getElementById('tabBtn-' + viewName);
       if (activeTabBtn) {
-        activeTabBtn.classList.remove('text-app-muted');
-        activeTabBtn.classList.add('text-brand', 'bg-surface', 'shadow-sm');
+        activeTabBtn.classList.remove('text-zinc-400');
+        activeTabBtn.classList.add('text-white', 'bg-zinc-800', 'shadow-sm', 'border-zinc-700/60');
       }
 
       // Update Mobile Nav
       document.querySelectorAll('.m-nav-btn').forEach(btn => {
         btn.classList.remove('text-brand');
-        btn.classList.add('text-app-muted');
+        btn.classList.add('text-zinc-500');
       });
       const activeMNav = document.getElementById('mNav-' + viewName);
       if (activeMNav) {
-        activeMNav.classList.remove('text-app-muted');
+        activeMNav.classList.remove('text-zinc-500');
         activeMNav.classList.add('text-brand');
       }
 
       renderAll();
     }
 
-    function setHorizon(horizon) {
+        function setHorizon(horizon) {
       currentHorizon = horizon;
       document.querySelectorAll('.horizon-pill').forEach(btn => {
-        btn.classList.remove('text-brand', 'bg-surface', 'shadow-sm');
-        btn.classList.add('text-app-muted');
+        btn.classList.remove('text-white', 'bg-zinc-800', 'shadow-sm', 'border-zinc-700/60');
+        btn.classList.add('text-zinc-400');
       });
       const activeBtn = document.querySelector(`[data-hbtn="${horizon}"]`);
       if (activeBtn) {
-        activeBtn.classList.remove('text-app-muted');
-        activeBtn.classList.add('text-brand', 'bg-surface', 'shadow-sm');
+        activeBtn.classList.remove('text-zinc-400');
+        activeBtn.classList.add('text-white', 'bg-zinc-800', 'shadow-sm', 'border-zinc-700/60');
       }
       renderTasksView();
     }
@@ -2370,43 +2432,45 @@
       const recLabel = formatRecurrenceLabel(t.recurrence, t.recurrenceCustomDays);
 
       return `
-        <div class="group flex items-center justify-between p-3 bg-surface hover:bg-surface-hover border border-surface-border rounded-2xl shadow-card transition-all gap-3 ${isDone ? 'opacity-60' : ''}">
-          
+        <div class="group flex items-center justify-between p-3 bg-zinc-900/70 hover:bg-zinc-850/90 border border-zinc-800/80 rounded-xl transition-all gap-3 ${isDone ? 'opacity-50' : ''}">
           <div class="flex items-center gap-3 flex-1 min-w-0">
-            <!-- Custom Checkbox -->
-            <button onclick="toggleTaskStatus('${t.id}')" class="w-5 h-5 rounded-lg border ${isDone ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-surface-border bg-surface-subtle hover:border-brand'} flex items-center justify-center flex-shrink-0 transition-colors">
-              ${isDone ? '✓' : ''}
+            <!-- Custom Sleek Checkbox -->
+            <button onclick="toggleTaskStatus('${t.id}')" class="w-4.5 h-4.5 rounded-md border ${isDone ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-zinc-700 bg-zinc-950 hover:border-brand'} flex items-center justify-center flex-shrink-0 transition-colors">
+              ${isDone ? '<svg class="w-3 h-3 stroke-[2.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
             </button>
 
             <!-- Title & Metadata -->
             <div class="flex-1 min-w-0 cursor-pointer" onclick="openTaskDetails('${t.id}')">
-              <div class="${isDone ? 'line-through text-app-muted' : 'text-app-text font-semibold'} text-xs sm:text-sm truncate">
+              <div class="${isDone ? 'line-through text-zinc-500' : 'text-zinc-100 font-medium'} text-xs sm:text-sm truncate">
                 ${escapeHtml(t.title)}
               </div>
               <div class="flex items-center gap-1.5 flex-wrap mt-1">
-                ${recLabel ? `<span class="meta-pill bg-brand/10 text-brand border border-brand/20">🔄 ${recLabel}</span>` : ''}
+                ${recLabel ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-brand/10 text-brand border border-brand/20"><svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>${recLabel}</span>` : ''}
                 ${getEisenhowerBadge(t.eisenhower)}
-                ${hasSubtasks ? `<span class="meta-pill bg-surface-subtle border border-surface-border text-app-muted">☑ ${doneSubtasks}/${t.subtasks.length}</span>` : ''}
+                ${hasSubtasks ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700">â˜‘ ${doneSubtasks}/${t.subtasks.length}</span>` : ''}
               </div>
             </div>
           </div>
 
-          <!-- Quick Actions -->
+          <!-- Quick Actions on Hover -->
           <div class="flex items-center gap-1 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onclick="openTaskDetails('${t.id}')" class="p-1.5 rounded-lg text-app-muted hover:text-app-text hover:bg-surface-subtle text-xs" title="تعديل">✏️</button>
-            <button onclick="deleteTask('${t.id}')" class="p-1.5 rounded-lg text-app-muted hover:text-rose-400 hover:bg-surface-subtle text-xs" title="حذف">🗑️</button>
+            <button onclick="openTaskDetails('${t.id}')" class="p-1 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors" title="ØªØ¹Ø¯ÙŠÙ„">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            </button>
+            <button onclick="deleteTask('${t.id}')" class="p-1 rounded-md text-zinc-400 hover:text-rose-400 hover:bg-zinc-800 transition-colors" title="Ø­Ø°Ù">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
           </div>
-
         </div>
       `;
     }
 
     function getEisenhowerBadge(e) {
       switch (e) {
-        case 'do_first': return `<span class="meta-pill bg-rose-500/10 text-rose-400 border border-rose-500/20">عاجل ومهم</span>`;
-        case 'schedule': return `<span class="meta-pill bg-blue-500/10 text-blue-400 border border-blue-500/20">مهم</span>`;
-        case 'delegate': return `<span class="meta-pill bg-amber-500/10 text-amber-400 border border-amber-500/20">تفويض</span>`;
-        case 'eliminate': return `<span class="meta-pill bg-surface-subtle text-app-muted border border-surface-border">تأجيل</span>`;
+        case 'do_first': return `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Ø¹Ø§Ø¬Ù„ ÙˆÙ…Ù‡Ù…</span>`;
+        case 'schedule': return `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>Ù…Ù‡Ù… ØºÙŠØ± Ø¹Ø§Ø¬Ù„</span>`;
+        case 'delegate': return `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>ØªÙÙˆÙŠØ¶</span>`;
+        case 'eliminate': return `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-zinc-800 text-zinc-400 border border-zinc-700"><span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>ØªØ£Ø¬ÙŠÙ„</span>`;
         default: return '';
       }
     }
@@ -2793,6 +2857,7 @@
       updatePomoUI(false);
       renderAll();
     });
-  </script>
+  
+</script>
 </body>
 </html>
