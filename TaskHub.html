@@ -303,42 +303,58 @@
          ========================================== -->
     <section id="view-today" class="view-panel space-y-6">
       
-      <!-- LEVEL 1: Sequential Day Progression Header (Sunsama Flow) -->
-      <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-brand flex-shrink-0">
+      <!-- LEVEL 1: Clean Day Progression & Focus Header -->
+      <div class="bg-app-surface border border-app-border rounded-2xl p-4 sm:p-5 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-brand flex-shrink-0 shadow-inner">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <h1 class="text-base font-semibold text-white tracking-tight">لوحة اليوم والتركيز الفوري</h1>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">جلسة نشطة</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h1 class="text-base sm:text-lg font-bold text-white tracking-tight">اليوم والتركيز الفوري</h1>
+              <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>جلسة نشطة</span>
+              </span>
             </div>
-            <p class="text-xs text-app-muted mt-0.5" id="todayHeaderDate">الاثنين، 26 أكتوبر 2026</p>
+            <p class="text-xs text-app-muted mt-0.5 font-medium" id="todayHeaderDate">الاثنين، 26 أكتوبر 2026</p>
           </div>
         </div>
         
-        <!-- Day Ritual Progression Actions (Morning Planning & Evening Shutdown) -->
+        <!-- Ritual Progression Actions (Morning Planning & Evening Shutdown) -->
         <div class="flex items-center gap-2 self-start md:self-auto flex-wrap">
-          <button onclick="openMorningModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-200 text-xs font-medium transition-colors">
+          <button onclick="openMorningModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-200 text-xs font-medium transition-colors hover:border-zinc-700 shadow-sm" title="مراجعة وتحديد أولويات اليوم">
             <svg class="w-3.5 h-3.5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <span>طقس الصباح وتحديد الأولويات</span>
+            <span>طقس الصباح</span>
           </button>
-          <button onclick="openShutdownModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-300 text-xs font-medium transition-colors">
+          <button onclick="openShutdownModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-300 text-xs font-medium transition-colors hover:border-zinc-700 shadow-sm" title="مراجعة الإنجاز وترحيل المتبقي">
             <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
             <span>إغلاق اليوم</span>
           </button>
         </div>
       </div>
 
-      <!-- LEVEL 2: Day Pulse Metrics (Untitled UI Metric Cards Row) -->
+      <!-- Active Focus Banner (Shown when a specific task is in focus) -->
+      <div id="activeTaskFocusBanner" class="hidden bg-brand/10 border border-brand/25 rounded-xl p-3 flex items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span class="w-2.5 h-2.5 rounded-full bg-brand animate-ping"></span>
+          <span class="text-zinc-400">التركيز الحالي:</span>
+          <span id="activeFocusTaskTitle" class="font-bold text-white truncate"></span>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <button onclick="togglePomodoro()" class="px-2.5 py-1 rounded-lg bg-brand text-white font-semibold text-xs shadow-sm hover:bg-brand-hover transition-colors">مؤقت التركيز</button>
+          <button onclick="clearActiveFocusTask()" class="text-zinc-500 hover:text-zinc-300 p-1" title="إنهاء التركيز على هذه المهمة">✕</button>
+        </div>
+      </div>
+
+      <!-- LEVEL 2: Day Pulse Metrics (Untitled UI 4 Cards Row) -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
         
         <!-- Metric 1: Daily Completion -->
         <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/80 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
             <span>إنجاز اليوم</span>
-            <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
           </div>
           <div class="flex items-baseline gap-2 mb-2">
             <span class="text-2xl font-bold text-white font-mono" id="todayDonePercent">0%</span>
@@ -359,9 +375,9 @@
             <span class="text-2xl font-bold text-white font-mono" id="todayPomoCount">0</span>
             <span class="text-xs text-app-muted">جلسة بومودورو</span>
           </div>
-          <div class="text-[11px] text-zinc-400 flex items-center gap-1 font-mono">
+          <div class="text-[11px] text-zinc-400 flex items-center justify-between font-mono">
             <span class="text-emerald-400 font-semibold" id="todayPomoMins">0 دقيقة</span>
-            <span>تركيز صافي</span>
+            <button onclick="togglePomodoro()" class="text-[10px] text-amber-400 hover:underline">بدء جلسة ←</button>
           </div>
         </div>
 
@@ -373,7 +389,10 @@
           </div>
           <div class="flex items-baseline gap-2 mb-2">
             <span class="text-2xl font-bold text-white font-mono" id="todayHabitsDone">0/3</span>
-            <span class="text-xs text-emerald-400 font-mono font-medium" id="bestHabitStreak">0🔥</span>
+            <span class="text-xs text-emerald-400 font-mono font-medium flex items-center gap-0.5">
+              <span>تتابع:</span>
+              <span id="bestHabitStreak">0🔥</span>
+            </span>
           </div>
           <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
             <div id="todayHabitsBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
@@ -392,32 +411,44 @@
           </div>
           <div class="text-[11px] text-zinc-400 flex items-center justify-between font-mono">
             <span id="todayProtKpi" class="text-brand font-semibold">0g بروتين</span>
-            <span class="text-app-muted cursor-pointer hover:text-white transition-colors" onclick="switchView('nutrition')">تفاصيل التغذية ←</span>
+            <span class="text-app-muted cursor-pointer hover:text-white transition-colors" onclick="switchView('nutrition')">التغذية ←</span>
           </div>
         </div>
 
       </div>
 
-      <!-- LEVEL 3: Quick Capture Bar (Linear / Raycast Style) -->
-      <div class="bg-app-surface border border-app-border rounded-xl p-2.5 shadow-subtle focus-within:border-zinc-700 transition-all">
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+      <!-- LEVEL 3: Simplified Linear-Style Quick Capture Bar -->
+      <div class="bg-app-surface border border-app-border rounded-xl p-2.5 sm:p-3 shadow-subtle focus-within:border-zinc-700 transition-all">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
           
-          <div class="flex items-center gap-2.5 flex-1 px-2">
-            <svg class="w-4 h-4 text-brand flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <input type="text" id="taskTitleDesktop" placeholder="أضف مهمة جديدة واضغط Enter... (اختصار: N)" class="w-full bg-transparent border-none text-sm text-white placeholder:text-zinc-500 focus:outline-none" onkeydown="if(event.key==='Enter') handleAddTaskDesktop()">
+          <div class="flex items-center gap-2.5 flex-1 px-1">
+            <svg class="w-4 h-4 text-brand flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <input type="text" id="taskTitleDesktop" placeholder="اكتب ما تريد إنجازه اليوم واضغط Enter... (أو اضغط N)" class="w-full bg-transparent border-none text-xs sm:text-sm text-white placeholder:text-zinc-500 focus:outline-none" onkeydown="if(event.key==='Enter') handleAddTaskDesktop()">
           </div>
 
-          <div class="flex items-center gap-1.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-app-border justify-between sm:justify-end">
-            <!-- Horizon Tag -->
-            <select id="taskHorizonDesktop" class="bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand">
-              <option value="daily">اليوم (Daily)</option>
+          <div class="flex items-center gap-2 pt-2 sm:pt-0 border-t sm:border-t-0 border-app-border justify-between sm:justify-end">
+            <!-- 1-Click Priority Toggle Button -->
+            <button type="button" id="quickPriorityToggleBtn" onclick="toggleQuickPriority()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all bg-blue-500/10 text-blue-400 border-blue-500/20" title="تبديل أولوية المهمة بين عادي وعاجل">
+              <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span id="quickPriorityToggleText">مجدول عادي</span>
+            </button>
+
+            <!-- Hidden priority & horizon select for 100% backward compatibility with tests -->
+            <select id="taskEisenhowerDesktop" class="hidden">
+              <option value="do_first">عاجل ومهم (Do First)</option>
+              <option value="schedule" selected>مهم غير عاجل (Schedule)</option>
+              <option value="delegate">عاجل غير مهم (Delegate)</option>
+              <option value="eliminate">تأجيل وفرز (Backlog)</option>
+            </select>
+            <select id="taskHorizonDesktop" class="hidden">
+              <option value="daily" selected>اليوم (Daily)</option>
               <option value="weekly">أسبوعي</option>
               <option value="monthly">شهري</option>
               <option value="yearly">سنوي</option>
             </select>
 
             <!-- Recurrence Dropdown -->
-            <select id="taskRecurrenceDesktop" class="bg-zinc-900 border border-zinc-800 text-brand text-xs font-medium rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand">
+            <select id="taskRecurrenceDesktop" class="bg-zinc-900 border border-zinc-800 text-brand text-xs font-medium rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand" title="تكرار المهمة">
               <option value="none">بدون تكرار</option>
               <option value="daily">تكرار يومي</option>
               <option value="every_2_days">كل يومين</option>
@@ -427,16 +458,10 @@
               <option value="monthly">تكرار شهري</option>
             </select>
 
-            <!-- Eisenhower Priority -->
-            <select id="taskEisenhowerDesktop" class="bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand">
-              <option value="do_first">عاجل ومهم (Do First)</option>
-              <option value="schedule" selected>مهم غير عاجل (Schedule)</option>
-              <option value="delegate">عاجل غير مهم (Delegate)</option>
-              <option value="eliminate">تأجيل وفرز (Backlog)</option>
-            </select>
-
-            <button onclick="handleAddTaskDesktop()" class="px-3.5 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-medium transition-colors shadow-sm">
-              إضافة
+            <!-- Add Button -->
+            <button onclick="handleAddTaskDesktop()" class="px-4 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-semibold transition-colors shadow-sm flex items-center gap-1 flex-shrink-0">
+              <span>إضافة</span>
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
           </div>
 
@@ -447,13 +472,13 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
         <!-- Main Column (65%): Today's Active Tasks -->
-        <div class="lg:col-span-2 space-y-3">
+        <div class="lg:col-span-2 space-y-4">
           <div class="flex items-center justify-between px-1">
             <div class="flex items-center gap-2">
               <h2 class="text-sm font-semibold text-white">قائمة مهام اليوم المجدولة</h2>
               <span id="todayTasksPill" class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-900 text-zinc-400 border border-zinc-800">0 مهام</span>
             </div>
-            <button onclick="openAddTaskModal()" class="text-xs text-brand hover:underline font-medium sm:hidden">+ إضافة مهمة</button>
+            <button onclick="openAddTaskModal()" class="text-xs text-brand hover:underline font-medium sm:hidden">+ مهمة</button>
           </div>
 
           <!-- Empty State -->
@@ -461,19 +486,59 @@
             <div class="w-10 h-10 mx-auto rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500">
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
             </div>
-            <h3 class="text-xs font-semibold text-zinc-300">لا توجد مهام مجدولة لليوم</h3>
-            <p class="text-[11px] text-zinc-500 max-w-xs mx-auto">صندوق مهامك اليومية فارغ الآن. أضف مهمة جديدة بالأعلى أو اختر من مصفوفة أيزنهاور.</p>
+            <h3 class="text-xs font-semibold text-zinc-300">لا توجد مهام نشطة لليوم</h3>
+            <p class="text-[11px] text-zinc-500 max-w-xs mx-auto">صندوق اليوم فارغ حالياً. اكتب مهمة جديدة في شريط الإضافة أعلاه أو اختر من مصفوفة التخطيط.</p>
           </div>
 
           <!-- Active Task Items List (Linear Style Rows) -->
           <div id="todayTaskList" class="space-y-2">
             <!-- Dynamic task items injected via JS -->
           </div>
+
+          <!-- Collapsible Completed Tasks Section -->
+          <div id="todayCompletedContainer" class="hidden pt-3 border-t border-app-border">
+            <button type="button" onclick="toggleCompletedTodaySection()" class="flex items-center justify-between w-full py-1.5 px-2 rounded-lg text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors">
+              <div class="flex items-center gap-2">
+                <svg id="completedToggleChevron" class="w-3.5 h-3.5 text-zinc-500 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                <span>المهام المنجزة اليوم</span>
+                <span id="todayCompletedCountBadge" class="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">0</span>
+              </div>
+              <span class="text-[11px] text-zinc-500">إظهار / إخفاء</span>
+            </button>
+            <div id="todayCompletedList" class="hidden space-y-2 mt-2 opacity-80">
+              <!-- Completed items injected here -->
+            </div>
+          </div>
         </div>
 
-        <!-- Secondary Column (35%): Daily Habits, Water & Quick Gym -->
+        <!-- Secondary Column (35%): Focus Station, Daily Habits & Health Bridge -->
         <div class="space-y-4">
           
+          <!-- Focus Station (Embedded Pomodoro Widget) -->
+          <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-app-border">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <h3 class="text-xs font-semibold text-white">محطة التركيز والإنتاجية</h3>
+              </div>
+              <span id="widgetPomoStatus" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400">جاهز</span>
+            </div>
+
+            <div class="text-center py-2 space-y-2">
+              <div id="widgetPomoDisplay" class="text-3xl font-extrabold text-white font-mono tracking-tight">25:00</div>
+              <div class="text-[11px] text-zinc-400" id="widgetPomoTaskLabel">جلسة عمل عميق بدون مشتتات</div>
+              <div class="flex items-center justify-center gap-2 pt-1">
+                <button onclick="togglePomodoro()" id="widgetPomoActionBtn" class="px-4 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-xs font-medium transition-all shadow-sm flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>بدء الجلسة</span>
+                </button>
+                <button onclick="resetPomodoro()" class="px-2.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-400 hover:text-white text-xs transition-colors" title="إعادة ضبط المؤقت">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- Habits Card (Untitled UI Container) -->
           <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
             <div class="flex items-center justify-between pb-2 border-b border-app-border">
@@ -516,112 +581,159 @@
     </section>
 
     <!-- ==========================================
-         VIEW 2: TASKS & EISENHOWER MATRIX (المهام والتخطيط الاستراتيجي)
+         VIEW 2: TASKS & STRATEGIC EISENHOWER MATRIX (المهام والتخطيط الاستراتيجي)
          ========================================== -->
     <section id="view-tasks" class="view-panel hidden space-y-6">
       
       <!-- LEVEL 1: Strategic Planning Header & Time Horizons -->
-      <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="bg-app-surface border border-app-border rounded-2xl p-4 sm:p-5 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div class="flex items-center gap-2">
-            <h2 class="text-base font-semibold text-white tracking-tight">مصفوفة التخطيط الاستراتيجي والآفاق الزمنية</h2>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">إطار أيزنهاور</span>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h2 class="text-base sm:text-lg font-bold text-white tracking-tight">مصفوفة التخطيط الاستراتيجي والآفاق الزمنية</h2>
+            <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">إطار أيزنهاور</span>
           </div>
-          <p class="text-xs text-app-muted mt-0.5">التنقل الهرمي بين أفق اليوم، الأسبوع، الشهر، والسنة لتنظيم الأولويات واتخاذ القرارات</p>
+          <p class="text-xs text-app-muted mt-1" id="horizonExplanationText">
+            حدد الأفق الزمني للتخطيط: لتوزيع المهام حسب أهميتها واستعجالها واتخاذ القرارات بدقة.
+          </p>
         </div>
 
         <!-- Horizons Segmented Control -->
-        <div class="flex items-center bg-zinc-900 p-0.5 rounded-lg border border-zinc-800 self-start md:self-auto">
-          <button onclick="setHorizon('daily')" data-hbtn="daily" class="horizon-pill px-3 py-1.5 text-xs font-medium rounded-md transition-all text-white bg-zinc-800 shadow-sm border border-zinc-700/60">اليوم</button>
-          <button onclick="setHorizon('weekly')" data-hbtn="weekly" class="horizon-pill px-3 py-1.5 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">أسبوعي</button>
-          <button onclick="setHorizon('monthly')" data-hbtn="monthly" class="horizon-pill px-3 py-1.5 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">شهري</button>
-          <button onclick="setHorizon('yearly')" data-hbtn="yearly" class="horizon-pill px-3 py-1.5 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">سنوي</button>
+        <div class="flex items-center bg-zinc-900 p-1 rounded-xl border border-zinc-800 self-start md:self-auto shadow-inner">
+          <button onclick="setHorizon('daily')" data-hbtn="daily" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-white bg-zinc-800 shadow-sm border border-zinc-700/60">اليوم</button>
+          <button onclick="setHorizon('weekly')" data-hbtn="weekly" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-200">أسبوعي</button>
+          <button onclick="setHorizon('monthly')" data-hbtn="monthly" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-200">شهري</button>
+          <button onclick="setHorizon('yearly')" data-hbtn="yearly" class="horizon-pill px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-200">سنوي</button>
         </div>
       </div>
 
-      <!-- LEVEL 2: Eisenhower 4-Quadrant Matrix (Untitled UI 2x2 Grid) -->
+      <!-- LEVEL 2: Eisenhower 4-Quadrant Matrix (Untitled UI 2x2 Interactive Grid) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
         <!-- Q1: Do First (عاجل ومهم) -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all flex flex-col justify-between">
+        <div class="bg-app-surface border border-rose-500/25 rounded-2xl p-4 shadow-subtle hover:border-rose-500/40 transition-all flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 h-1 bg-rose-500/80"></div>
           <div>
             <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
               <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-                <span class="font-medium text-xs text-white">1. عاجل ومهم (افعل فوراً • Do First)</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm"></span>
+                <div>
+                  <div class="font-bold text-xs sm:text-sm text-white">1. عاجل ومهم (Do First)</div>
+                  <div class="text-[10px] text-rose-400/80">طوارئ وأولويات حاسمة تتطلب الإنجاز فوراً</div>
+                </div>
               </div>
-              <span id="matrixCount-do_first" class="text-xs font-mono font-semibold text-rose-400 px-2 py-0.5 bg-rose-500/10 rounded-full border border-rose-500/20">0</span>
+              <div class="flex items-center gap-2">
+                <span id="matrixCount-do_first" class="text-xs font-mono font-bold text-rose-400 px-2 py-0.5 bg-rose-500/10 rounded-full border border-rose-500/20">0</span>
+                <button type="button" onclick="quickAddQuadrantTask('do_first')" class="p-1 rounded-md text-rose-400 hover:bg-rose-500/20 hover:text-white text-xs font-bold transition-colors" title="إضافة مهمة عاجلة فوراً">+</button>
+              </div>
             </div>
             <div id="matrixList-do_first" class="space-y-2 min-h-[90px]"></div>
           </div>
-          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500">
-            مهام طارئة، أزمات، ومواعيد نهائية حاسمة تتطلب تحركك الفوري اليوم.
+          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500 flex items-center justify-between">
+            <span>القرار: أنجزها بنفسك الآن بدون تأجيل</span>
+            <button type="button" onclick="quickAddQuadrantTask('do_first')" class="text-rose-400 hover:underline">+ أضف عاجلة</button>
           </div>
         </div>
 
         <!-- Q2: Schedule (مهم وغير عاجل) -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all flex flex-col justify-between">
+        <div class="bg-app-surface border border-blue-500/25 rounded-2xl p-4 shadow-subtle hover:border-blue-500/40 transition-all flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 h-1 bg-blue-500/80"></div>
           <div>
             <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
               <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                <span class="font-medium text-xs text-white">2. مهم غير عاجل (خطط وجدول • Schedule)</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm"></span>
+                <div>
+                  <div class="font-bold text-xs sm:text-sm text-white">2. مهم غير عاجل (Schedule)</div>
+                  <div class="text-[10px] text-blue-400/80">بناء استراتيجي، صحة، وتعلم ونمو مستدام</div>
+                </div>
               </div>
-              <span id="matrixCount-schedule" class="text-xs font-mono font-semibold text-blue-400 px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20">0</span>
+              <div class="flex items-center gap-2">
+                <span id="matrixCount-schedule" class="text-xs font-mono font-bold text-blue-400 px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20">0</span>
+                <button type="button" onclick="quickAddQuadrantTask('schedule')" class="p-1 rounded-md text-blue-400 hover:bg-blue-500/20 hover:text-white text-xs font-bold transition-colors" title="إضافة مهمة استراتيجية">+</button>
+              </div>
             </div>
             <div id="matrixList-schedule" class="space-y-2 min-h-[90px]"></div>
           </div>
-          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500">
-            أنشطة التطوير، الرياضة، والتعلم والبناء الاستراتيجي طويل الأمد.
+          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500 flex items-center justify-between">
+            <span>القرار: حدد لها موعداً ونفذها بتركيز</span>
+            <button type="button" onclick="quickAddQuadrantTask('schedule')" class="text-blue-400 hover:underline">+ أضف استراتيجية</button>
           </div>
         </div>
 
         <!-- Q3: Delegate (عاجل وغير مهم) -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all flex flex-col justify-between">
+        <div class="bg-app-surface border border-amber-500/25 rounded-2xl p-4 shadow-subtle hover:border-amber-500/40 transition-all flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 h-1 bg-amber-500/80"></div>
           <div>
             <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
               <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                <span class="font-medium text-xs text-white">3. عاجل غير مهم (فوّض وأتمت • Delegate)</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-sm"></span>
+                <div>
+                  <div class="font-bold text-xs sm:text-sm text-white">3. عاجل غير مهم (Delegate)</div>
+                  <div class="text-[10px] text-amber-400/80">مقاطعات، روتين، وتقارير يمكن تفويضها</div>
+                </div>
               </div>
-              <span id="matrixCount-delegate" class="text-xs font-mono font-semibold text-amber-400 px-2 py-0.5 bg-amber-500/10 rounded-full border border-amber-500/20">0</span>
+              <div class="flex items-center gap-2">
+                <span id="matrixCount-delegate" class="text-xs font-mono font-bold text-amber-400 px-2 py-0.5 bg-amber-500/10 rounded-full border border-amber-500/20">0</span>
+                <button type="button" onclick="quickAddQuadrantTask('delegate')" class="p-1 rounded-md text-amber-400 hover:bg-amber-500/20 hover:text-white text-xs font-bold transition-colors" title="إضافة مهمة للتفويض">+</button>
+              </div>
             </div>
             <div id="matrixList-delegate" class="space-y-2 min-h-[90px]"></div>
           </div>
-          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500">
-            مقاطعات، تقارير روتينية، ومهام يمكن تفويضها للآخرين أو أتمتتها.
+          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500 flex items-center justify-between">
+            <span>القرار: فوّضها، أتمتها، أو اختصر وقتها</span>
+            <button type="button" onclick="quickAddQuadrantTask('delegate')" class="text-amber-400 hover:underline">+ أضف للتفويض</button>
           </div>
         </div>
 
-        <!-- Q4: Eliminate (غير عاجل وغير مهم) -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all flex flex-col justify-between">
+        <!-- Q4: Eliminate / Backlog (غير عاجل وغير مهم) -->
+        <div class="bg-app-surface border border-zinc-800 rounded-2xl p-4 shadow-subtle hover:border-zinc-700 transition-all flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 h-1 bg-zinc-700"></div>
           <div>
             <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
               <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-zinc-500"></span>
-                <span class="font-medium text-xs text-white">4. غير عاجل وغير مهم (أرجئ أو احذف • Backlog)</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-zinc-500 shadow-sm"></span>
+                <div>
+                  <div class="font-bold text-xs sm:text-sm text-white">4. غير عاجل وغير مهم (Backlog)</div>
+                  <div class="text-[10px] text-zinc-400">مشتتات، رغبات عابرة، وأفكار مؤجلة</div>
+                </div>
               </div>
-              <span id="matrixCount-eliminate" class="text-xs font-mono font-semibold text-zinc-400 px-2 py-0.5 bg-zinc-800 rounded-full border border-zinc-700">0</span>
+              <div class="flex items-center gap-2">
+                <span id="matrixCount-eliminate" class="text-xs font-mono font-bold text-zinc-400 px-2 py-0.5 bg-zinc-800 rounded-full border border-zinc-700">0</span>
+                <button type="button" onclick="quickAddQuadrantTask('eliminate')" class="p-1 rounded-md text-zinc-400 hover:bg-zinc-800 hover:text-white text-xs font-bold transition-colors" title="إضافة فكرة مؤجلة">+</button>
+              </div>
             </div>
             <div id="matrixList-eliminate" class="space-y-2 min-h-[90px]"></div>
           </div>
-          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500">
-            مشتتات، رغبات عابرة، وأفكار تحتاج إلى مراجعة وتصفية لاحقة.
+          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500 flex items-center justify-between">
+            <span>القرار: تخلص منها أو أرجئها حتى تحين الحاجة</span>
+            <button type="button" onclick="quickAddQuadrantTask('eliminate')" class="text-zinc-400 hover:underline">+ أضف للمؤجل</button>
           </div>
         </div>
 
       </div>
 
-      <!-- LEVEL 3: Task Backlog & Intake Hopper -->
-      <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle">
-        <div class="flex items-center justify-between mb-3 pb-2 border-b border-app-border">
-          <div class="flex items-center gap-2">
+      <!-- LEVEL 3: Task Backlog & Universal Intake Hopper -->
+      <div class="bg-app-surface border border-app-border rounded-2xl p-4 sm:p-5 shadow-subtle space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-app-border">
+          <div class="flex items-center gap-2.5">
             <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-            <span class="font-semibold text-xs text-white">صندوق الوارد والمهام المؤجلة (Inbox & Backlog)</span>
+            <div>
+              <span class="font-bold text-xs sm:text-sm text-white">صندوق الوارد والفرز السريع (Universal Inbox)</span>
+              <p class="text-[11px] text-app-muted">تفريغ ذهني للأفكار والمهام الجديدة لتوزيعها لاحقاً على مصفوفة أيزنهاور أو لليوم</p>
+            </div>
           </div>
-          <span id="backlogCount" class="text-xs text-app-muted font-mono">0 مهام</span>
+          <span id="backlogCount" class="text-xs text-app-muted font-mono px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-800">0 مهام</span>
         </div>
-        <div id="backlogTasksContainer" class="space-y-2"></div>
+
+        <!-- Quick Brain-Dump Input -->
+        <div class="flex gap-2">
+          <input type="text" id="inboxQuickInput" placeholder="اكتب فكرة أو مهمة لم تحدد أولويتها بعد واضغط Enter..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addQuickInboxTask()">
+          <button onclick="addQuickInboxTask()" class="px-3.5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium transition-colors whitespace-nowrap">
+            تفريغ ذهني
+          </button>
+        </div>
+
+        <!-- Backlog List -->
+        <div id="backlogTasksContainer" class="space-y-2 pt-1"></div>
       </div>
 
     </section>
@@ -1296,7 +1408,7 @@
     let currentAIMealPreview = null;
 
     // View Navigation (Untitled UI Tabs)
-        function switchView(viewName) {
+    function switchView(viewName) {
       currentView = viewName;
       document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
       const activePanel = document.getElementById('view-' + viewName);
@@ -1304,30 +1416,30 @@
 
       // Update Desktop tabs
       document.querySelectorAll('.view-tab-btn').forEach(btn => {
-        btn.classList.remove('text-white', 'bg-zinc-800', 'shadow-sm', 'border-zinc-700/60');
-        btn.classList.add('text-zinc-400');
+        btn.classList.remove('text-brand', 'bg-surface', 'shadow-sm');
+        btn.classList.add('text-app-muted');
       });
       const activeTabBtn = document.getElementById('tabBtn-' + viewName);
       if (activeTabBtn) {
-        activeTabBtn.classList.remove('text-zinc-400');
-        activeTabBtn.classList.add('text-white', 'bg-zinc-800', 'shadow-sm', 'border-zinc-700/60');
+        activeTabBtn.classList.remove('text-app-muted');
+        activeTabBtn.classList.add('text-brand', 'bg-surface', 'shadow-sm');
       }
 
       // Update Mobile Nav
       document.querySelectorAll('.m-nav-btn').forEach(btn => {
         btn.classList.remove('text-brand');
-        btn.classList.add('text-zinc-500');
+        btn.classList.add('text-app-muted');
       });
       const activeMNav = document.getElementById('mNav-' + viewName);
       if (activeMNav) {
-        activeMNav.classList.remove('text-zinc-500');
+        activeMNav.classList.remove('text-app-muted');
         activeMNav.classList.add('text-brand');
       }
 
       renderAll();
     }
 
-        function setHorizon(horizon) {
+    function setHorizon(horizon) {
       currentHorizon = horizon;
       document.querySelectorAll('.horizon-pill').forEach(btn => {
         btn.classList.remove('text-white', 'bg-zinc-800', 'shadow-sm', 'border-zinc-700/60');
@@ -1338,6 +1450,25 @@
         activeBtn.classList.remove('text-zinc-400');
         activeBtn.classList.add('text-white', 'bg-zinc-800', 'shadow-sm', 'border-zinc-700/60');
       }
+
+      const expEl = document.getElementById('horizonExplanationText');
+      if (expEl) {
+        switch (horizon) {
+          case 'daily':
+            expEl.textContent = 'أفق اليوم: المهام المجدولة لليوم الحالي موزعة في مصفوفة أيزنهاور لتنفيذها والتركيز عليها.';
+            break;
+          case 'weekly':
+            expEl.textContent = 'أفق الأسبوع: خطة ومشاريع هذا الأسبوع لاتخاذ قرارات التفويض والجدولة بهدوء.';
+            break;
+          case 'monthly':
+            expEl.textContent = 'أفق الشهر: الأهداف الشهرية الكبرى والالتزامات الاستراتيجية للبناء المستمر.';
+            break;
+          case 'yearly':
+            expEl.textContent = 'أفق السنة: الرؤية السنوية والخطط بعيدة المدى لتحديد وجهتك المستقبلية.';
+            break;
+        }
+      }
+
       renderTasksView();
     }
 
@@ -2600,29 +2731,54 @@
       const container = document.getElementById('todayTaskList');
       const emptyState = document.getElementById('todayEmptyState');
       const countPill = document.getElementById('todayTasksPill');
+      const completedContainer = document.getElementById('todayCompletedContainer');
+      const completedList = document.getElementById('todayCompletedList');
+      const completedCountBadge = document.getElementById('todayCompletedCountBadge');
       if (!container) return;
 
       const activeTasks = taskData.tasks.filter(t => !t.isArchivedRecurrence);
       const todayTasks = activeTasks.filter(t => (t.horizon === 'daily' || t.status === 'today'));
 
       const doneTasks = todayTasks.filter(t => t.status === 'done');
+      const pendingTasks = todayTasks.filter(t => t.status !== 'done');
       const percent = todayTasks.length > 0 ? Math.round((doneTasks.length / todayTasks.length) * 100) : 0;
 
-      // Update KPI
-      document.getElementById('todayDonePercent').textContent = percent + '%';
-      document.getElementById('todayDoneRatio').textContent = `${doneTasks.length} / ${todayTasks.length} مهام`;
-      document.getElementById('todayProgressBar').style.width = percent + '%';
-      if (countPill) countPill.textContent = `${todayTasks.length} مهام`;
+      // Update KPI metrics
+      const donePercentEl = document.getElementById('todayDonePercent');
+      const doneRatioEl = document.getElementById('todayDoneRatio');
+      const progressBarEl = document.getElementById('todayProgressBar');
+      if (donePercentEl) donePercentEl.textContent = percent + '%';
+      if (doneRatioEl) doneRatioEl.textContent = `${doneTasks.length} / ${todayTasks.length} مهام`;
+      if (progressBarEl) progressBarEl.style.width = percent + '%';
+      if (countPill) countPill.textContent = `${pendingTasks.length} متبقية`;
 
-      if (todayTasks.length === 0) {
+      // Sort pending tasks: do_first first!
+      pendingTasks.sort((a, b) => {
+        if (a.eisenhower === 'do_first' && b.eisenhower !== 'do_first') return -1;
+        if (b.eisenhower === 'do_first' && a.eisenhower !== 'do_first') return 1;
+        return 0;
+      });
+
+      if (pendingTasks.length === 0) {
         container.innerHTML = '';
         if (emptyState) emptyState.classList.remove('hidden');
-        return;
+      } else {
+        if (emptyState) emptyState.classList.add('hidden');
+        container.innerHTML = pendingTasks.map(t => renderTaskCardHTML(t, 'today')).join('');
       }
 
-      if (emptyState) emptyState.classList.add('hidden');
+      // Completed Tasks Section
+      if (completedContainer && completedList) {
+        if (doneTasks.length > 0) {
+          completedContainer.classList.remove('hidden');
+          if (completedCountBadge) completedCountBadge.textContent = doneTasks.length;
+          completedList.innerHTML = doneTasks.map(t => renderTaskCardHTML(t, 'today')).join('');
+        } else {
+          completedContainer.classList.add('hidden');
+        }
+      }
 
-      container.innerHTML = todayTasks.map(t => renderTaskCardHTML(t)).join('');
+      updateActiveFocusBanner();
     }
 
     function renderTasksView() {
@@ -2637,80 +2793,258 @@
         if (countEl) countEl.textContent = qTasks.length;
         if (listEl) {
           if (qTasks.length === 0) {
-            listEl.innerHTML = `<div class="p-3 text-center text-[11px] text-app-muted border border-dashed border-surface-border rounded-xl">لا توجد مهام</div>`;
+            listEl.innerHTML = `<div class="p-3 text-center text-[11px] text-zinc-500 border border-dashed border-zinc-800 rounded-xl">لا توجد مهام في هذا المربع</div>`;
           } else {
-            listEl.innerHTML = qTasks.map(t => renderTaskCardHTML(t)).join('');
+            listEl.innerHTML = qTasks.map(t => renderTaskCardHTML(t, 'matrix')).join('');
           }
         }
       });
 
-      // Backlog tasks
+      // Backlog tasks (Universal Hopper)
       const backlogContainer = document.getElementById('backlogTasksContainer');
       const backlogCountEl = document.getElementById('backlogCount');
-      const backlogList = activeTasks.filter(t => t.status === 'inbox' && t.eisenhower === 'eliminate');
+      const backlogList = activeTasks.filter(t => t.status === 'inbox' && (!t.eisenhower || t.eisenhower === 'eliminate'));
       if (backlogCountEl) backlogCountEl.textContent = `${backlogList.length} مهام`;
       if (backlogContainer) {
         if (backlogList.length === 0) {
-          backlogContainer.innerHTML = `<div class="p-3 text-center text-xs text-app-muted">صندوق الوارد فارغ.</div>`;
+          backlogContainer.innerHTML = `<div class="p-4 text-center text-xs text-zinc-500 border border-dashed border-zinc-800 rounded-xl">صندوق الوارد فارغ. أضف فكرة أو مهمة لتوزيعها.</div>`;
         } else {
-          backlogContainer.innerHTML = backlogList.map(t => renderTaskCardHTML(t)).join('');
+          backlogContainer.innerHTML = backlogList.map(t => `
+            <div class="flex items-center justify-between p-2.5 bg-zinc-950 border border-zinc-850 rounded-xl text-xs gap-3">
+              <div class="flex items-center gap-2 flex-1 min-w-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
+                <span class="font-medium text-zinc-200 truncate">${escapeHtml(t.title)}</span>
+              </div>
+              <div class="flex items-center gap-1.5 flex-shrink-0">
+                <span class="text-[10px] text-zinc-500">توزيع:</span>
+                <button onclick="changeTaskEisenhower('${t.id}', 'do_first')" class="px-2 py-0.5 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 font-bold text-[10px]" title="نقل إلى 1. عاجل ومهم">1</button>
+                <button onclick="changeTaskEisenhower('${t.id}', 'schedule')" class="px-2 py-0.5 rounded bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 font-bold text-[10px]" title="نقل إلى 2. مهم">2</button>
+                <button onclick="changeTaskEisenhower('${t.id}', 'delegate')" class="px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 font-bold text-[10px]" title="نقل إلى 3. تفويض">3</button>
+                <button onclick="moveTaskToToday('${t.id}')" class="px-2 py-0.5 rounded bg-brand/10 hover:bg-brand/20 text-brand border border-brand/25 font-semibold text-[10px]" title="نقل إلى قائمة اليوم">+ اليوم</button>
+                <button onclick="deleteTask('${t.id}')" class="p-1 text-zinc-500 hover:text-rose-400 text-xs">✕</button>
+              </div>
+            </div>
+          `).join('');
         }
       }
     }
 
-    function renderTaskCardHTML(t) {
+    function renderTaskCardHTML(t, context = 'today') {
       const isDone = t.status === 'done';
       const hasSubtasks = t.subtasks && t.subtasks.length > 0;
       const doneSubtasks = hasSubtasks ? t.subtasks.filter(s => s.done).length : 0;
       const recLabel = formatRecurrenceLabel(t.recurrence, t.recurrenceCustomDays);
+      const isDoFirst = t.eisenhower === 'do_first';
 
       return `
-        <div class="group flex items-center justify-between p-3 bg-zinc-900/70 hover:bg-zinc-850/90 border border-zinc-800/80 rounded-xl transition-all gap-3 ${isDone ? 'opacity-50' : ''}">
+        <div class="group flex items-center justify-between p-3 sm:p-3.5 bg-surface hover:bg-surface-hover border ${isDoFirst && !isDone ? 'border-rose-500/30 bg-rose-500/[0.02] border-r-4 border-r-rose-500' : 'border-surface-border'} rounded-xl sm:rounded-2xl shadow-card transition-all gap-3 ${isDone ? 'opacity-60' : ''}">
+          
           <div class="flex items-center gap-3 flex-1 min-w-0">
-            <!-- Custom Sleek Checkbox -->
-            <button onclick="toggleTaskStatus('${t.id}')" class="w-4.5 h-4.5 rounded-md border ${isDone ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-zinc-700 bg-zinc-950 hover:border-brand'} flex items-center justify-center flex-shrink-0 transition-colors">
-              ${isDone ? '<svg class="w-3 h-3 stroke-[2.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+            <!-- Custom Checkbox -->
+            <button onclick="toggleTaskStatus('${t.id}')" class="w-5 h-5 rounded-lg border ${isDone ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-surface-border bg-surface-subtle hover:border-brand'} flex items-center justify-center flex-shrink-0 transition-colors shadow-sm" title="${isDone ? 'إعادة فتح' : 'إنجاز المهمة'}">
+              ${isDone ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
             </button>
 
             <!-- Title & Metadata -->
             <div class="flex-1 min-w-0 cursor-pointer" onclick="openTaskDetails('${t.id}')">
-              <div class="${isDone ? 'line-through text-zinc-500' : 'text-zinc-100 font-medium'} text-xs sm:text-sm truncate">
+              <div class="${isDone ? 'line-through text-app-muted' : 'text-zinc-100 font-medium'} text-xs sm:text-sm truncate">
                 ${escapeHtml(t.title)}
               </div>
               <div class="flex items-center gap-1.5 flex-wrap mt-1">
-                ${recLabel ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-brand/10 text-brand border border-brand/20"><svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>${recLabel}</span>` : ''}
                 ${getEisenhowerBadge(t.eisenhower)}
-                ${hasSubtasks ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-zinc-800 text-zinc-400 border border-zinc-700">â˜‘ ${doneSubtasks}/${t.subtasks.length}</span>` : ''}
+                ${recLabel ? `
+                  <span class="meta-pill bg-brand/10 text-brand border border-brand/20 flex items-center gap-1">
+                    <svg class="w-3 h-3 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                    <span>${recLabel}</span>
+                  </span>
+                ` : ''}
+                ${hasSubtasks ? `
+                  <span class="meta-pill bg-surface-subtle border border-surface-border text-app-muted flex items-center gap-1">
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+                    <span>${doneSubtasks}/${t.subtasks.length}</span>
+                  </span>
+                ` : ''}
               </div>
             </div>
           </div>
 
-          <!-- Quick Actions on Hover -->
-          <div class="flex items-center gap-1 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onclick="openTaskDetails('${t.id}')" class="p-1 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors" title="ØªØ¹Ø¯ÙŠÙ„">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <!-- Quick Actions -->
+          <div class="flex items-center gap-1 flex-shrink-0">
+            ${!isDone && context === 'today' ? `
+              <button onclick="startFocusOnTask('${t.id}')" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-zinc-900 hover:bg-brand/15 hover:text-brand border border-zinc-800 text-zinc-300 transition-colors shadow-sm" title="بدء جلسة تركيز بومودورو">
+                <svg class="w-3 h-3 text-brand" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>تركيز</span>
+              </button>
+              <button onclick="postponeTaskToTomorrow('${t.id}')" class="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-surface-subtle transition-colors" title="ترحيل للغد">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            ` : ''}
+
+            ${context === 'matrix' ? `
+              <button onclick="moveTaskToToday('${t.id}')" class="px-2 py-1 rounded-md text-[11px] font-semibold bg-zinc-900 hover:bg-brand/20 hover:text-brand border border-zinc-800 text-zinc-300 transition-colors" title="نقل إلى قائمة مهام اليوم">+ اليوم</button>
+              <select onchange="changeTaskEisenhower('${t.id}', this.value)" class="bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white text-[10px] rounded px-1.5 py-0.5 focus:outline-none" title="تغيير المربع">
+                <option value="do_first" ${t.eisenhower === 'do_first' ? 'selected' : ''}>1</option>
+                <option value="schedule" ${t.eisenhower === 'schedule' ? 'selected' : ''}>2</option>
+                <option value="delegate" ${t.eisenhower === 'delegate' ? 'selected' : ''}>3</option>
+                <option value="eliminate" ${t.eisenhower === 'eliminate' ? 'selected' : ''}>4</option>
+              </select>
+            ` : ''}
+
+            <button onclick="openTaskDetails('${t.id}')" class="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-surface-subtle transition-colors" title="تعديل المهمة">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
-            <button onclick="deleteTask('${t.id}')" class="p-1 rounded-md text-zinc-400 hover:text-rose-400 hover:bg-zinc-800 transition-colors" title="Ø­Ø°Ù">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            <button onclick="deleteTask('${t.id}')" class="p-1.5 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-surface-subtle transition-colors" title="حذف المهمة">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
             </button>
           </div>
+
         </div>
       `;
     }
 
     function getEisenhowerBadge(e) {
       switch (e) {
-        case 'do_first': return `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Ø¹Ø§Ø¬Ù„ ÙˆÙ…Ù‡Ù…</span>`;
-        case 'schedule': return `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>Ù…Ù‡Ù… ØºÙŠØ± Ø¹Ø§Ø¬Ù„</span>`;
-        case 'delegate': return `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>ØªÙÙˆÙŠØ¶</span>`;
-        case 'eliminate': return `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-zinc-800 text-zinc-400 border border-zinc-700"><span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>ØªØ£Ø¬ÙŠÙ„</span>`;
+        case 'do_first': return `<span class="meta-pill bg-rose-500/10 text-rose-400 border border-rose-500/20 font-medium">عاجل ومهم</span>`;
+        case 'schedule': return `<span class="meta-pill bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">مجدول</span>`;
+        case 'delegate': return `<span class="meta-pill bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">تفويض</span>`;
+        case 'eliminate': return `<span class="meta-pill bg-zinc-800/80 text-zinc-400 border border-zinc-700/60 font-medium">مؤجل</span>`;
         default: return '';
       }
     }
 
-    /* =========================================================
-       SUNSAMA MORNING RITUAL & EVENING SHUTDOWN
-       ========================================================= */
+    function toggleQuickPriority() {
+      const sel = document.getElementById('taskEisenhowerDesktop');
+      const btn = document.getElementById('quickPriorityToggleBtn');
+      const txt = document.getElementById('quickPriorityToggleText');
+      if (!sel || !btn || !txt) return;
+
+      if (sel.value === 'schedule') {
+        sel.value = 'do_first';
+        btn.className = 'flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-all bg-rose-500/15 text-rose-400 border-rose-500/30 shadow-sm';
+        btn.querySelector('span').className = 'w-2 h-2 rounded-full bg-rose-500';
+        txt.textContent = 'عاجل ومهم';
+      } else {
+        sel.value = 'schedule';
+        btn.className = 'flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all bg-blue-500/10 text-blue-400 border-blue-500/20';
+        btn.querySelector('span').className = 'w-2 h-2 rounded-full bg-blue-400';
+        txt.textContent = 'مجدول عادي';
+      }
+    }
+
+    function toggleCompletedTodaySection() {
+      const list = document.getElementById('todayCompletedList');
+      const chevron = document.getElementById('completedToggleChevron');
+      if (!list) return;
+      const isHidden = list.classList.contains('hidden');
+      if (isHidden) {
+        list.classList.remove('hidden');
+        if (chevron) chevron.style.transform = 'rotate(180deg)';
+      } else {
+        list.classList.add('hidden');
+        if (chevron) chevron.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function quickAddQuadrantTask(quadrant) {
+      const qNames = {
+        'do_first': '1. عاجل ومهم',
+        'schedule': '2. مهم غير عاجل',
+        'delegate': '3. تفويض',
+        'eliminate': '4. مؤجل'
+      };
+      const title = prompt(`أدخل عنوان المهمة لإضافتها إلى (${qNames[quadrant] || quadrant}):`);
+      if (!title || !title.trim()) return;
+      createTask({
+        title: title.trim(),
+        horizon: currentHorizon || 'daily',
+        eisenhower: quadrant,
+        status: (currentHorizon === 'daily' || quadrant === 'do_first') ? 'today' : 'inbox'
+      });
+    }
+
+    function moveTaskToToday(id) {
+      const task = taskData.tasks.find(t => t.id === id);
+      if (!task) return;
+      task.horizon = 'daily';
+      task.status = 'today';
+      saveData();
+      renderAll();
+      showToast(`📌 تم نقل "${task.title}" إلى مهام اليوم`);
+    }
+
+    function postponeTaskToTomorrow(id) {
+      const task = taskData.tasks.find(t => t.id === id);
+      if (!task) return;
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      task.dueDate = tomorrow.toISOString().split('T')[0];
+      task.status = 'inbox';
+      saveData();
+      renderAll();
+      showToast(`⏳ تم ترحيل "${task.title}" إلى الغد`);
+    }
+
+    function changeTaskEisenhower(id, newQ) {
+      const task = taskData.tasks.find(t => t.id === id);
+      if (!task) return;
+      task.eisenhower = newQ;
+      saveData();
+      renderAll();
+      showToast(`✓ تم تحديث تصنيف المهمة`);
+    }
+
+    function addQuickInboxTask() {
+      const input = document.getElementById('inboxQuickInput');
+      if (!input || !input.value.trim()) return;
+      createTask({
+        title: input.value.trim(),
+        horizon: currentHorizon || 'weekly',
+        eisenhower: 'eliminate',
+        status: 'inbox'
+      });
+      input.value = '';
+    }
+
+    function startFocusOnTask(id) {
+      const task = taskData.tasks.find(t => t.id === id);
+      if (!task) return;
+      sessionStorage.setItem('ACTIVE_FOCUS_TASK_TITLE', task.title);
+      updateActiveFocusBanner();
+      if (!pomoIsRunning) {
+        togglePomodoro();
+      }
+      showToast(`🎯 بدأ التركيز على: ${task.title}`);
+    }
+
+    function clearActiveFocusTask() {
+      sessionStorage.removeItem('ACTIVE_FOCUS_TASK_TITLE');
+      updateActiveFocusBanner();
+    }
+
+    function updateActiveFocusBanner() {
+      const banner = document.getElementById('activeTaskFocusBanner');
+      const titleEl = document.getElementById('activeFocusTaskTitle');
+      const widgetLabel = document.getElementById('widgetPomoTaskLabel');
+      const activeTitle = sessionStorage.getItem('ACTIVE_FOCUS_TASK_TITLE');
+
+      if (activeTitle) {
+        if (banner) banner.classList.remove('hidden');
+        if (titleEl) titleEl.textContent = activeTitle;
+        if (widgetLabel) widgetLabel.innerHTML = `التركيز الحالي: <strong class="text-white">${escapeHtml(activeTitle)}</strong>`;
+      } else {
+        if (banner) banner.classList.add('hidden');
+        if (widgetLabel) widgetLabel.textContent = 'جلسة عمل عميق بدون مشتتات';
+      }
+    }
+
+    function resetPomodoro() {
+      if (pomoInterval) clearInterval(pomoInterval);
+      pomoIsRunning = false;
+      pomoSecondsLeft = 25 * 60;
+      updatePomoUI(false);
+      showToast('تمت إعادة ضبط مؤقت التركيز إلى 25:00');
+    }
+
     function openMorningModal() {
       const container = document.getElementById('morningTasksSelectionList');
       if (!container) return;
