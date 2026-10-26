@@ -250,11 +250,12 @@
     </div>
   </header>
 
-  <!-- Global Floating Toast Notification -->
+  <!-- Global Floating Toast Notification (With Linear-Style Undo) -->
   <div id="toastNotification" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 transition-all duration-200 pointer-events-none opacity-0 -translate-y-2">
-    <div class="px-3.5 py-2 rounded-xl bg-zinc-900/95 border border-zinc-700/80 shadow-modal text-xs font-medium text-zinc-100 flex items-center gap-2.5 backdrop-blur-md">
+    <div class="px-3.5 py-2 rounded-xl bg-zinc-900/95 border border-zinc-700/80 shadow-modal text-xs font-medium text-zinc-100 flex items-center gap-3 backdrop-blur-md">
       <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
       <span id="toastMessage">تم الإجراء بنجاح</span>
+      <button id="toastUndoBtn" onclick="undoLastAction()" class="hidden px-2 py-0.5 rounded-md bg-brand/20 hover:bg-brand/30 text-brand border border-brand/30 text-[11px] font-semibold transition-colors pointer-events-auto">تراجع (Undo)</button>
     </div>
   </div>
 
@@ -1092,7 +1093,7 @@
       <!-- Title Input -->
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-zinc-300">عنوان المهمة</label>
-        <input type="text" id="editTaskTitle" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand">
+        <input type="text" id="editTaskTitle" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
       </div>
 
       <!-- Controls Grid -->
@@ -1100,7 +1101,7 @@
         <!-- Horizon -->
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">الأفق الزمني</label>
-          <select id="editTaskHorizon" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <select id="editTaskHorizon" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
             <option value="daily">اليوم (Daily)</option>
             <option value="weekly">أسبوعي</option>
             <option value="monthly">شهري</option>
@@ -1111,7 +1112,7 @@
         <!-- Eisenhower Priority -->
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">أولوية أيزنهاور</label>
-          <select id="editTaskEisenhower" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <select id="editTaskEisenhower" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
             <option value="do_first">عاجل ومهم (Do First)</option>
             <option value="schedule">مهم غير عاجل (Schedule)</option>
             <option value="delegate">عاجل غير مهم (Delegate)</option>
@@ -1122,7 +1123,7 @@
         <!-- Recurrence -->
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">نمط التكرار (Customizable)</label>
-          <select id="editTaskRecurrence" onchange="toggleTaskRecurrenceFields()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-brand font-medium focus:outline-none focus:border-brand">
+          <select id="editTaskRecurrence" onchange="toggleTaskRecurrenceFields()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-brand font-medium focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
             <option value="none">بدون تكرار</option>
             <option value="daily">تكرار يومي</option>
             <option value="every_2_days">كل يومين</option>
@@ -1138,7 +1139,7 @@
         <!-- Due Date -->
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">تاريخ الاستحقاق</label>
-          <input type="date" id="editTaskDueDate" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <input type="date" id="editTaskDueDate" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
         </div>
       </div>
 
@@ -1147,7 +1148,7 @@
         <label class="text-xs font-medium text-zinc-300">التكرار كل (عدد الأيام):</label>
         <div class="flex items-center gap-2">
           <span class="text-xs text-zinc-400">كل</span>
-          <input type="number" id="editTaskCustomDays" min="1" max="365" value="1" class="w-24 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand">
+          <input type="number" id="editTaskCustomDays" min="1" max="365" value="1" class="w-24 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
           <span class="text-xs text-zinc-400">أيام</span>
         </div>
       </div>
@@ -1176,7 +1177,7 @@
         <div id="modalSubtasksList" class="space-y-1.5 max-h-36 overflow-y-auto"></div>
 
         <div class="flex gap-2 pt-1">
-          <input type="text" id="newSubtaskInput" placeholder="أضف خطوة فرعية..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addSubtaskInModal()">
+          <input type="text" id="newSubtaskInput" placeholder="أضف خطوة فرعية..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40" onkeydown="if(event.key==='Enter') addSubtaskInModal()">
           <button onclick="addSubtaskInModal()" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-medium">إضافة</button>
         </div>
       </div>
@@ -1184,7 +1185,7 @@
       <!-- Notes / Details -->
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-zinc-300">ملاحظات وروابط</label>
-        <textarea id="editTaskNotes" rows="2" placeholder="أي تفاصيل إضافية..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-brand"></textarea>
+        <textarea id="editTaskNotes" rows="2" placeholder="أي تفاصيل إضافية..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40"></textarea>
       </div>
 
       <!-- Footer Buttons -->
@@ -1217,7 +1218,7 @@
 
       <div class="space-y-2">
         <div class="flex gap-2">
-          <input type="text" id="quickMorningTaskInput" placeholder="أضف مهمة جديدة للصباح مباشرة..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addQuickMorningTask()">
+          <input type="text" id="quickMorningTaskInput" placeholder="أضف مهمة جديدة للصباح مباشرة..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40" onkeydown="if(event.key==='Enter') addQuickMorningTask()">
           <button onclick="addQuickMorningTask()" class="px-3 py-1.5 bg-brand hover:bg-brand-hover text-white rounded-lg text-xs font-medium">إضافة</button>
         </div>
         <div id="morningTasksSelectionList" class="space-y-2 max-h-60 overflow-y-auto pt-2"></div>
@@ -1282,13 +1283,13 @@
 
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-zinc-300">عنوان المهمة</label>
-        <input type="text" id="mTaskTitle" placeholder="اكتب عنوان المهمة..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand">
+        <input type="text" id="mTaskTitle" placeholder="اكتب عنوان المهمة..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
       </div>
       
       <div class="grid grid-cols-2 gap-3">
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">الأفق الزمني</label>
-          <select id="mTaskHorizon" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand">
+          <select id="mTaskHorizon" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
             <option value="daily">اليوم (Daily)</option>
             <option value="weekly">أسبوعي (Weekly)</option>
             <option value="monthly">شهري (Monthly)</option>
@@ -1298,7 +1299,7 @@
 
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">أولوية أيزنهاور</label>
-          <select id="mTaskEisenhower" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand">
+          <select id="mTaskEisenhower" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
             <option value="do_first">عاجل ومهم (Do First)</option>
             <option value="schedule" selected>مهم غير عاجل (Schedule)</option>
             <option value="delegate">عاجل غير مهم (Delegate)</option>
@@ -1308,7 +1309,7 @@
 
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">نمط التكرار (Recurrence)</label>
-          <select id="mTaskRecurrence" onchange="toggleAddTaskRecurrenceFields()" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-brand font-medium focus:outline-none focus:border-brand">
+          <select id="mTaskRecurrence" onchange="toggleAddTaskRecurrenceFields()" class="w-full bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-brand font-medium focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
             <option value="none">بدون تكرار</option>
             <option value="daily">تكرار يومي</option>
             <option value="every_2_days">كل يومين</option>
@@ -1323,7 +1324,7 @@
 
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">تاريخ الاستحقاق</label>
-          <input type="date" id="mTaskDueDate" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <input type="date" id="mTaskDueDate" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
         </div>
       </div>
 
@@ -1332,7 +1333,7 @@
         <label class="text-xs font-medium text-zinc-300">التكرار كل (عدد الأيام):</label>
         <div class="flex items-center gap-2">
           <span class="text-xs text-zinc-400">كل</span>
-          <input type="number" id="mTaskCustomDays" min="1" max="365" value="2" class="w-24 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand">
+          <input type="number" id="mTaskCustomDays" min="1" max="365" value="2" class="w-24 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
           <span class="text-xs text-zinc-400">أيام</span>
         </div>
       </div>
@@ -1353,7 +1354,7 @@
 
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-zinc-300">ملاحظات وروابط</label>
-        <textarea id="mTaskNotes" rows="2" placeholder="أي تفاصيل أو ملاحظات إضافية..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-brand"></textarea>
+        <textarea id="mTaskNotes" rows="2" placeholder="أي تفاصيل أو ملاحظات إضافية..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40"></textarea>
       </div>
 
       <div class="flex justify-end gap-2 pt-3 border-t border-zinc-800">
@@ -1402,18 +1403,18 @@
       <!-- Title Input -->
       <div class="space-y-1.5">
         <label id="routineTitleLabel" class="text-xs font-medium text-zinc-300">اسم التمرين</label>
-        <input type="text" id="routineItemTitle" placeholder="مثلاً: بنش برس مستوي (Barbell Bench Press)" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand">
+        <input type="text" id="routineItemTitle" placeholder="مثلاً: بنش برس مستوي (Barbell Bench Press)" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
       </div>
 
       <!-- Fields for Workout -->
       <div id="routineWorkoutFields" class="grid grid-cols-2 gap-3">
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">الجلسات والتكرار (Sets x Reps)</label>
-          <input type="text" id="routineWorkoutSets" placeholder="مثلاً: 4x10 أو 3x12" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <input type="text" id="routineWorkoutSets" placeholder="مثلاً: 4x10 أو 3x12" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">الوزن التقديري (Weight)</label>
-          <input type="text" id="routineWorkoutWeight" placeholder="مثلاً: 75kg أو وزن الجسم" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <input type="text" id="routineWorkoutWeight" placeholder="مثلاً: 75kg أو وزن الجسم" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
         </div>
       </div>
 
@@ -1421,11 +1422,11 @@
       <div id="routineSupplementFields" style="display:none;" class="grid grid-cols-2 gap-3">
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">الجرعة المحددة (Dosage)</label>
-          <input type="text" id="routineSuppDosage" placeholder="مثلاً: 5g أو حبة واحدة أو سكوب" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <input type="text" id="routineSuppDosage" placeholder="مثلاً: 5g أو حبة واحدة أو سكوب" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">توقيت التناول</label>
-          <input type="text" id="routineSuppTiming" placeholder="مثلاً: بعد التمرين، مع الفطور" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <input type="text" id="routineSuppTiming" placeholder="مثلاً: بعد التمرين، مع الفطور" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
         </div>
       </div>
 
@@ -1433,18 +1434,18 @@
       <div id="routineMealFields" style="display:none;" class="grid grid-cols-2 gap-3">
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">السعرات المستهدفة (kcal)</label>
-          <input type="number" id="routineMealCalories" placeholder="مثلاً: 550" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <input type="number" id="routineMealCalories" placeholder="مثلاً: 550" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-zinc-300">البروتين المستهدف (g)</label>
-          <input type="number" id="routineMealProtein" placeholder="مثلاً: 40" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+          <input type="number" id="routineMealProtein" placeholder="مثلاً: 40" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
         </div>
       </div>
 
       <!-- Notes / Details -->
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-zinc-300">ملاحظات إضافية / العضلة المستهدفة</label>
-        <input type="text" id="routineItemNotes" placeholder="مثلاً: التركيز على العضلة، شرب ماء كافي، راحة دقيقة..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+        <input type="text" id="routineItemNotes" placeholder="مثلاً: التركيز على العضلة، شرب ماء كافي، راحة دقيقة..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
       </div>
 
       <!-- Recurrence Controls (Customizable) -->
@@ -1454,7 +1455,7 @@
           <span class="text-[11px] text-brand font-medium" id="routineRecurrenceSummary">تكرار يومي</span>
         </div>
         
-        <select id="routineItemRecurrence" onchange="handleRoutineRecurrenceChange()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-brand font-medium focus:outline-none focus:border-brand">
+        <select id="routineItemRecurrence" onchange="handleRoutineRecurrenceChange()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-brand font-medium focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
           <option value="daily" selected>تكرار يومي (كل يوم)</option>
           <option value="every_2_days">كل يومين</option>
           <option value="custom_days">تكرار مخصص كل (X) أيام</option>
@@ -1469,7 +1470,7 @@
           <label class="text-[11px] text-zinc-400">التكرار كل (عدد الأيام):</label>
           <div class="flex items-center gap-2">
             <span class="text-xs text-zinc-500">كل</span>
-            <input type="number" id="routineCustomDaysInput" min="1" max="90" value="2" class="w-20 bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand">
+            <input type="number" id="routineCustomDaysInput" min="1" max="90" value="2" class="w-20 bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-white text-center focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40">
             <span class="text-xs text-zinc-500">أيام</span>
           </div>
         </div>
@@ -1515,7 +1516,7 @@
           <span class="text-[10px] text-zinc-500 font-mono">Flash 3.5 &amp; 3.8</span>
         </div>
         <div class="flex gap-2">
-          <input type="password" id="settingGeminiApiKey" placeholder="AIzaSy... أو اتركه فارغاً لاستخدام الافتراضي" class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand font-mono">
+          <input type="password" id="settingGeminiApiKey" placeholder="AIzaSy... أو اتركه فارغاً لاستخدام الافتراضي" class="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40 font-mono">
           <button type="button" onclick="testGeminiConnection()" class="px-3 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5" title="فحص صلاحية المفتاح مباشرة مع خوادم Google">
             <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             <span>فحص الاتصال</span>
@@ -1590,11 +1591,11 @@
       <div class="space-y-3">
         <div>
           <label class="text-xs text-zinc-400 block mb-1">رابط الـ Webhook السحابي (Google Apps Script / n8n / Cloud):</label>
-          <input type="url" id="cloudWebhookUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand font-mono">
+          <input type="url" id="cloudWebhookUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40 font-mono">
         </div>
         <div>
           <label class="text-xs text-zinc-400 block mb-1">مفتاح الأمان السري (Secret Key):</label>
-          <input type="password" id="cloudSecretKey" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand font-mono">
+          <input type="password" id="cloudSecretKey" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/40 font-mono">
         </div>
       </div>
       <div class="flex items-center justify-between pt-3 border-t border-zinc-800">
@@ -1788,17 +1789,94 @@
       if (!s) return '';
       return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
+    let lastActionUndo = null;
+    let toastTimeout = null;
+
+    function playSubtleAudio(type = 'success') {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        if (ctx.state === 'suspended') ctx.resume();
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === 'success') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(880.00, ctx.currentTime + 0.12);
+          gain.gain.setValueAtTime(0.06, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + 0.35);
+        } else if (type === 'focus_complete') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+          osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.12);
+          osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.24);
+          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.55);
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + 0.55);
+        }
+      } catch (e) {
+        // Silent fail
+      }
+    }
+
     function showToast(msg) {
       const toast = document.getElementById('toastNotification');
       const text = document.getElementById('toastMessage');
+      const undoBtn = document.getElementById('toastUndoBtn');
       if (!toast || !text) return;
+
+      if (toastTimeout) clearTimeout(toastTimeout);
       text.textContent = msg;
-      toast.classList.remove('opacity-0', '-translate-y-2');
+      lastActionUndo = null;
+      if (undoBtn) undoBtn.classList.add('hidden');
+
+      toast.classList.remove('opacity-0', '-translate-y-2', 'pointer-events-none');
       toast.classList.add('opacity-100', 'translate-y-0');
-      setTimeout(() => {
+
+      toastTimeout = setTimeout(() => {
         toast.classList.remove('opacity-100', 'translate-y-0');
-        toast.classList.add('opacity-0', '-translate-y-2');
+        toast.classList.add('opacity-0', '-translate-y-2', 'pointer-events-none');
       }, 3000);
+    }
+
+    function showToastWithUndo(msg, undoFn) {
+      const toast = document.getElementById('toastNotification');
+      const text = document.getElementById('toastMessage');
+      const undoBtn = document.getElementById('toastUndoBtn');
+      if (!toast || !text) return;
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      text.textContent = msg;
+      lastActionUndo = undoFn;
+
+      if (undoBtn) undoBtn.classList.remove('hidden');
+
+      toast.classList.remove('opacity-0', '-translate-y-2', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-2', 'pointer-events-none');
+        if (undoBtn) undoBtn.classList.add('hidden');
+        lastActionUndo = null;
+      }, 6000);
+    }
+
+    function undoLastAction() {
+      if (typeof lastActionUndo === 'function') {
+        const fn = lastActionUndo;
+        lastActionUndo = null;
+        fn();
+        showToast('✓ تم التراجع بنجاح');
+      }
     }
 
     /* =========================================================
@@ -2594,10 +2672,17 @@
 
     function deleteLoggedMeal(id) {
       if (!healthState.meals) return;
-      healthState.meals = healthState.meals.filter(m => m.id !== id);
+      const idx = healthState.meals.findIndex(m => m.id === id);
+      if (idx === -1) return;
+      const removed = healthState.meals[idx];
+      healthState.meals.splice(idx, 1);
       saveHealthState();
       renderNutritionDashboard();
-      showToast('تم حذف الوجبة');
+      showToastWithUndo(`تم حذف وجبة "${removed.name}"`, () => {
+        healthState.meals.splice(idx, 0, removed);
+        saveHealthState();
+        renderNutritionDashboard();
+      });
     }
 
     /* =========================================================
@@ -2878,6 +2963,7 @@
       if (item.done) {
         item.lastDoneDate = todayISO;
         item.streak = (item.streak || 0) + 1;
+        playSubtleAudio('success');
         showToast(`🔥 أحسنت! تتابع الالتزام: ${item.streak} أيام (${item.title})`);
       } else {
         item.streak = Math.max(0, (item.streak || 1) - 1);
@@ -2901,6 +2987,58 @@
         }
       });
       renderRoutineChecklist();
+    }
+
+    
+    function applyStarterPreset(presetType) {
+      if (presetType === 'gym_ppl') {
+        const pplItems = [
+          { id: genId('r'), title: 'بنش برس مستوي (Barbell Bench)', category: 'workout', sets: '4x8-10', weight: '75kg', recurrence: 'specific_days', daysOfWeek: [6, 2], notes: 'يوم الدفع الصدر والكتف والتراي' },
+          { id: genId('r'), title: 'سحب ظهر بار حر (Bent-over Rows)', category: 'workout', sets: '4x10', weight: '65kg', recurrence: 'specific_days', daysOfWeek: [0, 3], notes: 'يوم السحب الظهر والباي' },
+          { id: genId('r'), title: 'سكوات بار خلفي (Barbell Squat)', category: 'workout', sets: '4x8', weight: '90kg', recurrence: 'specific_days', daysOfWeek: [1, 4], notes: 'يوم الأرجل والبطات' },
+          { id: genId('r'), title: 'كتف أمامي دمبل (Overhead Press)', category: 'workout', sets: '3x10', weight: '22kg', recurrence: 'specific_days', daysOfWeek: [6, 2], notes: 'تحكم وتركيز على النزول' }
+        ];
+        pplItems.forEach(item => {
+          routineItems.push({
+            ...item,
+            dosage: '', timing: '', calories: 0, protein: 0, customDays: 1, done: false, streak: 0, lastDoneDate: null
+          });
+        });
+        saveRoutineItems();
+        renderRoutineChecklist();
+        showToast('✓ تمت إضافة باقة تمارين Push/Pull/Legs بنجاح');
+      } else if (presetType === 'supplements_core') {
+        const supps = [
+          { id: genId('r'), title: 'كرياتين مونوهيدرات (Creatine)', category: 'supplement', dosage: '5g', timing: 'بعد التمرين مباشرة', notes: 'يومياً لتحسين القوة وترطيب العضلات', recurrence: 'daily', daysOfWeek: [0, 1, 2, 3, 4, 5, 6] },
+          { id: genId('r'), title: 'أوميغا 3 زيت سمك (Omega-3)', category: 'supplement', dosage: 'حبتين (1000mg)', timing: 'مع وجبة الإفطار', notes: 'لصحة المفاصل والاستشفاء', recurrence: 'daily', daysOfWeek: [0, 1, 2, 3, 4, 5, 6] },
+          { id: genId('r'), title: 'واي بروتين آيزوليت (Whey Protein)', category: 'supplement', dosage: '1 سكوب (25g)', timing: 'بعد التمرين أو كسناك', notes: 'لإكمال الاحتياج اليومي للبروتين', recurrence: 'daily', daysOfWeek: [0, 1, 2, 3, 4, 5, 6] },
+          { id: genId('r'), title: 'مغنيسيوم غلايسينات (Magnesium)', category: 'supplement', dosage: '400mg', timing: 'قبل النوم بساعة', notes: 'لجودة النوم واسترخاء العضلات', recurrence: 'daily', daysOfWeek: [0, 1, 2, 3, 4, 5, 6] }
+        ];
+        supps.forEach(s => {
+          routineItems.push({
+            ...s,
+            sets: '', weight: '', calories: 0, protein: 0, customDays: 1, done: false, streak: 0, lastDoneDate: null
+          });
+        });
+        saveRoutineItems();
+        renderRoutineChecklist();
+        showToast('✓ تمت إضافة باقة المكملات الأساسية بنجاح');
+      } else if (presetType === 'meals_healthy') {
+        const meals = [
+          { id: genId('r'), title: 'إفطار غني بالبروتين (بيض وشوفان)', category: 'meal', calories: 550, protein: 38, timing: 'صباحاً', notes: '3 بيضات + 60غ شوفان مع حليب ولوز', recurrence: 'daily', daysOfWeek: [0, 1, 2, 3, 4, 5, 6] },
+          { id: genId('r'), title: 'وجبة طاقة قبل التمرين (Pre-Workout)', category: 'meal', calories: 400, protein: 25, timing: 'قبل النادي بساعتين', notes: 'رز أبيض مع صدر دجاج أو موزة وعسل', recurrence: 'daily', daysOfWeek: [0, 1, 2, 3, 4, 5, 6] },
+          { id: genId('r'), title: 'وجبة استشفاء بعد التمرين (Post-Workout)', category: 'meal', calories: 650, protein: 50, timing: 'بعد التمرين بساعة', notes: 'صدر دجاج مشوي مع بطاطا وسلطة خضراء', recurrence: 'daily', daysOfWeek: [0, 1, 2, 3, 4, 5, 6] }
+        ];
+        meals.forEach(m => {
+          routineItems.push({
+            ...m,
+            sets: '', weight: '', dosage: '', customDays: 1, done: false, streak: 0, lastDoneDate: null
+          });
+        });
+        saveRoutineItems();
+        renderRoutineChecklist();
+        showToast('✓ تمت إضافة باقة الوجبات الصحية بنجاح');
+      }
     }
 
     function renderRoutineChecklist() {
@@ -2929,12 +3067,21 @@
 
       if (displayed.length === 0) {
         container.innerHTML = `
-          <div class="p-4 text-center border border-dashed border-zinc-800 rounded-xl space-y-2 bg-zinc-950/40">
-            <div class="text-xs text-zinc-400 font-medium">لا توجد عناصر مسجلة في هذا التصنيف</div>
-            <div class="flex items-center justify-center gap-1.5 flex-wrap pt-1">
-              <button onclick="openAddRoutineItemModal('workout')" class="px-2 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[11px] font-medium hover:bg-blue-500/20 transition-all">+ تمرين نادي</button>
-              <button onclick="openAddRoutineItemModal('supplement')" class="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-medium hover:bg-emerald-500/20 transition-all">+ مكمل غذائي</button>
-              <button onclick="openAddRoutineItemModal('meal')" class="px-2 py-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[11px] font-medium hover:bg-amber-500/20 transition-all">+ وجبة يومية</button>
+          <div class="p-4 text-center border border-dashed border-zinc-800 rounded-xl space-y-3 bg-zinc-950/40">
+            <div>
+              <div class="text-xs text-zinc-300 font-semibold">تشيك ليست روتينك فارغة حالياً</div>
+              <div class="text-[11px] text-zinc-400 mt-0.5">ابدأ بإضافة عنصر مخصص أو فعّل باقة سريعة بنقرة واحدة:</div>
+            </div>
+            <div class="flex items-center justify-center gap-1.5 flex-wrap">
+              <button onclick="openAddRoutineItemModal('workout')" class="px-2 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[11px] font-medium hover:bg-blue-500/20 transition-all">+ تمرين جديد</button>
+              <button onclick="openAddRoutineItemModal('supplement')" class="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-medium hover:bg-emerald-500/20 transition-all">+ مكمل جديد</button>
+              <button onclick="openAddRoutineItemModal('meal')" class="px-2 py-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[11px] font-medium hover:bg-amber-500/20 transition-all">+ وجبة جديدة</button>
+            </div>
+            <div class="pt-2 border-t border-zinc-800/80 flex items-center justify-center gap-1.5 flex-wrap">
+              <span class="text-[10px] text-zinc-400 font-medium">قوالب جاهزة:</span>
+              <button onclick="applyStarterPreset('gym_ppl')" class="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-brand text-[10px] font-medium transition-colors" title="إضافة تمارين بوش/بول/ليجز">⚡ جدول Push/Pull/Legs</button>
+              <button onclick="applyStarterPreset('supplements_core')" class="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-emerald-400 text-[10px] font-medium transition-colors" title="إضافة كرياتين وأوميغا وفيتامينات">⚡ باقة المكملات</button>
+              <button onclick="applyStarterPreset('meals_healthy')" class="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-amber-400 text-[10px] font-medium transition-colors" title="إضافة إفطار ووجبة تمرين واستشفاء">⚡ باقة الوجبات</button>
             </div>
           </div>
         `;
@@ -3205,11 +3352,17 @@
     }
 
     function deleteRoutineItem(id) {
-      if (!confirm('هل تريد حذف هذا العنصر من الروتين؟')) return;
-      routineItems = routineItems.filter(r => r.id !== id);
+      const idx = routineItems.findIndex(r => r.id === id);
+      if (idx === -1) return;
+      const removed = routineItems[idx];
+      routineItems.splice(idx, 1);
       saveRoutineItems();
       renderRoutineChecklist();
-      showToast('تم حذف العنصر');
+      showToastWithUndo(`تم حذف "${removed.title}" من الروتين`, () => {
+        routineItems.splice(idx, 0, removed);
+        saveRoutineItems();
+        renderRoutineChecklist();
+      });
     }
 
     function deleteCurrentRoutineItem() {
@@ -3378,6 +3531,7 @@
         } else {
           task.status = 'done';
           task.completedAt = Date.now();
+          playSubtleAudio('success');
           saveData();
           renderAll();
           showToast('✓ أحسنت! تم إنجاز المهمة');
@@ -3386,10 +3540,17 @@
     }
 
     function deleteTask(id) {
-      taskData.tasks = taskData.tasks.filter(t => t.id !== id);
+      const idx = taskData.tasks.findIndex(t => t.id === id);
+      if (idx === -1) return;
+      const removed = taskData.tasks[idx];
+      taskData.tasks.splice(idx, 1);
       saveData();
       renderAll();
-      showToast('تم حذف المهمة');
+      showToastWithUndo(`تم حذف المهمة "${removed.title}"`, () => {
+        taskData.tasks.splice(idx, 0, removed);
+        saveData();
+        renderAll();
+      });
     }
 
     let selectedTaskAddDays = [0, 1, 2, 3, 4];
@@ -4092,6 +4253,7 @@
             const cnt = parseInt(localStorage.getItem('TASKHUB_POMO_TODAY') || '0', 10) + 1;
             localStorage.setItem('TASKHUB_POMO_TODAY', cnt);
             updatePomoUI(false);
+            playSubtleAudio('focus_complete');
             showToast('🎉 انتهت جلسة التركيز (25 دقيقة)! خذ استراحة 5 دقائق');
           } else {
             updatePomoUI(true);
@@ -4431,9 +4593,21 @@
     });
 
     // Initialize
+    
+    function initModalBackdropDismiss() {
+      document.querySelectorAll('.modal-backdrop').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.remove('active');
+          }
+        });
+      });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       loadTheme();
       updatePomoUI(false);
+      initModalBackdropDismiss();
       renderAll();
     });
   
