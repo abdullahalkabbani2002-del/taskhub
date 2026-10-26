@@ -303,29 +303,35 @@
          ========================================== -->
     <section id="view-today" class="view-panel space-y-6">
       
-      <!-- Date & Header Sub-bar -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1 border-b border-app-border">
-        <div>
-          <h1 class="text-lg font-semibold text-white tracking-tight flex items-center gap-2">
-            <span>لوحة اليوم والتركيز</span>
-          </h1>
-          <p class="text-xs text-app-muted mt-0.5" id="todayHeaderDate">اليوم، 26 أكتوبر 2026</p>
+      <!-- LEVEL 1: Sequential Day Progression Header (Sunsama Flow) -->
+      <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-brand flex-shrink-0">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-base font-semibold text-white tracking-tight">لوحة اليوم والتركيز الفوري</h1>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">جلسة نشطة</span>
+            </div>
+            <p class="text-xs text-app-muted mt-0.5" id="todayHeaderDate">الاثنين، 26 أكتوبر 2026</p>
+          </div>
         </div>
         
-        <!-- Ritual Action Triggers -->
-        <div class="flex items-center gap-2">
-          <button onclick="openMorningModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 text-xs font-medium transition-colors">
+        <!-- Day Ritual Progression Actions (Morning Planning & Evening Shutdown) -->
+        <div class="flex items-center gap-2 self-start md:self-auto flex-wrap">
+          <button onclick="openMorningModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-200 text-xs font-medium transition-colors">
             <svg class="w-3.5 h-3.5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <span>طقس الصباح</span>
+            <span>طقس الصباح وتحديد الأولويات</span>
           </button>
-          <button onclick="openShutdownModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 text-xs font-medium transition-colors">
+          <button onclick="openShutdownModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-300 text-xs font-medium transition-colors">
             <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
             <span>إغلاق اليوم</span>
           </button>
         </div>
       </div>
 
-      <!-- Untitled UI KPI Metric Cards Row -->
+      <!-- LEVEL 2: Day Pulse Metrics (Untitled UI Metric Cards Row) -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
         
         <!-- Metric 1: Daily Completion -->
@@ -343,26 +349,26 @@
           </div>
         </div>
 
-        <!-- Metric 2: Deep Work Sessions -->
+        <!-- Metric 2: Deep Work Focus -->
         <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/80 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
-            <span>جلسات التركيز</span>
+            <span>التركيز العميق</span>
             <svg class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
           <div class="flex items-baseline gap-2 mb-1.5">
             <span class="text-2xl font-bold text-white font-mono" id="todayPomoCount">0</span>
-            <span class="text-xs text-app-muted">جلسة</span>
+            <span class="text-xs text-app-muted">جلسة بومودورو</span>
           </div>
           <div class="text-[11px] text-zinc-400 flex items-center gap-1 font-mono">
             <span class="text-emerald-400 font-semibold" id="todayPomoMins">0 دقيقة</span>
-            <span>تركيز عميق</span>
+            <span>تركيز صافي</span>
           </div>
         </div>
 
-        <!-- Metric 3: Habits & Streaks -->
+        <!-- Metric 3: Habits & Streak -->
         <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/80 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
-            <span>العادات اليومية</span>
+            <span>تتابع العادات</span>
             <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
           </div>
           <div class="flex items-baseline gap-2 mb-2">
@@ -374,25 +380,25 @@
           </div>
         </div>
 
-        <!-- Metric 4: Daily Calorie Intake -->
+        <!-- Metric 4: Daily Energy & Nutrition -->
         <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/80 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
-            <span>السعرات اليومية</span>
+            <span>طاقة اليوم والسعرات</span>
             <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
           <div class="flex items-baseline gap-1.5 mb-1.5">
             <span class="text-2xl font-bold text-white font-mono" id="todayCalKpi">0</span>
-            <span class="text-xs text-app-muted font-mono">/ <span id="todayCalTargetKpi">2200</span></span>
+            <span class="text-xs text-app-muted font-mono">/ <span id="todayCalTargetKpi">2200</span> kcal</span>
           </div>
           <div class="text-[11px] text-zinc-400 flex items-center justify-between font-mono">
             <span id="todayProtKpi" class="text-brand font-semibold">0g بروتين</span>
-            <span class="text-app-muted cursor-pointer hover:text-white transition-colors" onclick="switchView('nutrition')">تفاصيل ←</span>
+            <span class="text-app-muted cursor-pointer hover:text-white transition-colors" onclick="switchView('nutrition')">تفاصيل التغذية ←</span>
           </div>
         </div>
 
       </div>
 
-      <!-- Quick Capture Bar (Linear / Raycast Style) -->
+      <!-- LEVEL 3: Quick Capture Bar (Linear / Raycast Style) -->
       <div class="bg-app-surface border border-app-border rounded-xl p-2.5 shadow-subtle focus-within:border-zinc-700 transition-all">
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           
@@ -437,14 +443,14 @@
         </div>
       </div>
 
-      <!-- Main Layout: 2 Columns (Tasks on Right, Habits/Widgets on Left) -->
+      <!-- LEVEL 4: Active Execution Space (2 Columns) -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
-        <!-- Column 1 & 2: Today Focus Tasks (Untitled UI List View) -->
+        <!-- Main Column (65%): Today's Active Tasks -->
         <div class="lg:col-span-2 space-y-3">
           <div class="flex items-center justify-between px-1">
             <div class="flex items-center gap-2">
-              <h2 class="text-sm font-semibold text-white">مهام اليوم ذات الأولوية</h2>
+              <h2 class="text-sm font-semibold text-white">قائمة مهام اليوم المجدولة</h2>
               <span id="todayTasksPill" class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-900 text-zinc-400 border border-zinc-800">0 مهام</span>
             </div>
             <button onclick="openAddTaskModal()" class="text-xs text-brand hover:underline font-medium sm:hidden">+ إضافة مهمة</button>
@@ -456,16 +462,16 @@
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
             </div>
             <h3 class="text-xs font-semibold text-zinc-300">لا توجد مهام مجدولة لليوم</h3>
-            <p class="text-[11px] text-zinc-500 max-w-xs mx-auto">صندوق مهامك فارغ الآن. أضف مهمة جديدة بالأعلى أو اختر من مصفوفة أيزنهاور.</p>
+            <p class="text-[11px] text-zinc-500 max-w-xs mx-auto">صندوق مهامك اليومية فارغ الآن. أضف مهمة جديدة بالأعلى أو اختر من مصفوفة أيزنهاور.</p>
           </div>
 
-          <!-- Active Task Items List -->
+          <!-- Active Task Items List (Linear Style Rows) -->
           <div id="todayTaskList" class="space-y-2">
             <!-- Dynamic task items injected via JS -->
           </div>
         </div>
 
-        <!-- Column 3: Habits & Quick Widgets -->
+        <!-- Secondary Column (35%): Daily Habits, Water & Quick Gym -->
         <div class="space-y-4">
           
           <!-- Habits Card (Untitled UI Container) -->
@@ -473,7 +479,7 @@
             <div class="flex items-center justify-between pb-2 border-b border-app-border">
               <div class="flex items-center gap-2">
                 <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                <h3 class="text-xs font-semibold text-white">العادات اليومية</h3>
+                <h3 class="text-xs font-semibold text-white">العادات اليومية والانضباط</h3>
               </div>
               <button onclick="openAddHabitPrompt()" class="text-xs text-brand hover:underline font-medium">+ عادة</button>
             </div>
@@ -484,19 +490,23 @@
             </div>
           </div>
 
-          <!-- Quick Gym Widget -->
+          <!-- Quick Nutrition & Gym Bridge Widget -->
           <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
             <div class="flex items-center justify-between pb-2 border-b border-app-border">
               <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
-                <h3 class="text-xs font-semibold text-white">تمارين الجيم اليوم</h3>
+                <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <h3 class="text-xs font-semibold text-white">الوقود والصحة</h3>
               </div>
-              <button onclick="switchView('nutrition')" class="text-xs text-brand hover:underline font-medium">عرض السجل ←</button>
+              <button onclick="switchView('nutrition')" class="text-xs text-brand hover:underline font-medium">فتح المركز ←</button>
             </div>
             
-            <div class="text-[11px] text-zinc-400">
-              سجل تمارينك وجلساتك بدقة داخل تبويب الصحة والتغذية.
-            </div>
+            <p class="text-[11px] text-zinc-400 leading-relaxed">
+              سجل وجباتك وتمارين النادي وحصتك اليومية من السعرات والبروتين بذكاء Gemini الاصطناعي.
+            </p>
+            <button onclick="switchView('nutrition')" class="w-full py-2 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-200 text-xs font-medium transition-colors flex items-center justify-center gap-1.5">
+              <span>تسجيل وجبة أو تمرين</span>
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
           </div>
 
         </div>
@@ -506,80 +516,103 @@
     </section>
 
     <!-- ==========================================
-         VIEW 2: TASKS & EISENHOWER MATRIX (المهام والمصفوفة)
+         VIEW 2: TASKS & EISENHOWER MATRIX (المهام والتخطيط الاستراتيجي)
          ========================================== -->
     <section id="view-tasks" class="view-panel hidden space-y-6">
       
-      <!-- View Header & Horizon Switcher -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-app-border">
+      <!-- LEVEL 1: Strategic Planning Header & Time Horizons -->
+      <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 class="text-base font-semibold text-white tracking-tight">مصفوفة أيزنهاور الاستراتيجية</h2>
-          <p class="text-xs text-app-muted mt-0.5">تصنيف المهام حسب الأهمية والإلحاح لاتخاذ قرارات تنفيذية حاسمة</p>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-semibold text-white tracking-tight">مصفوفة التخطيط الاستراتيجي والآفاق الزمنية</h2>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">إطار أيزنهاور</span>
+          </div>
+          <p class="text-xs text-app-muted mt-0.5">التنقل الهرمي بين أفق اليوم، الأسبوع، الشهر، والسنة لتنظيم الأولويات واتخاذ القرارات</p>
         </div>
 
         <!-- Horizons Segmented Control -->
-        <div class="flex items-center bg-zinc-900 p-0.5 rounded-lg border border-zinc-800 self-start sm:self-auto">
-          <button onclick="setHorizon('daily')" data-hbtn="daily" class="horizon-pill px-3 py-1 text-xs font-medium rounded-md transition-all text-white bg-zinc-800 shadow-sm border border-zinc-700/60">اليوم</button>
-          <button onclick="setHorizon('weekly')" data-hbtn="weekly" class="horizon-pill px-3 py-1 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">أسبوعي</button>
-          <button onclick="setHorizon('monthly')" data-hbtn="monthly" class="horizon-pill px-3 py-1 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">شهري</button>
-          <button onclick="setHorizon('yearly')" data-hbtn="yearly" class="horizon-pill px-3 py-1 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">سنوي</button>
+        <div class="flex items-center bg-zinc-900 p-0.5 rounded-lg border border-zinc-800 self-start md:self-auto">
+          <button onclick="setHorizon('daily')" data-hbtn="daily" class="horizon-pill px-3 py-1.5 text-xs font-medium rounded-md transition-all text-white bg-zinc-800 shadow-sm border border-zinc-700/60">اليوم</button>
+          <button onclick="setHorizon('weekly')" data-hbtn="weekly" class="horizon-pill px-3 py-1.5 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">أسبوعي</button>
+          <button onclick="setHorizon('monthly')" data-hbtn="monthly" class="horizon-pill px-3 py-1.5 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">شهري</button>
+          <button onclick="setHorizon('yearly')" data-hbtn="yearly" class="horizon-pill px-3 py-1.5 text-xs font-medium rounded-md transition-all text-zinc-400 hover:text-zinc-200">سنوي</button>
         </div>
       </div>
 
-      <!-- Eisenhower 4-Quadrant Matrix (Untitled UI 2x2 Grid) -->
+      <!-- LEVEL 2: Eisenhower 4-Quadrant Matrix (Untitled UI 2x2 Grid) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
         <!-- Q1: Do First (عاجل ومهم) -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all">
-          <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-              <span class="font-medium text-xs text-white">1. افعل فوراً (عاجل ومهم)</span>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                <span class="font-medium text-xs text-white">1. عاجل ومهم (افعل فوراً • Do First)</span>
+              </div>
+              <span id="matrixCount-do_first" class="text-xs font-mono font-semibold text-rose-400 px-2 py-0.5 bg-rose-500/10 rounded-full border border-rose-500/20">0</span>
             </div>
-            <span id="matrixCount-do_first" class="text-xs font-mono font-semibold text-rose-400 px-2 py-0.5 bg-rose-500/10 rounded-full border border-rose-500/20">0</span>
+            <div id="matrixList-do_first" class="space-y-2 min-h-[90px]"></div>
           </div>
-          <div id="matrixList-do_first" class="space-y-2 min-h-[90px]"></div>
+          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500">
+            مهام طارئة، أزمات، ومواعيد نهائية حاسمة تتطلب تحركك الفوري اليوم.
+          </div>
         </div>
 
         <!-- Q2: Schedule (مهم وغير عاجل) -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all">
-          <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-              <span class="font-medium text-xs text-white">2. خطط وجدول (مهم غير عاجل)</span>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                <span class="font-medium text-xs text-white">2. مهم غير عاجل (خطط وجدول • Schedule)</span>
+              </div>
+              <span id="matrixCount-schedule" class="text-xs font-mono font-semibold text-blue-400 px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20">0</span>
             </div>
-            <span id="matrixCount-schedule" class="text-xs font-mono font-semibold text-blue-400 px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20">0</span>
+            <div id="matrixList-schedule" class="space-y-2 min-h-[90px]"></div>
           </div>
-          <div id="matrixList-schedule" class="space-y-2 min-h-[90px]"></div>
+          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500">
+            أنشطة التطوير، الرياضة، والتعلم والبناء الاستراتيجي طويل الأمد.
+          </div>
         </div>
 
         <!-- Q3: Delegate (عاجل وغير مهم) -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all">
-          <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-              <span class="font-medium text-xs text-white">3. فوّض أو أتمت (عاجل غير مهم)</span>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span class="font-medium text-xs text-white">3. عاجل غير مهم (فوّض وأتمت • Delegate)</span>
+              </div>
+              <span id="matrixCount-delegate" class="text-xs font-mono font-semibold text-amber-400 px-2 py-0.5 bg-amber-500/10 rounded-full border border-amber-500/20">0</span>
             </div>
-            <span id="matrixCount-delegate" class="text-xs font-mono font-semibold text-amber-400 px-2 py-0.5 bg-amber-500/10 rounded-full border border-amber-500/20">0</span>
+            <div id="matrixList-delegate" class="space-y-2 min-h-[90px]"></div>
           </div>
-          <div id="matrixList-delegate" class="space-y-2 min-h-[90px]"></div>
+          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500">
+            مقاطعات، تقارير روتينية، ومهام يمكن تفويضها للآخرين أو أتمتتها.
+          </div>
         </div>
 
         <!-- Q4: Eliminate (غير عاجل وغير مهم) -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all">
-          <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-zinc-500"></span>
-              <span class="font-medium text-xs text-white">4. أرجئ أو احذف (غير عاجل وغير مهم)</span>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle hover:border-zinc-700/60 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-zinc-500"></span>
+                <span class="font-medium text-xs text-white">4. غير عاجل وغير مهم (أرجئ أو احذف • Backlog)</span>
+              </div>
+              <span id="matrixCount-eliminate" class="text-xs font-mono font-semibold text-zinc-400 px-2 py-0.5 bg-zinc-800 rounded-full border border-zinc-700">0</span>
             </div>
-            <span id="matrixCount-eliminate" class="text-xs font-mono font-semibold text-zinc-400 px-2 py-0.5 bg-zinc-800 rounded-full border border-zinc-700">0</span>
+            <div id="matrixList-eliminate" class="space-y-2 min-h-[90px]"></div>
           </div>
-          <div id="matrixList-eliminate" class="space-y-2 min-h-[90px]"></div>
+          <div class="mt-3 pt-2 border-t border-app-border/40 text-[10px] text-zinc-500">
+            مشتتات، رغبات عابرة، وأفكار تحتاج إلى مراجعة وتصفية لاحقة.
+          </div>
         </div>
 
       </div>
 
-      <!-- Task Backlog & Archive -->
+      <!-- LEVEL 3: Task Backlog & Intake Hopper -->
       <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle">
         <div class="flex items-center justify-between mb-3 pb-2 border-b border-app-border">
           <div class="flex items-center gap-2">
@@ -598,17 +631,30 @@
          ========================================== -->
     <section id="view-nutrition" class="view-panel hidden space-y-6">
       
-      <!-- Top Macro KPI Cards (Untitled UI Stat Cards) -->
+      <!-- LEVEL 1: Health Hub Header -->
+      <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-semibold text-white tracking-tight">مركز الصحة والتغذية الذكية ورياضة القوة</h2>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">Gemini 3.5 Flash</span>
+          </div>
+          <p class="text-xs text-app-muted mt-0.5">تتبع المغذيات الكبرى (الماكروز) بدقة اللهجة الشامية، ومتابعة جلسات وأوزان النادي</p>
+        </div>
+
+        <button onclick="openNutritionSettingsModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-300 text-xs font-medium self-start md:self-auto transition-colors">
+          <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>تعديل الأهداف ومفتاح API</span>
+        </button>
+      </div>
+
+      <!-- LEVEL 2: Macro Target Gauges (Untitled UI 4 Cards Row) -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
         
         <!-- Calories Card -->
         <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-zinc-700/60 transition-all">
           <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
-            <span>السعرات المستهلكة</span>
-            <button onclick="openNutritionSettingsModal()" class="text-brand hover:underline font-medium text-[11px] flex items-center gap-1">
-              <span>تعديل الهدف</span>
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-            </button>
+            <span>إجمالي السعرات (Calories)</span>
+            <span class="w-2 h-2 rounded-full bg-brand"></span>
           </div>
           <div class="flex items-baseline gap-1.5 mb-2">
             <span class="text-2xl font-bold text-white font-mono" id="nutriCalsConsumed">0</span>
@@ -670,7 +716,7 @@
 
       </div>
 
-      <!-- Gemini AI Nutrition Engine (Raycast / Modern SaaS Style) -->
+      <!-- LEVEL 3: Gemini AI Natural Language Nutrition Input -->
       <div class="bg-app-surface border border-app-border rounded-xl p-4 sm:p-5 shadow-subtle space-y-4">
         
         <div class="flex items-center justify-between pb-3 border-b border-app-border">
@@ -679,14 +725,10 @@
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
             </div>
             <div>
-              <h3 class="text-sm font-semibold text-white">حاسبة التغذية الذكية بالذكاء الاصطناعي</h3>
-              <p class="text-xs text-app-muted">اكتب وجبتك بالعامية (مثلاً: "350غ مندي مع فخد دجاج"، "سكوب واي بروتين") وسيقوم النظام بتفكيكها بدقة</p>
+              <h3 class="text-sm font-semibold text-white">حاسبة التغذية الذكية بالذكاء الاصطناعي (Gemini 3.5 Flash)</h3>
+              <p class="text-xs text-app-muted">اكتب وجبتك بالعامية الشامية وسيقوم المحرك بتفكيك الماكروز بدقة</p>
             </div>
           </div>
-          <button onclick="openNutritionSettingsModal()" class="text-xs text-zinc-400 hover:text-white font-medium flex items-center gap-1">
-            <svg class="w-3.5 h-3.5 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-2-2 2 2"/><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/></svg>
-            <span>مفتاح API</span>
-          </button>
         </div>
 
         <!-- AI Meal Input Bar -->
@@ -713,7 +755,7 @@
 
       </div>
 
-      <!-- 2 Columns: Logged Meals History + Gym Exercise Tracker -->
+      <!-- LEVEL 4: Activity History (2 Columns: Meals Timeline + Gym Tracker) -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         <!-- Logged Meals Timeline -->
@@ -721,7 +763,7 @@
           <div class="flex items-center justify-between pb-2 border-b border-app-border">
             <div class="flex items-center gap-2">
               <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-              <h3 class="text-xs font-semibold text-white">سجل وجبات اليوم</h3>
+              <h3 class="text-xs font-semibold text-white">سجل وجبات اليوم التراكمي</h3>
             </div>
             <span id="loggedMealsCount" class="text-xs text-app-muted font-mono">0 وجبات</span>
           </div>
@@ -758,18 +800,22 @@
     </section>
 
     <!-- ==========================================
-         VIEW 4: REVIEWS & RITUALS (المراجعات والطقوس والتقارير)
+         VIEW 4: REVIEWS & RITUALS (إدارة المنظومة والبيانات)
          ========================================== -->
     <section id="view-reviews" class="view-panel hidden space-y-6">
       
-      <div class="pb-2 border-b border-app-border">
-        <h2 class="text-base font-semibold text-white tracking-tight flex items-center gap-2">
-          <span>المراجعات الدورية، الطقوس، وإدارة البيانات</span>
-        </h2>
-        <span class="text-xs text-app-muted">طقوس التخطيط اليومي Sunsama، إغلاق اليوم، والنسخ الاحتياطي السحابي والمحلي</span>
+      <!-- LEVEL 1: System & Reviews Header -->
+      <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-semibold text-white tracking-tight">إدارة المنظومة، المراجعات والبيانات (Life OS System)</h2>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 font-medium">البيانات والطقوس</span>
+          </div>
+          <p class="text-xs text-app-muted mt-0.5">مراجعات Sunsama الصباحية والمسائية، وتصدير جداول Excel، والنسخ الاحتياطي الآمن</p>
+        </div>
       </div>
 
-      <!-- Sunsama Dual Rituals Cards Grid -->
+      <!-- LEVEL 2: Sunsama Dual Rituals Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
         <!-- Morning Planning Ritual Card -->
@@ -814,7 +860,7 @@
 
       </div>
 
-      <!-- Data Export & Cloud Backup Management -->
+      <!-- LEVEL 3: Data Management & Export Suite -->
       <div class="bg-app-surface border border-app-border rounded-xl p-5 shadow-subtle space-y-4">
         <div class="flex items-center justify-between pb-3 border-b border-app-border">
           <div class="flex items-center gap-2.5">
@@ -823,7 +869,7 @@
             </div>
             <div>
               <h3 class="text-sm font-semibold text-white">إدارة البيانات والنسخ الاحتياطي (Data Ownership)</h3>
-              <p class="text-xs text-app-muted">بياناتك ملكك بالكامل. احتفظ بنسخ احتياطية دورية أو صدرها إلى Excel</p>
+              <p class="text-xs text-app-muted">بياناتك ملكك بالكامل. احتفظ بنسخ احتياطية دورية أو صدرها إلى جداول Excel</p>
             </div>
           </div>
         </div>
@@ -835,7 +881,7 @@
               <span class="text-xs font-semibold text-white group-hover:text-brand transition-colors">تحميل نسخة JSON</span>
               <svg class="w-4 h-4 text-zinc-500 group-hover:text-brand transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </div>
-            <p class="text-[11px] text-zinc-500">نسخة احتياطية مشفرة وشاملة لكل المهام والعادات والوجبات</p>
+            <p class="text-[11px] text-zinc-500">نسخة احتياطية مشفرة وشاملة لكل المهام والعادات وسجلات التغذية</p>
           </button>
 
           <!-- Export Excel / CSV -->
@@ -847,13 +893,13 @@
             <p class="text-[11px] text-zinc-500">تصدير جداول البيانات متوافقة مع Excel وGoogle Sheets</p>
           </button>
 
-          <!-- Cloud Sync Settings -->
-          <button onclick="openCloudSyncModal()" class="p-3.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-right transition-all group">
+          <!-- Open Backup Modal (Restore) -->
+          <button onclick="openBackupModal()" class="p-3.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-right transition-all group">
             <div class="flex items-center justify-between mb-1.5">
-              <span class="text-xs font-semibold text-white group-hover:text-blue-400 transition-colors">المزامنة السحابية</span>
-              <svg class="w-4 h-4 text-zinc-500 group-hover:text-blue-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+              <span class="text-xs font-semibold text-white group-hover:text-amber-400 transition-colors">استعادة وإدارة النسخ</span>
+              <svg class="w-4 h-4 text-zinc-500 group-hover:text-amber-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/></svg>
             </div>
-            <p class="text-[11px] text-zinc-500">ربط مع خادم خارجي أو مزامنة متعددة الأجهزة</p>
+            <p class="text-[11px] text-zinc-500">استعادة ملف JSON سابق أو إدارة المزامنة</p>
           </button>
         </div>
 
@@ -982,8 +1028,8 @@
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
           </div>
           <div>
-            <h3 class="text-sm font-semibold text-white">طقس الصباح والتركيز (Sunsama)</h3>
-            <p class="text-[11px] text-zinc-400">اختر أولويات اليوم الأساسية (3 إلى 5 مهام كحد أقصى)</p>
+            <h3 class="text-sm font-semibold text-white">طقس الصباح وتحديد الأولويات (Sunsama Flow)</h3>
+            <p class="text-[11px] text-zinc-400">اختر أولويات اليوم الأساسية (3 إلى 5 مهام جوهرية)</p>
           </div>
         </div>
         <button onclick="closeMorningModal()" class="p-1 rounded-lg text-zinc-400 hover:text-white">✕</button>
@@ -1113,30 +1159,60 @@
     </div>
   </div>
 
-  <!-- Modal 6: Cloud Sync Settings -->
+  <!-- Modal 6: Backup & Restore Modal -->
+  <div id="backupModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-5 shadow-modal space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <h3 class="text-sm font-semibold text-white">النسخ الاحتياطي والاستعادة</h3>
+        <button onclick="closeBackupModal()" class="text-zinc-400 hover:text-white text-xs">✕</button>
+      </div>
+      <p class="text-xs text-zinc-400 leading-relaxed">
+        بياناتك مخزنة محلياً بالكامل على متصفحك. يمكنك تنزيل نسخة احتياطية كاملة واستعادتها في أي وقت على أي جهاز آخر.
+      </p>
+      <div class="space-y-3">
+        <button onclick="downloadBackupJSON()" class="w-full py-2.5 rounded-lg bg-brand/10 border border-brand/25 text-brand hover:bg-brand/20 text-xs font-medium transition-all flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>تنزيل نسخة احتياطية كاملة (JSON)</span>
+        </button>
+        <div class="pt-2 border-t border-zinc-800">
+          <label class="block text-xs font-medium text-zinc-300 mb-1.5">استعادة من ملف نسخة سابقة:</label>
+          <input type="file" id="backupFileInput" accept=".json" class="w-full text-xs text-zinc-400 file:ml-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-zinc-800 file:text-white hover:file:bg-zinc-700">
+        </div>
+      </div>
+      <div class="flex justify-end pt-3 border-t border-zinc-800">
+        <button onclick="closeBackupModal()" class="px-4 py-1.5 rounded-lg border border-zinc-800 text-xs text-zinc-400">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 7: Cloud Sync Settings -->
   <div id="cloudSyncModal" class="modal-backdrop">
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md p-5 shadow-modal space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
         <h3 class="text-sm font-semibold text-white">إعدادات المزامنة السحابية</h3>
         <button onclick="closeCloudSyncModal()" class="text-zinc-400 hover:text-white text-xs">✕</button>
       </div>
-      <div class="space-y-2">
-        <label class="text-xs text-zinc-400">رابط الخادم (Server API URL)</label>
-        <input type="text" id="cloudSyncUrl" placeholder="https://api.yourdomain.com/taskhub" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white">
-        <label class="text-xs text-zinc-400 mt-2 block">رمز الأمان (Token)</label>
-        <input type="password" id="cloudSyncToken" placeholder="Bearer Token..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white">
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-zinc-400 block mb-1">رابط الـ Webhook السحابي (Google Apps Script / n8n / Cloud):</label>
+          <input type="url" id="cloudWebhookUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand font-mono">
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 block mb-1">مفتاح الأمان السري (Secret Key):</label>
+          <input type="password" id="cloudSecretKey" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand font-mono">
+        </div>
       </div>
       <div class="flex items-center justify-between pt-3 border-t border-zinc-800">
-        <button onclick="testCloudSync()" class="text-xs text-blue-400 hover:underline">اختبار الاتصال</button>
+        <button onclick="testCloudSync()" class="text-xs text-brand hover:underline font-medium">اختبار المزامنة الآن</button>
         <div class="flex gap-2">
           <button onclick="closeCloudSyncModal()" class="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 text-xs">إلغاء</button>
-          <button onclick="saveCloudConfig()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-medium">حفظ التكوين</button>
+          <button onclick="saveCloudConfig()" class="px-4 py-1.5 rounded-lg bg-brand text-white text-xs font-medium">حفظ</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal 7: Shortcuts Cheat Sheet -->
+  <!-- Modal 8: Shortcuts Cheat Sheet -->
   <div id="shortcutsModal" class="modal-backdrop">
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-sm p-5 shadow-modal space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-zinc-800">
