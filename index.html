@@ -224,10 +224,16 @@
           <svg class="w-3 h-3 text-zinc-400" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
 
-        <!-- Quick Search Trigger -->
-        <button onclick="focusSearch()" class="hidden lg:flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors" title="بحث سريع (Ctrl + /)">
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <kbd class="px-1 text-[10px] bg-zinc-800 rounded border border-zinc-700 font-mono text-zinc-400">/</kbd>
+        <!-- Command Palette Trigger -->
+        <button onclick="openCommandPalette()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors" title="شريط الأوامر السريع (Ctrl + K أو /)">
+          <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span class="hidden xl:inline text-[11px]">أوامر</span>
+          <kbd class="hidden sm:inline px-1 text-[10px] bg-zinc-800 rounded border border-zinc-700 font-mono text-zinc-400">⌘K</kbd>
+        </button>
+
+        <!-- Shortcuts Modal Trigger -->
+        <button onclick="openShortcutsModal()" class="hidden md:flex p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors" title="اختصارات لوحة المفاتيح (?)">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </button>
 
         <!-- PWA Install Button -->
@@ -331,6 +337,10 @@
           <button onclick="openShutdownModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-300 text-xs font-medium transition-colors hover:border-zinc-700 shadow-sm" title="مراجعة الإنجاز وترحيل المتبقي">
             <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
             <span>إغلاق اليوم</span>
+          </button>
+          <button onclick="copyDailySummaryToClipboard()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-300 text-xs font-medium transition-colors hover:border-zinc-700 shadow-sm" title="نسخ تقرير إنجاز اليوم للحافظة ومشاركته">
+            <svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+            <span>نسخ التقرير</span>
           </button>
         </div>
       </div>
@@ -543,6 +553,55 @@
                   <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                 </button>
               </div>
+            </div>
+
+            <!-- Ambient Focus Sound Generator (Web Audio API) -->
+            <div class="pt-2.5 border-t border-app-border flex items-center justify-between gap-2">
+              <button onclick="toggleFocusAudio()" id="focusAudioBtn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-400 hover:text-zinc-200 text-[11px] transition-colors" title="تشغيل صوت تركيز في الخلفية (ضوضاء بنية / صوت مطر)">
+                <svg id="focusAudioIcon" class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span id="focusAudioStatusText">صوت تركيز: متوقف</span>
+              </button>
+              <select id="focusAudioType" onchange="changeFocusAudioType(this.value)" class="bg-zinc-900 border border-zinc-800 text-zinc-300 text-[11px] rounded-lg px-2 py-1 focus:outline-none focus:border-brand">
+                <option value="brown">مطر هادئ (Brown)</option>
+                <option value="pink">أمواج (Pink)</option>
+                <option value="white">ضوضاء بيضاء (White)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Daily Hydration Tracker (شرب الماء اليومي) -->
+          <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-app-border">
+              <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-md bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                </div>
+                <div>
+                  <h3 class="text-xs font-semibold text-white">ترطيب الجسم وشرب الماء</h3>
+                  <div class="text-[10px] text-zinc-400 font-mono" id="waterProgressText">0 / 2500 مل (0%)</div>
+                </div>
+              </div>
+              <span id="waterGoalAchievedBadge" class="hidden text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full font-mono">💧 تم الإنجاز!</span>
+            </div>
+
+            <!-- Animated Water Progress Bar -->
+            <div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden p-0.5 border border-zinc-800">
+              <div id="waterProgressBar" class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+
+            <!-- Quick Add Water Buttons -->
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <button onclick="addWater(250)" class="py-1.5 px-2 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 text-blue-300 font-medium transition-colors flex items-center justify-center gap-1 shadow-xs">
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                <span>250 مل</span>
+              </button>
+              <button onclick="addWater(500)" class="py-1.5 px-2 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 text-blue-300 font-medium transition-colors flex items-center justify-center gap-1 shadow-xs">
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                <span>500 مل</span>
+              </button>
+              <button onclick="addWater(-250)" class="py-1.5 px-2 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-400 hover:text-zinc-200 font-medium transition-colors flex items-center justify-center" title="إنقاص 250 مل">
+                <span>-250 مل</span>
+              </button>
             </div>
           </div>
 
@@ -1617,7 +1676,11 @@
       </div>
       <div class="space-y-2 text-xs text-zinc-300">
         <div class="flex justify-between items-center py-1 border-b border-zinc-800/60">
-          <span>التركيز على إدخال مهمة</span>
+          <span>شريط الأوامر السريع (Command Palette)</span>
+          <kbd class="px-2 py-0.5 bg-zinc-800 rounded border border-zinc-700 font-mono text-[10px]">Ctrl + K / ⌘K</kbd>
+        </div>
+        <div class="flex justify-between items-center py-1 border-b border-zinc-800/60">
+          <span>التركيز على إدخال مهمة سريعة</span>
           <kbd class="px-2 py-0.5 bg-zinc-800 rounded border border-zinc-700 font-mono text-[10px]">N</kbd>
         </div>
         <div class="flex justify-between items-center py-1 border-b border-zinc-800/60">
@@ -1636,6 +1699,32 @@
           <span>إغلاق أي نافذة منبثقة</span>
           <kbd class="px-2 py-0.5 bg-zinc-800 rounded border border-zinc-700 font-mono text-[10px]">Esc</kbd>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 9: Linear/Raycast Command Palette (Ctrl+K / Cmd+K) -->
+  <div id="commandPaletteModal" class="modal-backdrop">
+    <div class="bg-zinc-900 border border-zinc-750 rounded-2xl w-full max-w-xl p-0 shadow-2xl overflow-hidden flex flex-col max-h-[82vh] backdrop-blur-xl">
+      <!-- Search Input Header -->
+      <div class="flex items-center gap-3 px-4 py-3.5 border-b border-zinc-800 bg-zinc-950/60">
+        <svg class="w-4 h-4 text-brand flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="commandPaletteInput" placeholder="اكتب أمراً، مهمة، تمرين، أو تنقل سريع... (↑ ↓ للتنقل، Enter للاختيار)" class="w-full bg-transparent border-none text-sm text-white placeholder:text-zinc-500 focus:outline-none" oninput="handleCommandPaletteSearch()" onkeydown="handleCommandPaletteKeydown(event)">
+        <kbd class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700 font-mono">ESC</kbd>
+      </div>
+
+      <!-- Results Container -->
+      <div id="commandPaletteResults" class="p-2 space-y-1 overflow-y-auto max-h-[58vh]">
+        <!-- Dynamic command palette items will render here -->
+      </div>
+
+      <!-- Footer Info -->
+      <div class="px-4 py-2 border-t border-zinc-800/80 bg-zinc-950/80 flex items-center justify-between text-[11px] text-zinc-400">
+        <div class="flex items-center gap-2">
+          <span>اختيار <kbd class="px-1 bg-zinc-800 rounded font-mono text-[9px]">↵ Enter</kbd></span>
+          <span>تنقل <kbd class="px-1 bg-zinc-800 rounded font-mono text-[9px]">↑</kbd> <kbd class="px-1 bg-zinc-800 rounded font-mono text-[9px]">↓</kbd></span>
+        </div>
+        <div class="text-zinc-500 font-mono text-[10px]">Al-Kabbani Life OS Quick Command</div>
       </div>
     </div>
   </div>
@@ -1887,6 +1976,10 @@
       const month = String(d.getMonth() + 1).padStart(2, '0');
       const day = String(d.getDate()).padStart(2, '0');
       return `${year}-${month}-${day}`;
+    }
+
+    function getTodayDateStr() {
+      return formatLocalDate(new Date());
     }
 
     function calculateNextRecurrenceDate(currentDueDateStr, recurrenceType, customDays = 1, recurrenceDays = null) {
@@ -3821,6 +3914,7 @@
       renderNutritionDashboard();
       renderHabits();
       renderGymWorkout();
+      renderWaterTracker();
     }
 
     function renderTodayView() {
@@ -3847,6 +3941,14 @@
       if (doneRatioEl) doneRatioEl.textContent = `${doneTasks.length} / ${todayTasks.length} مهام`;
       if (progressBarEl) progressBarEl.style.width = percent + '%';
       if (countPill) countPill.textContent = `${pendingTasks.length} متبقية`;
+      if (todayTasks.length > 0 && pendingTasks.length === 0) {
+        const todayStr = getTodayDateStr();
+        if (lastCelebrationDate !== todayStr) {
+          lastCelebrationDate = todayStr;
+          triggerConfetti();
+          showToast('🎉 أسطوري! أنجزت كل مهام اليوم بالكامل');
+        }
+      }
 
       // Sort pending tasks: do_first first!
       pendingTasks.sort((a, b) => {
@@ -3925,74 +4027,116 @@
       }
     }
 
+    const expandedSubtasks = {};
+
+    function toggleInlineSubtasks(taskId, e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      expandedSubtasks[taskId] = !expandedSubtasks[taskId];
+      renderTodayView();
+      renderTasksView();
+    }
+
+    function toggleInlineSubtaskCheck(taskId, subtaskIdx, e) {
+      if (e) e.stopPropagation();
+      const task = taskData.tasks.find(t => t.id === taskId);
+      if (!task || !task.subtasks || !task.subtasks[subtaskIdx]) return;
+      task.subtasks[subtaskIdx].done = !task.subtasks[subtaskIdx].done;
+      saveData();
+      playSubtleAudio('check');
+      renderTodayView();
+      renderTasksView();
+    }
+
     function renderTaskCardHTML(t, context = 'today') {
       const isDone = t.status === 'done';
       const hasSubtasks = t.subtasks && t.subtasks.length > 0;
       const doneSubtasks = hasSubtasks ? t.subtasks.filter(s => s.done).length : 0;
       const recLabel = formatRecurrenceLabel(t.recurrence, t.recurrenceCustomDays, t.recurrenceDays);
       const isDoFirst = t.eisenhower === 'do_first';
+      const isSubtasksExpanded = !!expandedSubtasks[t.id];
 
       return `
-        <div class="group flex items-center justify-between p-3 sm:p-3.5 bg-surface hover:bg-surface-hover border ${isDoFirst && !isDone ? 'border-rose-500/30 bg-rose-500/[0.02] border-r-4 border-r-rose-500' : 'border-surface-border'} rounded-xl sm:rounded-2xl shadow-card transition-all gap-3 ${isDone ? 'opacity-60' : ''}">
+        <div class="group flex flex-col p-3 sm:p-3.5 bg-surface hover:bg-surface-hover border ${isDoFirst && !isDone ? 'border-rose-500/30 bg-rose-500/[0.02] border-r-4 border-r-rose-500' : 'border-surface-border'} rounded-xl sm:rounded-2xl shadow-card transition-all gap-1.5 ${isDone ? 'opacity-60' : ''}">
           
-          <div class="flex items-center gap-3 flex-1 min-w-0">
-            <!-- Custom Checkbox -->
-            <button onclick="toggleTaskStatus('${t.id}')" class="w-5 h-5 rounded-lg border ${isDone ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-surface-border bg-surface-subtle hover:border-brand'} flex items-center justify-center flex-shrink-0 transition-colors shadow-sm" title="${isDone ? 'إعادة فتح' : 'إنجاز المهمة'}">
-              ${isDone ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
-            </button>
+          <div class="flex items-center justify-between gap-3 w-full">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <!-- Custom Checkbox -->
+              <button onclick="toggleTaskStatus('${t.id}')" class="w-5 h-5 rounded-lg border ${isDone ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-surface-border bg-surface-subtle hover:border-brand'} flex items-center justify-center flex-shrink-0 transition-colors shadow-sm" title="${isDone ? 'إعادة فتح' : 'إنجاز المهمة'}">
+                ${isDone ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+              </button>
 
-            <!-- Title & Metadata -->
-            <div class="flex-1 min-w-0 cursor-pointer" onclick="openTaskDetails('${t.id}')">
-              <div class="${isDone ? 'line-through text-app-muted' : 'text-zinc-100 font-medium'} text-xs sm:text-sm truncate">
-                ${escapeHtml(t.title)}
+              <!-- Title & Metadata -->
+              <div class="flex-1 min-w-0 cursor-pointer" onclick="openTaskDetails('${t.id}')">
+                <div class="${isDone ? 'line-through text-app-muted' : 'text-zinc-100 font-medium'} text-xs sm:text-sm truncate">
+                  ${escapeHtml(t.title)}
+                </div>
+                <div class="flex items-center gap-1.5 flex-wrap mt-1">
+                  ${getEisenhowerBadge(t.eisenhower)}
+                  ${recLabel ? `
+                    <span class="meta-pill bg-brand/10 text-brand border border-brand/20 flex items-center gap-1">
+                      <svg class="w-3 h-3 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                      <span>${recLabel}</span>
+                    </span>
+                  ` : ''}
+                  ${hasSubtasks ? `
+                    <button type="button" onclick="toggleInlineSubtasks('${t.id}', event)" class="meta-pill bg-surface-subtle hover:bg-zinc-800 border border-surface-border text-app-muted hover:text-zinc-200 flex items-center gap-1 transition-colors" title="عرض/إخفاء الخطوات الفرعية">
+                      <svg class="w-3 h-3 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+                      <span>${doneSubtasks}/${t.subtasks.length} خطوات</span>
+                      <svg class="w-2.5 h-2.5 transition-transform ${isSubtasksExpanded ? 'rotate-180' : ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                  ` : ''}
+                </div>
               </div>
-              <div class="flex items-center gap-1.5 flex-wrap mt-1">
-                ${getEisenhowerBadge(t.eisenhower)}
-                ${recLabel ? `
-                  <span class="meta-pill bg-brand/10 text-brand border border-brand/20 flex items-center gap-1">
-                    <svg class="w-3 h-3 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
-                    <span>${recLabel}</span>
-                  </span>
-                ` : ''}
-                ${hasSubtasks ? `
-                  <span class="meta-pill bg-surface-subtle border border-surface-border text-app-muted flex items-center gap-1">
-                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
-                    <span>${doneSubtasks}/${t.subtasks.length}</span>
-                  </span>
-                ` : ''}
-              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="flex items-center gap-1 flex-shrink-0">
+              ${!isDone && context === 'today' ? `
+                <button onclick="startFocusOnTask('${t.id}')" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-zinc-900 hover:bg-brand/15 hover:text-brand border border-zinc-800 text-zinc-300 transition-colors shadow-sm" title="بدء جلسة تركيز بومودورو">
+                  <svg class="w-3 h-3 text-brand" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>تركيز</span>
+                </button>
+                <button onclick="postponeTaskToTomorrow('${t.id}')" class="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-surface-subtle transition-colors" title="ترحيل للغد">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+              ` : ''}
+
+              ${context === 'matrix' ? `
+                <button onclick="moveTaskToToday('${t.id}')" class="px-2 py-1 rounded-md text-[11px] font-semibold bg-zinc-900 hover:bg-brand/20 hover:text-brand border border-zinc-800 text-zinc-300 transition-colors" title="نقل إلى قائمة مهام اليوم">+ اليوم</button>
+                <select onchange="changeTaskEisenhower('${t.id}', this.value)" class="bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white text-[10px] rounded px-1.5 py-0.5 focus:outline-none" title="تغيير المربع">
+                  <option value="do_first" ${t.eisenhower === 'do_first' ? 'selected' : ''}>1</option>
+                  <option value="schedule" ${t.eisenhower === 'schedule' ? 'selected' : ''}>2</option>
+                  <option value="delegate" ${t.eisenhower === 'delegate' ? 'selected' : ''}>3</option>
+                  <option value="eliminate" ${t.eisenhower === 'eliminate' ? 'selected' : ''}>4</option>
+                </select>
+              ` : ''}
+
+              <button onclick="openTaskDetails('${t.id}')" class="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-surface-subtle transition-colors" title="تعديل المهمة">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button onclick="deleteTask('${t.id}')" class="p-1.5 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-surface-subtle transition-colors" title="حذف المهمة">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
             </div>
           </div>
 
-          <!-- Quick Actions -->
-          <div class="flex items-center gap-1 flex-shrink-0">
-            ${!isDone && context === 'today' ? `
-              <button onclick="startFocusOnTask('${t.id}')" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-zinc-900 hover:bg-brand/15 hover:text-brand border border-zinc-800 text-zinc-300 transition-colors shadow-sm" title="بدء جلسة تركيز بومودورو">
-                <svg class="w-3 h-3 text-brand" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                <span>تركيز</span>
-              </button>
-              <button onclick="postponeTaskToTomorrow('${t.id}')" class="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-surface-subtle transition-colors" title="ترحيل للغد">
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-              </button>
-            ` : ''}
-
-            ${context === 'matrix' ? `
-              <button onclick="moveTaskToToday('${t.id}')" class="px-2 py-1 rounded-md text-[11px] font-semibold bg-zinc-900 hover:bg-brand/20 hover:text-brand border border-zinc-800 text-zinc-300 transition-colors" title="نقل إلى قائمة مهام اليوم">+ اليوم</button>
-              <select onchange="changeTaskEisenhower('${t.id}', this.value)" class="bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white text-[10px] rounded px-1.5 py-0.5 focus:outline-none" title="تغيير المربع">
-                <option value="do_first" ${t.eisenhower === 'do_first' ? 'selected' : ''}>1</option>
-                <option value="schedule" ${t.eisenhower === 'schedule' ? 'selected' : ''}>2</option>
-                <option value="delegate" ${t.eisenhower === 'delegate' ? 'selected' : ''}>3</option>
-                <option value="eliminate" ${t.eisenhower === 'eliminate' ? 'selected' : ''}>4</option>
-              </select>
-            ` : ''}
-
-            <button onclick="openTaskDetails('${t.id}')" class="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-surface-subtle transition-colors" title="تعديل المهمة">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            </button>
-            <button onclick="deleteTask('${t.id}')" class="p-1.5 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-surface-subtle transition-colors" title="حذف المهمة">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-            </button>
-          </div>
+          ${hasSubtasks && isSubtasksExpanded ? `
+            <div class="mt-2 pt-2 border-t border-zinc-800/80 space-y-1.5 w-full">
+              <div class="flex items-center justify-between text-[11px] text-zinc-400 mb-1 px-1">
+                <span>الخطوات الفرعية (${doneSubtasks}/${t.subtasks.length})</span>
+                <span class="text-zinc-500 font-mono">${Math.round((doneSubtasks / t.subtasks.length) * 100)}%</span>
+              </div>
+              ${t.subtasks.map((s, idx) => `
+                <div class="flex items-center gap-2.5 py-1 px-2.5 rounded-lg bg-zinc-900/60 hover:bg-zinc-850 border border-zinc-800/50 transition-colors">
+                  <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleInlineSubtaskCheck('${t.id}', ${idx}, event)" class="w-3.5 h-3.5 rounded bg-zinc-950 border-zinc-700 text-brand focus:ring-0 cursor-pointer">
+                  <span class="${s.done ? 'line-through text-zinc-500' : 'text-zinc-200'} text-xs flex-1 truncate">${escapeHtml(s.title || s.text || '')}</span>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
 
         </div>
       `;
@@ -4550,33 +4694,534 @@
       }
     }
 
+    // Command Palette Engine (Linear / Raycast Style)
+    let commandPaletteItems = [];
+    let commandPaletteSelectedIndex = 0;
+
+    function openCommandPalette() {
+      const modal = document.getElementById('commandPaletteModal');
+      const input = document.getElementById('commandPaletteInput');
+      if (!modal) return;
+      modal.classList.add('active');
+      if (input) {
+        input.value = '';
+        setTimeout(() => input.focus(), 60);
+      }
+      buildAndRenderCommandPalette('');
+    }
+
+    function closeCommandPalette() {
+      const modal = document.getElementById('commandPaletteModal');
+      if (modal) modal.classList.remove('active');
+    }
+
     function focusSearch() {
-      const q = prompt('بحث سريع في المهام والعادات والوجبات:');
-      if (!q || !q.trim()) return;
-      const term = normalizeArabic(q);
-      const matches = taskData.tasks.filter(t => normalizeArabic(t.title).includes(term));
-      if (matches.length > 0) {
-        alert(`نتائج البحث عن "${q}":\n\n` + matches.map((m, i) => `${i + 1}. ${m.title} (${m.status === 'done' ? 'منجز ✓' : 'قيد التنفيذ'})`).join('\n'));
-      } else {
-        alert(`لم يتم العثور على مهام مطابقة لـ "${q}"`);
+      openCommandPalette();
+    }
+
+    function getAvailableCommands() {
+      return [
+        // Navigation
+        { id: 'nav_today', category: 'التنقل الفوري', title: 'اليوم والتركيز الفوري', icon: '☀️', run: () => switchView('today') },
+        { id: 'nav_tasks', category: 'التنقل الفوري', title: 'بنك المهام ومصفوفة آيزنهاور', icon: '📋', run: () => switchView('tasks') },
+        { id: 'nav_nutrition', category: 'التنقل الفوري', title: 'التغذية الذكية ورياضة القوة', icon: '🥗', run: () => switchView('nutrition') },
+        { id: 'nav_reviews', category: 'التنقل الفوري', title: 'المراجعات الأسبوعية والطقوس', icon: '📈', run: () => switchView('reviews') },
+        
+        // Quick Creation
+        { id: 'act_add_task', category: 'إجراءات سريعة', title: 'إضافة مهمة جديدة بتفاصيل متقدمة', icon: '➕', run: () => openAddTaskModal() },
+        { id: 'act_add_workout', category: 'إجراءات سريعة', title: 'إضافة تمرين للنادي (جلسات وأوزان)', icon: '🏋️', run: () => openAddRoutineItemModal('workout') },
+        { id: 'act_add_supplement', category: 'إجراءات سريعة', title: 'إضافة مكمل غذائي ومواعيد', icon: '💊', run: () => openAddRoutineItemModal('supplement') },
+        { id: 'act_add_meal', category: 'إجراءات سريعة', title: 'إضافة وجبة أو سناكس مخصصة', icon: '🥗', run: () => openAddRoutineItemModal('meal') },
+        { id: 'act_ai_meal', category: 'إجراءات سريعة', title: 'تحليل وجبة ذكية بـ Gemini AI', icon: '✨', run: () => { switchView('nutrition'); setTimeout(() => document.getElementById('aiMealInput')?.focus(), 150); } },
+
+        // Focus & Productivity
+        { id: 'act_pomodoro', category: 'الإنتاجية والتركيز', title: 'بدء / إيقاف مؤقت التركيز (بومودورو)', icon: '⏱️', run: () => togglePomodoro() },
+        { id: 'act_focus_audio', category: 'الإنتاجية والتركيز', title: 'تشغيل / إيقاف صوت التركيز (ضوضاء بنية / مطر)', icon: '🎧', run: () => toggleFocusAudio() },
+        { id: 'act_morning', category: 'الإنتاجية والتركيز', title: 'طقس الصباح وتحديد الأولويات', icon: '🌅', run: () => openMorningModal() },
+        { id: 'act_shutdown', category: 'الإنتاجية والتركيز', title: 'طقس إغلاق اليوم وترحيل المتبقي', icon: '🌙', run: () => openShutdownModal() },
+
+        // Health & Hydration
+        { id: 'act_water_250', category: 'الصحة والترطيب', title: 'تسجيل شرب كوب ماء (+250 مل)', icon: '💧', run: () => addWater(250) },
+        { id: 'act_water_500', category: 'الصحة والترطيب', title: 'تسجيل شرب قارورة ماء (+500 مل)', icon: '🥤', run: () => addWater(500) },
+
+        // Data & System
+        { id: 'act_copy_summary', category: 'البيانات والأدوات', title: 'نسخ ملخص إنجاز اليوم للحافظة (Share Debrief)', icon: '📋', run: () => copyDailySummaryToClipboard() },
+        { id: 'act_backup_export', category: 'البيانات والأدوات', title: 'تصدير نسخة احتياطية من البيانات (JSON)', icon: '💾', run: () => exportBackup() },
+        { id: 'act_backup_import', category: 'البيانات والأدوات', title: 'استيراد نسخة احتياطية (JSON)', icon: '📥', run: () => openBackupModal() },
+        { id: 'act_theme', category: 'البيانات والأدوات', title: 'تبديل المظهر (داكن / فاتح)', icon: '🌓', run: () => toggleTheme() },
+        { id: 'act_api_settings', category: 'البيانات والأدوات', title: 'إعدادات مفتاح Gemini API والأهداف', icon: '⚙️', run: () => openNutritionSettingsModal() },
+        { id: 'act_shortcuts', category: 'البيانات والأدوات', title: 'عرض اختصارات لوحة المفاتيح (?)', icon: '⌨️', run: () => openShortcutsModal() }
+      ];
+    }
+
+    function buildAndRenderCommandPalette(query = '') {
+      const normQ = normalizeArabic(query.trim());
+      const results = [];
+
+      // Static commands
+      const cmds = getAvailableCommands();
+      cmds.forEach(c => {
+        if (!normQ || normalizeArabic(c.title).includes(normQ) || normalizeArabic(c.category).includes(normQ)) {
+          results.push(c);
+        }
+      });
+
+      // Dynamic matching tasks
+      if (normQ && taskData && taskData.tasks) {
+        taskData.tasks.filter(t => !t.isArchivedRecurrence).forEach(t => {
+          if (normalizeArabic(t.title).includes(normQ)) {
+            results.push({
+              id: 'task_' + t.id,
+              category: 'المهام',
+              title: t.title,
+              icon: t.status === 'done' ? '✓' : '📌',
+              badge: t.status === 'done' ? 'منجز' : (t.eisenhower === 'do_first' ? 'عاجل وهام' : 'مجدول'),
+              run: () => openTaskDetails(t.id)
+            });
+          }
+        });
+      }
+
+      // Dynamic matching routine items
+      if (normQ && typeof getRoutineItems === 'function') {
+        getRoutineItems().forEach(r => {
+          if (normalizeArabic(r.title).includes(normQ)) {
+            const catLabel = r.category === 'workout' ? 'تمرين' : (r.category === 'supplement' ? 'مكمل' : 'وجبة');
+            results.push({
+              id: 'routine_' + r.id,
+              category: 'روتين الصحة والنادي',
+              title: r.title + (r.meta ? ' (' + r.meta + ')' : ''),
+              icon: r.category === 'workout' ? '🏋️' : (r.category === 'supplement' ? '💊' : '🥗'),
+              badge: catLabel,
+              run: () => openEditRoutineItem(r.id)
+            });
+          }
+        });
+      }
+
+      commandPaletteItems = results;
+      commandPaletteSelectedIndex = 0;
+      renderCommandPaletteList();
+    }
+
+    function renderCommandPaletteList() {
+      const container = document.getElementById('commandPaletteResults');
+      if (!container) return;
+
+      if (commandPaletteItems.length === 0) {
+        container.innerHTML = `
+          <div class="py-8 text-center text-xs text-zinc-500">
+            <svg class="w-6 h-6 mx-auto mb-2 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <div>لا توجد أوامر أو عناصر مطابقة لما كتبت</div>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      let lastCategory = '';
+
+      commandPaletteItems.forEach((item, idx) => {
+        if (item.category !== lastCategory) {
+          lastCategory = item.category;
+          html += `<div class="px-3 py-1.5 text-[10px] font-semibold text-zinc-500 uppercase tracking-wider mt-1">${escapeHtml(lastCategory)}</div>`;
+        }
+
+        const isSelected = idx === commandPaletteSelectedIndex;
+        html += `
+          <div id="cpItem-${idx}" onclick="executePaletteItem(${idx})" onmouseenter="selectPaletteItem(${idx})" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs cursor-pointer transition-colors ${isSelected ? 'bg-brand/15 text-white border border-brand/20' : 'text-zinc-300 hover:bg-zinc-800/80'}">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-sm flex-shrink-0">${item.icon}</span>
+              <span class="truncate font-medium">${escapeHtml(item.title)}</span>
+            </div>
+            ${item.badge ? `
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 font-mono flex-shrink-0">${escapeHtml(item.badge)}</span>
+            ` : `
+              <span class="text-[10px] text-zinc-500 font-mono flex-shrink-0">↵</span>
+            `}
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      scrollSelectedPaletteItemIntoView();
+    }
+
+    function selectPaletteItem(idx) {
+      commandPaletteSelectedIndex = idx;
+      document.querySelectorAll('[id^="cpItem-"]').forEach((el, i) => {
+        if (i === idx) {
+          el.className = 'flex items-center justify-between px-3 py-2 rounded-xl text-xs cursor-pointer transition-colors bg-brand/15 text-white border border-brand/20';
+        } else {
+          el.className = 'flex items-center justify-between px-3 py-2 rounded-xl text-xs cursor-pointer transition-colors text-zinc-300 hover:bg-zinc-800/80';
+        }
+      });
+    }
+
+    function scrollSelectedPaletteItemIntoView() {
+      const el = document.getElementById('cpItem-' + commandPaletteSelectedIndex);
+      if (el) {
+        el.scrollIntoView({ block: 'nearest' });
       }
     }
 
-    // Keyboard Shortcuts
+    function executePaletteItem(idx) {
+      const item = commandPaletteItems[idx];
+      if (item && item.run) {
+        closeCommandPalette();
+        try {
+          item.run();
+        } catch (e) {
+          console.error('Command execution error:', e);
+        }
+      }
+    }
+
+    function handleCommandPaletteSearch() {
+      const input = document.getElementById('commandPaletteInput');
+      buildAndRenderCommandPalette(input ? input.value : '');
+    }
+
+    function handleCommandPaletteKeydown(e) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (commandPaletteItems.length > 0) {
+          commandPaletteSelectedIndex = (commandPaletteSelectedIndex + 1) % commandPaletteItems.length;
+          renderCommandPaletteList();
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (commandPaletteItems.length > 0) {
+          commandPaletteSelectedIndex = (commandPaletteSelectedIndex - 1 + commandPaletteItems.length) % commandPaletteItems.length;
+          renderCommandPaletteList();
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        executePaletteItem(commandPaletteSelectedIndex);
+      } else if (e.key === 'Escape') {
+        closeCommandPalette();
+      }
+    }
+
+    // Hydration Tracker (Daily Water Logs)
+    function addWater(amount) {
+      const today = getTodayDateStr();
+      if (!taskData.waterLogs) taskData.waterLogs = {};
+      const current = taskData.waterLogs[today] || 0;
+      const newAmount = Math.max(0, current + amount);
+      taskData.waterLogs[today] = newAmount;
+      saveData();
+      renderWaterTracker();
+
+      if (amount > 0) {
+        playSubtleAudio('check');
+        if (newAmount >= 2500 && current < 2500) {
+          triggerConfetti();
+          showToast('💧 رائع! أتممت هدف الترطيب اليومي (2,500 مل)');
+        } else {
+          showToast('تم تسجيل ' + amount + ' مل ماء (الإجمالي: ' + newAmount + ' مل)');
+        }
+      } else {
+        showToast('تم إنقاص 250 مل ماء (الإجمالي: ' + newAmount + ' مل)');
+      }
+    }
+
+    function renderWaterTracker() {
+      const today = getTodayDateStr();
+      const current = (taskData.waterLogs && taskData.waterLogs[today]) || 0;
+      const target = 2500;
+      const percent = Math.min(100, Math.round((current / target) * 100));
+
+      const textEl = document.getElementById('waterProgressText');
+      const barEl = document.getElementById('waterProgressBar');
+      const badgeEl = document.getElementById('waterGoalAchievedBadge');
+
+      if (textEl) textEl.textContent = current + ' / ' + target + ' مل (' + percent + '%)';
+      if (barEl) barEl.style.width = percent + '%';
+      if (badgeEl) {
+        if (current >= target) {
+          badgeEl.classList.remove('hidden');
+        } else {
+          badgeEl.classList.add('hidden');
+        }
+      }
+    }
+
+    // Ambient Focus Audio Synthesizer (Web Audio API)
+    let focusAudioCtx = null;
+    let focusAudioSource = null;
+    let focusAudioGain = null;
+    let isFocusAudioPlaying = false;
+    let currentFocusAudioType = 'brown';
+
+    function toggleFocusAudio() {
+      if (isFocusAudioPlaying) {
+        stopFocusAudio();
+      } else {
+        startFocusAudio(currentFocusAudioType);
+      }
+    }
+
+    function startFocusAudio(type = 'brown') {
+      try {
+        currentFocusAudioType = type;
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!focusAudioCtx) focusAudioCtx = new AudioCtx();
+        if (focusAudioCtx.state === 'suspended') focusAudioCtx.resume();
+
+        stopFocusAudio();
+
+        const sampleRate = focusAudioCtx.sampleRate;
+        const bufferSize = sampleRate * 4;
+        const buffer = focusAudioCtx.createBuffer(1, bufferSize, sampleRate);
+        const data = buffer.getChannelData(0);
+
+        if (type === 'brown') {
+          let lastOut = 0.0;
+          for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            lastOut = (lastOut + (0.02 * white)) / 1.02;
+            data[i] = lastOut * 3.5;
+          }
+        } else if (type === 'pink') {
+          let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+          for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            b0 = 0.99886 * b0 + white * 0.0555179;
+            b1 = 0.99332 * b1 + white * 0.0750759;
+            b2 = 0.96900 * b2 + white * 0.1538520;
+            b3 = 0.86650 * b3 + white * 0.3104856;
+            b4 = 0.55000 * b4 + white * 0.5329522;
+            b5 = -0.7616 * b5 - white * 0.0168980;
+            data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+            b6 = white * 0.115926;
+          }
+        } else {
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * 0.2;
+          }
+        }
+
+        focusAudioSource = focusAudioCtx.createBufferSource();
+        focusAudioSource.buffer = buffer;
+        focusAudioSource.loop = true;
+
+        const filter = focusAudioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = (type === 'brown' ? 800 : (type === 'pink' ? 1400 : 3500));
+
+        focusAudioGain = focusAudioCtx.createGain();
+        focusAudioGain.gain.setValueAtTime(0.01, focusAudioCtx.currentTime);
+        focusAudioGain.gain.linearRampToValueAtTime(0.15, focusAudioCtx.currentTime + 1.2);
+
+        focusAudioSource.connect(filter);
+        filter.connect(focusAudioGain);
+        focusAudioGain.connect(focusAudioCtx.destination);
+
+        focusAudioSource.start(0);
+        isFocusAudioPlaying = true;
+        updateFocusAudioUI();
+      } catch (e) {
+        console.warn('Web Audio Ambient Noise unavailable:', e);
+      }
+    }
+
+    function stopFocusAudio() {
+      if (focusAudioSource && focusAudioGain && focusAudioCtx) {
+        try {
+          focusAudioGain.gain.linearRampToValueAtTime(0.001, focusAudioCtx.currentTime + 0.4);
+          setTimeout(() => {
+            try { focusAudioSource.stop(); } catch(e) {}
+            focusAudioSource = null;
+          }, 400);
+        } catch (e) {
+          try { focusAudioSource.stop(); } catch(err) {}
+          focusAudioSource = null;
+        }
+      }
+      isFocusAudioPlaying = false;
+      updateFocusAudioUI();
+    }
+
+    function updateFocusAudioUI() {
+      const btn = document.getElementById('focusAudioBtn');
+      const txt = document.getElementById('focusAudioStatusText');
+      const icon = document.getElementById('focusAudioIcon');
+      if (btn && txt) {
+        if (isFocusAudioPlaying) {
+          btn.classList.add('bg-brand/15', 'text-brand', 'border-brand/30');
+          btn.classList.remove('text-zinc-400');
+          txt.textContent = 'صوت تركيز: نشط';
+          if (icon) icon.classList.add('animate-pulse', 'text-brand');
+        } else {
+          btn.classList.remove('bg-brand/15', 'text-brand', 'border-brand/30');
+          btn.classList.add('text-zinc-400');
+          txt.textContent = 'صوت تركيز: متوقف';
+          if (icon) icon.classList.remove('animate-pulse', 'text-brand');
+        }
+      }
+    }
+
+    function changeFocusAudioType(val) {
+      currentFocusAudioType = val;
+      if (isFocusAudioPlaying) {
+        startFocusAudio(val);
+      }
+    }
+
+    // High-performance Canvas Confetti Explosion
+    let lastCelebrationDate = '';
+    function triggerConfetti() {
+      try {
+        let canvas = document.getElementById('confettiCanvas');
+        if (!canvas) {
+          canvas = document.createElement('canvas');
+          canvas.id = 'confettiCanvas';
+          canvas.style.position = 'fixed';
+          canvas.style.top = '0';
+          canvas.style.left = '0';
+          canvas.style.width = '100vw';
+          canvas.style.height = '100vh';
+          canvas.style.pointerEvents = 'none';
+          canvas.style.zIndex = '999999';
+          document.body.appendChild(canvas);
+        }
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const colors = ['#E04F16', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#F43F5E', '#FFFFFF'];
+        
+        for (let i = 0; i < 90; i++) {
+          particles.push({
+            x: canvas.width * (0.3 + Math.random() * 0.4),
+            y: canvas.height * 0.45,
+            vx: (Math.random() - 0.5) * 16,
+            vy: (Math.random() - 0.7) * 16,
+            size: Math.random() * 7 + 4,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            alpha: 1,
+            rotation: Math.random() * 360,
+            vRot: (Math.random() - 0.5) * 12
+          });
+        }
+
+        let animFrame;
+        function updateConfetti() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let alive = false;
+          particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.35;
+            p.vx *= 0.98;
+            p.rotation += p.vRot;
+            p.alpha -= 0.012;
+            if (p.alpha > 0) {
+              alive = true;
+              ctx.save();
+              ctx.translate(p.x, p.y);
+              ctx.rotate((p.rotation * Math.PI) / 180);
+              ctx.fillStyle = p.color;
+              ctx.globalAlpha = Math.max(0, p.alpha);
+              ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+              ctx.restore();
+            }
+          });
+
+          if (alive) {
+            animFrame = requestAnimationFrame(updateConfetti);
+          } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            cancelAnimationFrame(animFrame);
+          }
+        }
+        updateConfetti();
+        playSubtleAudio('success');
+      } catch (e) {
+        console.warn('Confetti error:', e);
+      }
+    }
+
+    // Shareable Daily Summary Debrief
+    function copyDailySummaryToClipboard() {
+      const today = getTodayDateStr();
+      const activeTasks = taskData.tasks.filter(t => !t.isArchivedRecurrence);
+      const todayTasks = activeTasks.filter(t => (t.horizon === 'daily' || t.status === 'today'));
+      const doneTasks = todayTasks.filter(t => t.status === 'done');
+      
+      const routineItems = typeof getRoutineItems === 'function' ? getRoutineItems() : [];
+      const completedRoutine = routineItems.filter(r => isRoutineCompletedToday(r));
+
+      const water = (taskData.waterLogs && taskData.waterLogs[today]) || 0;
+      const cals = (healthState && healthState.todayCalories) || 0;
+      const prot = (healthState && healthState.todayProtein) || 0;
+      const pomos = (taskData.pomodoroTodaySessions || 0);
+
+      let md = '📋 ملخص إنجاز اليوم - TaskHub Life OS\n';
+      md += '📅 التاريخ: ' + new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + '\n\n';
+
+      md += '✅ المهام المنجزة (' + doneTasks.length + '/' + todayTasks.length + '):\n';
+      if (todayTasks.length === 0) {
+        md += '• لا توجد مهام مسجلة اليوم\n';
+      } else {
+        todayTasks.forEach(t => {
+          md += '• [' + (t.status === 'done' ? 'x' : ' ') + '] ' + t.title + '\n';
+        });
+      }
+
+      md += '\n🏋️ روتين اللياقة والصحة (' + completedRoutine.length + '/' + routineItems.length + '):\n';
+      if (routineItems.length === 0) {
+        md += '• لا توجد عناصر روتين مسجلة\n';
+      } else {
+        routineItems.forEach(r => {
+          const isDone = isRoutineCompletedToday(r);
+          md += '• [' + (isDone ? 'x' : ' ') + '] ' + r.title + (r.meta ? ' (' + r.meta + ')' : '') + '\n';
+        });
+      }
+
+      md += '\n💧 شرب الماء: ' + water + ' / 2500 مل (' + Math.round((water / 2500) * 100) + '%)\n';
+      md += '⏱️ جلسات التركيز: ' + pomos + ' جلسة (' + (pomos * 25) + ' دقيقة)\n';
+      md += '🥗 التغذية: ' + cals + ' سعرة | ' + prot + 'g بروتين\n';
+      md += '\n✨ تم التوليد عبر Al-Kabbani TaskHub';
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(md).then(() => {
+          playSubtleAudio('success');
+          showToast('📋 تم نسخ ملخص اليوم بنجاح إلى الحافظة!');
+        }).catch(() => {
+          showToast('تم نسخ ملخص اليوم بنجاح');
+        });
+      } else {
+        showToast('تم نسخ ملخص اليوم بنجاح');
+      }
+    }
+
+    // Global Keyboard Shortcuts
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         document.querySelectorAll('.modal-backdrop.active').forEach(m => m.classList.remove('active'));
         return;
       }
+
+      // Command Palette (Ctrl+K or Cmd+K) - works even when inputs are focused!
+      if ((e.key === 'k' || e.key === 'K') && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        openCommandPalette();
+        return;
+      }
+
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
       if (e.key === 'n' || e.key === 'N') {
         e.preventDefault();
         const inp = document.getElementById('taskTitleDesktop');
         if (inp) inp.focus();
-      } else if (e.key === '/' || (e.key === 'k' && (e.ctrlKey || e.metaKey))) {
+      } else if (e.key === '/') {
         e.preventDefault();
-        focusSearch();
+        openCommandPalette();
       } else if (e.key === '?') {
         openShortcutsModal();
       } else if (e.key === '1') {
