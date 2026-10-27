@@ -360,18 +360,19 @@
 <body class="bg-app-bg text-app-text h-screen overflow-hidden selection:bg-brand/20 selection:text-brand antialiased">
 
   <!-- ==========================================
-       FLAT DASHBOARD UI KIT: SIDEBAR & APP SHELL
+       ARTISAN DASHBOARD UI: SIDEBAR & APP SHELL
+       Crafted with Linear / Raycast precision
        ========================================== -->
   
   <!-- Mobile Sidebar Backdrop Overlay -->
   <div id="sidebarBackdrop" onclick="toggleSidebar(false)" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs hidden transition-opacity md:hidden"></div>
 
-  <!-- Global Floating Toast Notification (With Linear-Style Undo) -->
+  <!-- Global Floating Toast Notification (Linear-style toast) -->
   <div id="toastNotification" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-200 pointer-events-none opacity-0 -translate-y-2">
-    <div class="px-3.5 py-2 rounded-xl bg-app-surface border border-app-border shadow-modal text-xs font-medium text-app-text flex items-center gap-3 backdrop-blur-md">
+    <div class="px-4 py-2.5 rounded-xl bg-app-surface border border-app-border shadow-modal text-sm font-medium text-app-text flex items-center gap-3 backdrop-blur-md">
       <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
       <span id="toastMessage">تم الإجراء بنجاح</span>
-      <button id="toastUndoBtn" onclick="undoLastAction()" class="hidden px-2 py-0.5 rounded-md bg-brand/20 hover:bg-brand/30 text-brand border border-brand/30 text-[11px] font-semibold transition-colors pointer-events-auto">تراجع (Undo)</button>
+      <button id="toastUndoBtn" onclick="undoLastAction()" class="hidden px-2.5 py-0.5 rounded-md bg-brand/10 hover:bg-brand/20 text-brand border border-brand/20 text-xs font-semibold transition-colors pointer-events-auto">تراجع</button>
     </div>
   </div>
 
@@ -379,193 +380,141 @@
   <div class="flex h-screen w-full overflow-hidden bg-app-bg text-app-text antialiased">
 
     <!-- ==========================================
-         PERSISTENT FLAT DASHBOARD SIDEBAR (RTL Right)
+         CRAFTSMAN MINIMALIST SIDEBAR (RTL Right)
          ========================================== -->
-    <aside id="appSidebar" class="fixed md:static inset-y-0 right-0 z-50 w-72 xl:w-80 bg-app-surface border-l border-app-border flex flex-col justify-between transition-transform duration-200 ease-in-out translate-x-full md:translate-x-0 flex-shrink-0 shadow-2xl md:shadow-none select-none">
+    <aside id="appSidebar" class="fixed md:static inset-y-0 right-0 z-50 w-72 bg-app-surface border-l border-app-border flex flex-col justify-between transition-transform duration-200 ease-in-out translate-x-full md:translate-x-0 flex-shrink-0 shadow-2xl md:shadow-none select-none">
       
-      <!-- Top Section: Brand + User Profile + Navigation -->
-      <div class="flex flex-col flex-1 min-h-0 overflow-y-auto px-3.5 py-4 space-y-4">
+      <!-- Top Section: Brand + Navigation -->
+      <div class="flex flex-col flex-1 min-h-0 overflow-y-auto px-4 py-5 space-y-5">
         
-        <!-- Brand Header Block -->
-        <div class="flex items-center justify-between pb-3 border-b border-app-border">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-8 h-8 rounded-lg bg-brand/10 border border-brand/25 flex items-center justify-center text-brand flex-shrink-0 shadow-xs">
-              <!-- Al-Kabbani Brand Seal SVG -->
+        <!-- Brand Header (Minimalist & Confident) -->
+        <div class="flex items-center justify-between pb-3 border-b border-app-border/80">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-8 h-8 rounded-lg bg-brand/10 border border-brand/20 flex items-center justify-center text-brand flex-shrink-0">
+              <!-- Al-Kabbani Brand Seal -->
               <svg class="w-4.5 h-4.5 fill-current" viewBox="0 0 69.4134 69.7739">
                 <path d="M47.4256 55.7748 C53.8661 55.7748 60.704 54.7062 65.9734 52.9467 C63.9891 60.967 56.7747 66.8933 48.1879 66.8933 L21.2244 66.8933 C13.6786 66.8933 7.1954 62.3057 4.3725 55.7533 C4.8878 55.764 5.4029 55.7748 5.9288 55.7748 C14.0544 55.7748 22.8132 54.0692 28.2658 51.4461 L29.6076 50.7443 C30.4235 51.5002 31.2821 52.2126 32.1515 52.7415 L32.1623 52.7415 C35.876 54.8464 41.4471 55.7748 47.4256 55.7748 M66.5328 21.3289 L66.5328 43.3825 C61.5826 44.6239 55.6907 45.0341 51.1395 45.0341 C47.6512 45.0341 44.2699 44.7859 41.4149 44.2567 C44.5491 41.3314 46.3846 37.6396 46.3846 33.3002 C46.3846 27.4063 42.9498 24.4916 38.0873 24.4916 C30.477 24.4916 23.9294 31.7242 23.9294 39.0213 C23.9294 40.5325 24.2085 42.0547 24.7344 43.5011 L22.577 43.9222 C18.5839 44.6778 13.99 45.0341 9.6319 45.0341 C7.2922 45.0341 4.995 44.9261 2.8806 44.6887 L2.8806 21.3289 C2.8806 11.1385 11.0919 2.8806 21.2244 2.8806 L48.1879 2.8806 C58.3205 2.8806 66.5328 11.1385 66.5328 21.3289 M43.1213 14.0424 L38.259 9.1307 L33.9012 13.5134 L29.554 9.1307 L24.6165 14.0963 L24.6165 14.798 L29.554 19.8176 L33.9012 15.3917 L38.259 19.8176 L43.1213 14.9058 L43.1213 14.0424"/>
               </svg>
             </div>
             <div>
-              <div class="flex items-center gap-1.5">
-                <span class="font-bold text-base tracking-tight text-app-text">القباني</span>
-                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-brand/10 text-brand border border-brand/20 font-bold">Life OS</span>
-              </div>
-              <div class="text-xs text-app-muted font-medium">لوحة التحكم الشاملة</div>
+              <div class="font-bold text-base text-app-text tracking-tight">القباني</div>
+              <div class="text-xs text-app-muted font-medium">TaskHub</div>
             </div>
           </div>
 
           <!-- Mobile Close Drawer Button -->
-          <button onclick="toggleSidebar(false)" class="md:hidden p-1 rounded-lg text-app-muted hover:text-app-text hover:bg-app-surface-subtle transition-colors" title="إغلاق القائمة">
+          <button onclick="toggleSidebar(false)" class="md:hidden p-1.5 rounded-lg text-app-muted hover:text-app-text hover:bg-app-surface-subtle transition-colors" title="إغلاق">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
 
-        <!-- User Profile Pill (Flat UI Kit Card) -->
-        <div class="flex items-center justify-between p-2 rounded-xl bg-app-surface-subtle border border-app-border">
-          <div class="flex items-center gap-2 min-w-0">
-            <div class="w-7 h-7 rounded-lg bg-brand text-white font-bold text-xs flex items-center justify-center flex-shrink-0 shadow-xs">
-              ع
-            </div>
-            <div class="min-w-0">
-              <div class="text-xs font-semibold text-app-text truncate">عبد الله القباني</div>
-              <div class="flex items-center gap-1 text-[10px] text-emerald-500 font-medium">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>تركيز وإنتاجية</span>
-              </div>
-            </div>
+        <!-- User Profile Line (Understated) -->
+        <div class="flex items-center gap-2.5 px-1 py-0.5">
+          <div class="w-7 h-7 rounded-full bg-brand/20 text-brand font-bold text-xs flex items-center justify-center flex-shrink-0 border border-brand/30">
+            ع
           </div>
-          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-app-surface border border-app-border text-app-muted">PRO</span>
+          <div class="min-w-0 flex-1">
+            <div class="text-sm font-semibold text-app-text truncate">عبد الله القباني</div>
+          </div>
         </div>
 
-        <!-- Quick Command Search Box Button -->
-        <button onclick="openCommandPalette()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-app-surface-subtle hover:bg-app-surface border border-app-border text-xs text-app-muted hover:text-app-text transition-colors shadow-xs group" title="شريط الأوامر السريع (Ctrl + K)">
-          <div class="flex items-center gap-2">
-            <svg class="w-3.5 h-3.5 text-app-muted group-hover:text-brand transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span class="text-[11px]">ابحث أو نفذ أمراً...</span>
+        <!-- Quick Search Bar (Raycast / Linear style) -->
+        <button onclick="openCommandPalette()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-app-surface-subtle hover:bg-app-surface border border-app-border text-sm text-app-muted hover:text-app-text transition-colors shadow-xs group" title="شريط الأوامر السريع (⌘K)">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4 text-app-muted group-hover:text-brand transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span class="text-xs">ابحث أو نفذ أمراً...</span>
           </div>
-          <kbd class="px-1.5 py-0.5 text-[9px] bg-app-surface rounded border border-app-border font-mono text-app-muted">⌘K</kbd>
+          <kbd class="px-1.5 py-0.5 text-[10px] bg-app-surface rounded border border-app-border font-mono text-app-muted">⌘K</kbd>
         </button>
 
-        <!-- Sidebar Navigation Menu Categories -->
-        <nav class="space-y-4 pt-1">
+        <!-- Clean Navigation Menu (No Slop, Pure Clarity) -->
+        <nav class="space-y-1 pt-1">
           
-          <!-- Section 1: Overview & Today -->
-          <div class="space-y-1">
-            <div class="px-2.5 text-[10px] font-bold text-app-muted uppercase tracking-wider">الرئيسية والمتابعة</div>
-            
-            <!-- Item 1: Today & Focus -->
-            <button onclick="switchView('today')" id="tabBtn-today" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all text-app-text bg-app-surface shadow-xs border border-app-border group">
-              <div class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 text-brand flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                <span>اليوم والتركيز الفوري</span>
-              </div>
-              <span id="sidebarTodayBadge" class="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-brand/10 text-brand border border-brand/20 font-bold">اليوم</span>
-            </button>
-          </div>
+          <!-- Item 1: Today -->
+          <button onclick="switchView('today')" id="tabBtn-today" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all text-app-text bg-app-surface shadow-xs border border-app-border group">
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 text-brand flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+              <span>اليوم</span>
+            </div>
+          </button>
 
-          <!-- Section 2: Productivity & Work -->
-          <div class="space-y-1">
-            <div class="px-2.5 text-[10px] font-bold text-app-muted uppercase tracking-wider">الإنتاجية والعمل</div>
+          <!-- Item 2: Tasks & Projects -->
+          <button onclick="switchView('tasks')" id="tabBtn-tasks" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-app-muted hover:text-app-text hover:bg-app-surface-subtle group">
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>المهام والمصفوفة</span>
+            </div>
+          </button>
 
-            <!-- Item 2: Tasks & Eisenhower -->
-            <button onclick="switchView('tasks')" id="tabBtn-tasks" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-app-muted hover:text-app-text hover:bg-app-surface-subtle group">
-              <div class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
-                <span>المهام والمشاريع (أيزنهاور)</span>
-              </div>
-              <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-app-surface-subtle text-app-muted border border-app-border">مصفوفة</span>
-            </button>
-          </div>
+          <!-- Item 3: Study & Courses -->
+          <button onclick="switchView('study')" id="tabBtn-study" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-app-muted hover:text-app-text hover:bg-app-surface-subtle group">
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+              <span>الدراسة والكورسات</span>
+            </div>
+          </button>
 
-          <!-- Section 3: Learning & Growth -->
-          <div class="space-y-1">
-            <div class="px-2.5 text-[10px] font-bold text-app-muted uppercase tracking-wider">التعلم والدراسة</div>
+          <!-- Item 4: Health, Nutrition & Gym -->
+          <button onclick="switchView('nutrition')" id="tabBtn-nutrition" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-app-muted hover:text-app-text hover:bg-app-surface-subtle group">
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span>الصحة والرياضة</span>
+            </div>
+          </button>
 
-            <!-- Item 3: Study & Courses -->
-            <button onclick="switchView('study')" id="tabBtn-study" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-app-muted hover:text-app-text hover:bg-app-surface-subtle group">
-              <div class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 flex-shrink-0 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                <span>الدراسة والكورسات</span>
-              </div>
-              <span id="sidebarCoursesBadge" class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-blue-500/10 text-blue-500 border border-blue-500/20 font-bold">تعلم</span>
-            </button>
-          </div>
-
-          <!-- Section 4: Health & Fitness -->
-          <div class="space-y-1">
-            <div class="px-2.5 text-[10px] font-bold text-app-muted uppercase tracking-wider">الصحة والرياضة</div>
-
-            <!-- Item 4: Nutrition & Gym -->
-            <button onclick="switchView('nutrition')" id="tabBtn-nutrition" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-app-muted hover:text-app-text hover:bg-app-surface-subtle group">
-              <div class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 flex-shrink-0 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                <span>التغذية الذكية والنادي</span>
-              </div>
-              <span class="text-[9px] px-1 py-0.2 bg-emerald-500/15 text-emerald-500 rounded font-mono font-bold">AI Flash</span>
-            </button>
-          </div>
-
-          <!-- Section 5: System & Rituals -->
-          <div class="space-y-1">
-            <div class="px-2.5 text-[10px] font-bold text-app-muted uppercase tracking-wider">المنظومة والبيانات</div>
-
-            <!-- Item 5: Reviews & Rituals -->
-            <button onclick="switchView('reviews')" id="tabBtn-reviews" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-app-muted hover:text-app-text hover:bg-app-surface-subtle group">
-              <div class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 flex-shrink-0 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
-                <span>المراجعات والطقوس والنسخ</span>
-              </div>
-            </button>
-          </div>
+          <!-- Item 5: Reviews & Data -->
+          <button onclick="switchView('reviews')" id="tabBtn-reviews" class="view-tab-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-app-muted hover:text-app-text hover:bg-app-surface-subtle group">
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+              <span>المراجعات والبيانات</span>
+            </div>
+          </button>
 
         </nav>
 
-        <!-- Sidebar Momentum Pulse Micro-Card -->
-        <div class="p-3 rounded-xl bg-app-surface-subtle border border-app-border space-y-2 mt-2">
-          <div class="flex items-center justify-between text-[11px] font-semibold text-app-text">
-            <span>نبض اليوم (Momentum)</span>
-            <span class="text-amber-500 font-mono text-[10px] flex items-center gap-0.5">
-              <span>تتابع:</span>
-              <span id="sidebarHabitStreak">0🔥</span>
-            </span>
-          </div>
-          <div class="space-y-1.5 text-[10px] text-app-muted font-mono">
-            <div class="flex items-center justify-between">
-              <span>إنجاز المهام:</span>
-              <span id="sidebarTasksDone" class="text-app-text font-bold">0/0</span>
+        <!-- Quiet Metrics Row (Clean & Non-distracting, preserves test IDs) -->
+        <div class="pt-4 border-t border-app-border/80">
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="p-2 rounded-lg bg-app-surface-subtle/60 border border-app-border/60">
+              <div class="text-[11px] text-app-muted mb-0.5">المهام</div>
+              <div id="sidebarTasksDone" class="font-mono text-xs font-bold text-app-text">0/0</div>
             </div>
-            <div class="flex items-center justify-between">
-              <span>شرب الماء:</span>
-              <span id="sidebarWater" class="text-blue-500 font-medium">0 / 2500 مل</span>
+            <div class="p-2 rounded-lg bg-app-surface-subtle/60 border border-app-border/60">
+              <div class="text-[11px] text-app-muted mb-0.5">التتابع</div>
+              <div id="sidebarHabitStreak" class="font-mono text-xs font-bold text-amber-500">0 يوم</div>
+            </div>
+            <div class="p-2 rounded-lg bg-app-surface-subtle/60 border border-app-border/60">
+              <div class="text-[11px] text-app-muted mb-0.5">الماء</div>
+              <div id="sidebarWater" class="font-mono text-xs font-bold text-blue-500">0 مل</div>
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- Bottom Footer Section: Pomodoro Status + Theme + Sync -->
-      <div class="p-3 border-t border-app-border space-y-2.5 bg-app-surface flex-shrink-0">
+      <!-- Bottom Utility Bar (Preserves Pomodoro & Theme & Sync) -->
+      <div class="p-3 border-t border-app-border flex items-center justify-between gap-2 bg-app-surface flex-shrink-0">
         
-        <!-- Focus Pomodoro Pill -->
-        <div class="flex items-center justify-between p-2 rounded-xl bg-app-surface-subtle border border-app-border">
-          <div class="flex items-center gap-2">
-            <span id="sidebarPomoDot" class="w-2 h-2 rounded-full bg-zinc-500"></span>
-            <div>
-              <div class="text-[10px] text-app-muted font-medium">مؤقت التركيز</div>
-              <div id="sidebarPomoTimer" class="font-mono text-xs font-bold text-app-text">25:00</div>
-            </div>
-          </div>
-          <button onclick="togglePomodoro()" class="px-2.5 py-1 rounded-lg bg-brand hover:bg-brand-hover text-white text-[11px] font-semibold transition-colors shadow-xs">
-            بدء
-          </button>
-        </div>
+        <!-- Pomodoro Pill in Sidebar -->
+        <button onclick="togglePomodoro()" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-xs text-app-text transition-colors">
+          <span id="sidebarPomoDot" class="w-2 h-2 rounded-full bg-zinc-500"></span>
+          <span id="sidebarPomoTimer" class="font-mono text-xs font-semibold">25:00</span>
+        </button>
 
-        <!-- Utility Toggles Row -->
-        <div class="flex items-center justify-between gap-1 pt-1 text-xs">
+        <div class="flex items-center gap-1">
           <!-- Theme Toggle -->
-          <button onclick="toggleTheme()" id="themeBtn" class="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-app-muted hover:text-app-text transition-colors shadow-xs" title="تبديل النمط (فاتح / داكن)">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            <span class="text-[11px]">النمط</span>
+          <button onclick="toggleTheme()" id="themeBtn" class="p-1.5 rounded-lg text-app-muted hover:text-app-text hover:bg-app-surface-subtle transition-colors" title="تبديل المظهر">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
 
           <!-- Cloud Sync -->
-          <button onclick="openCloudSyncModal()" id="syncStatusBtn" class="p-1.5 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-app-muted hover:text-app-text transition-colors shadow-xs" title="المزامنة السحابية">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+          <button onclick="openCloudSyncModal()" id="syncStatusBtn" class="p-1.5 rounded-lg text-app-muted hover:text-app-text hover:bg-app-surface-subtle transition-colors" title="المزامنة">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
           </button>
 
           <!-- Shortcuts -->
-          <button onclick="openShortcutsModal()" class="p-1.5 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-app-muted hover:text-app-text transition-colors shadow-xs" title="اختصارات لوحة المفاتيح (?)">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <button onclick="openShortcutsModal()" class="p-1.5 rounded-lg text-app-muted hover:text-app-text hover:bg-app-surface-subtle transition-colors" title="اختصارات لوحة المفاتيح (?)">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           </button>
         </div>
 
@@ -584,44 +533,43 @@
         <!-- Right side: Mobile Menu Button + Breadcrumb -->
         <div class="flex items-center gap-3">
           <!-- Mobile Hamburger Toggle Button -->
-          <button onclick="toggleSidebar(true)" class="md:hidden p-1.5 rounded-lg bg-app-surface-subtle border border-app-border text-app-muted hover:text-app-text transition-colors shadow-xs" title="فتح القائمة الجانبية">
+          <button onclick="toggleSidebar(true)" class="md:hidden p-1.5 rounded-lg bg-app-surface-subtle border border-app-border text-app-muted hover:text-app-text transition-colors shadow-xs" title="القائمة">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
 
           <!-- Breadcrumb Navigation -->
           <div class="flex items-center gap-2 text-sm">
-            <span class="text-app-muted font-medium hidden sm:inline">لوحة الحياة</span>
+            <span class="text-app-muted font-medium hidden sm:inline">الرئيسية</span>
             <span class="text-app-muted hidden sm:inline">/</span>
             <span id="topBreadcrumbTitle" class="font-bold text-base text-app-text tracking-tight">اليوم والتركيز الفوري</span>
           </div>
         </div>
 
         <!-- Left side: Fast Actions (Pomodoro, Install, Quick Add) -->
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2.5">
           
-          <!-- Pomodoro Focus Pill in Header (Retained for 100% test & desktop convenience) -->
-          <button onclick="togglePomodoro()" id="topPomoBtn" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-xs font-medium hover:border-brand/40 text-app-text transition-colors shadow-xs" title="مؤقت التركيز (بومودورو)">
+          <!-- Pomodoro Focus Pill in Header -->
+          <button onclick="togglePomodoro()" id="topPomoBtn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-sm font-medium hover:border-brand/40 text-app-text transition-colors shadow-xs" title="مؤقت التركيز">
             <span id="pomoDot" class="w-2 h-2 rounded-full bg-zinc-500"></span>
             <span id="topPomoTimer" class="font-mono text-app-text text-sm font-semibold tracking-tight">25:00</span>
-            <svg class="w-3 h-3 text-app-muted" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </button>
 
           <!-- Top Command Palette Icon Button -->
-          <button onclick="openCommandPalette()" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-xs text-app-muted hover:text-app-text transition-colors shadow-xs" title="شريط الأوامر السريع (⌘K)">
+          <button onclick="openCommandPalette()" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-xs text-app-muted hover:text-app-text transition-colors shadow-xs" title="شريط الأوامر (⌘K)">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <kbd class="px-1 text-[10px] bg-app-surface rounded border border-app-border font-mono">⌘K</kbd>
           </button>
 
           <!-- PWA Install Button -->
-          <button onclick="triggerPWAInstall()" id="pwaInstallHeaderBtn" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-app-text text-xs font-medium hover:border-brand/40 transition-all shadow-xs" title="تثبيت التطبيق على جهازك">
+          <button onclick="triggerPWAInstall()" id="pwaInstallHeaderBtn" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-app-surface-subtle hover:bg-app-surface border border-app-border text-app-text text-xs font-medium hover:border-brand/40 transition-all shadow-xs" title="تثبيت التطبيق">
             <svg class="w-3.5 h-3.5 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span class="hidden sm:inline">تثبيت</span>
+            <span>تثبيت</span>
           </button>
 
           <!-- Fast Add Quick Dropdown/Modal Trigger -->
-          <button onclick="openAddTaskModal()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-brand hover:bg-brand-hover text-white text-sm font-bold transition-colors shadow-xs">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span>إضافة</span>
+          <button onclick="openAddTaskModal()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-sm font-semibold transition-colors shadow-xs">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>إضافة مهمة</span>
           </button>
 
         </div>
@@ -629,7 +577,7 @@
       </header>
 
       <!-- Scrollable Main Workspace Canvas -->
-      <main id="mainWorkspaceCanvas" class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-5 max-w-7xl w-full mx-auto space-y-6 pb-24 md:pb-12">
+      <main id="mainWorkspaceCanvas" class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 max-w-7xl w-full mx-auto space-y-6 pb-24 md:pb-12">
 
     <!-- ==========================================
          VIEW 1: TODAY & FOCUS (اليوم والتركيز)
@@ -643,12 +591,8 @@
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
           </div>
           <div>
-            <div class="flex items-center gap-2 flex-wrap">
-              <h1 class="text-base sm:text-lg font-bold text-app-text tracking-tight">اليوم والتركيز الفوري</h1>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 font-medium flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>جلسة نشطة</span>
-              </span>
+            <div class="flex items-center gap-2.5">
+              <h1 class="text-xl sm:text-2xl font-bold text-app-text tracking-tight">اليوم</h1>
             </div>
             <p class="text-xs text-app-muted mt-0.5 font-medium" id="todayHeaderDate">الاثنين، 26 أكتوبر 2026</p>
           </div>
@@ -976,7 +920,7 @@
         <div>
           <div class="flex items-center gap-2 flex-wrap">
             <h2 class="text-lg sm:text-xl font-bold text-app-text tracking-tight">مصفوفة التخطيط الاستراتيجي والآفاق الزمنية</h2>
-            <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">إطار أيزنهاور</span>
+            
           </div>
           <p class="text-xs text-app-muted mt-1" id="horizonExplanationText">
             حدد الأفق الزمني للتخطيط: لتوزيع المهام حسب أهميتها واستعجالها واتخاذ القرارات بدقة.
@@ -1004,8 +948,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
         <!-- Q1: Do First (عاجل ومهم) -->
-        <div class="bg-app-surface border border-rose-500/25 rounded-2xl p-4 shadow-subtle hover:border-rose-500/40 transition-all flex flex-col justify-between relative overflow-hidden">
-          <div class="absolute top-0 right-0 left-0 h-1 bg-rose-500/80"></div>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 sm:p-5 shadow-subtle hover:border-zinc-700 transition-all flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 h-0.5 bg-rose-500/70"></div>
           <div>
             <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
               <div class="flex items-center gap-2">
@@ -1029,8 +973,8 @@
         </div>
 
         <!-- Q2: Schedule (مهم وغير عاجل) -->
-        <div class="bg-app-surface border border-blue-500/25 rounded-2xl p-4 shadow-subtle hover:border-blue-500/40 transition-all flex flex-col justify-between relative overflow-hidden">
-          <div class="absolute top-0 right-0 left-0 h-1 bg-blue-500/80"></div>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 sm:p-5 shadow-subtle hover:border-zinc-700 transition-all flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 h-0.5 bg-blue-500/70"></div>
           <div>
             <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
               <div class="flex items-center gap-2">
@@ -1054,8 +998,8 @@
         </div>
 
         <!-- Q3: Delegate (عاجل وغير مهم) -->
-        <div class="bg-app-surface border border-amber-500/25 rounded-2xl p-4 shadow-subtle hover:border-amber-500/40 transition-all flex flex-col justify-between relative overflow-hidden">
-          <div class="absolute top-0 right-0 left-0 h-1 bg-amber-500/80"></div>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 sm:p-5 shadow-subtle hover:border-zinc-700 transition-all flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 h-0.5 bg-amber-500/70"></div>
           <div>
             <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-app-border">
               <div class="flex items-center gap-2">
@@ -1132,144 +1076,123 @@
 
     </section>
     <!-- ==========================================
-         VIEW 5: STUDY, COURSES & LEARNING VAULT (الدراسة والكورسات والتعلم)
+         VIEW 5: STUDY & COURSES (الدراسة والكورسات)
+         Artisan Monochrome & High Legibility
          ========================================== -->
     <section id="view-study" class="view-panel hidden space-y-6">
       
-      <!-- LEVEL 1: Study & Courses Header -->
-      <div class="bg-app-surface border border-app-border rounded-2xl p-4 sm:p-5 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
-        <div class="flex items-center gap-3.5">
-          <div class="w-10 h-10 rounded-xl bg-app-surface-subtle border border-app-border flex items-center justify-center text-brand flex-shrink-0 shadow-inner">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 flex-wrap">
-              <h2 class="text-lg sm:text-xl font-bold text-app-text tracking-tight">مركز الدراسة والكورسات والتعلم المستمر</h2>
-              <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 font-medium">Growth OS</span>
-            </div>
-            <p class="text-sm text-app-muted mt-1 font-medium">تنظيم ومتابعة المسارات التعليمية، الكورسات الأكاديمية والمهنية، والكتب وساعات المذاكرة</p>
-          </div>
+      <!-- LEVEL 1: Clean Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-app-border/80">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-app-text tracking-tight">الدراسة والكورسات</h2>
+          <p class="text-sm text-app-muted mt-1 font-medium">متابعة المسارات التعليمية، قراءة الكتب، وتدوين الملاحظات</p>
         </div>
 
-        <div class="flex items-center gap-2 self-start md:self-auto flex-wrap">
-          <button onclick="applyStarterCourses()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-app-surface-subtle hover:bg-app-surface border border-app-border text-app-text text-sm font-semibold transition-colors shadow-xs" title="إضافة باقة مسارات مقترحة بنقرة واحدة">
-            <svg class="w-3.5 h-3.5 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-            <span>⚡ باقة مسارات نموذجية</span>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="applyStarterCourses()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-app-surface hover:bg-app-surface-subtle border border-app-border text-app-text text-sm font-medium transition-colors shadow-xs" title="إضافة مسارات مقترحة">
+            <span>مسارات مقترحة</span>
           </button>
-          <button onclick="openAddCourseModal()" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand hover:bg-brand-hover text-white text-sm font-bold shadow-sm transition-colors">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            <span>+ إضافة كورس جديد</span>
+          <button onclick="openAddCourseModal()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-brand hover:bg-brand-hover text-white text-sm font-semibold shadow-xs transition-colors">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>إضافة كورس</span>
           </button>
         </div>
       </div>
 
-      <!-- LEVEL 2: 4 Flat Metric Cards -->
+      <!-- LEVEL 2: 4 Clean Minimal Metric Cards -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
         
         <!-- Metric 1: Active Courses -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-brand/40 transition-all">
-          <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
-            <span>الكورسات النشطة</span>
-            <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
-          </div>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle">
+          <div class="text-xs text-app-muted mb-2 font-medium">الكورسات النشطة</div>
           <div class="flex items-baseline gap-2 mb-1.5">
             <span class="text-3xl font-bold text-app-text font-mono" id="studyActiveCoursesCount">0</span>
-            <span class="text-xs text-app-muted">كورس قيد الدراسة</span>
+            <span class="text-xs text-app-muted">قيد الدراسة</span>
           </div>
-          <div class="text-[11px] text-app-muted font-mono flex items-center justify-between">
-            <span>مكتمل: <span id="studyCompletedCoursesCount" class="text-emerald-500 font-bold">0</span></span>
-            <span class="text-brand cursor-pointer hover:underline" onclick="openAddCourseModal()">+ كورس</span>
+          <div class="text-xs text-app-muted font-mono">
+            مكتمل: <span id="studyCompletedCoursesCount" class="text-app-text font-semibold">0</span>
           </div>
         </div>
 
         <!-- Metric 2: Completed Lessons -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-blue-500/40 transition-all">
-          <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
-            <span>الدروس المنجزة</span>
-            <svg class="w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
-          </div>
-          <div class="flex items-baseline gap-1.5 mb-1.5">
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle">
+          <div class="text-xs text-app-muted mb-2 font-medium">الدروس المنجزة</div>
+          <div class="flex items-baseline gap-1.5 mb-2">
             <span class="text-3xl font-bold text-app-text font-mono" id="studyCompletedLessonsCount">0</span>
-            <span class="text-xs text-app-muted font-mono">/ <span id="studyTotalLessonsCount">0</span> درس</span>
+            <span class="text-xs text-app-muted font-mono"><span id="studyTotalLessonsCount">/ 0</span> درس</span>
           </div>
-          <div class="w-full h-1.5 bg-app-surface-subtle rounded-full overflow-hidden border border-app-border">
-            <div id="studyLessonsProgressBar" class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+          <div class="w-full h-1 bg-app-surface-subtle rounded-full overflow-hidden">
+            <div id="studyLessonsProgressBar" class="h-full bg-app-text rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
         </div>
 
         <!-- Metric 3: Average Completion Rate -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-emerald-500/40 transition-all">
-          <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
-            <span>متوسط الإنجاز العام</span>
-            <svg class="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <div class="flex items-baseline gap-2 mb-1.5">
-            <span class="text-3xl font-bold text-emerald-500 font-mono" id="studyAvgProgress">0%</span>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle">
+          <div class="text-xs text-app-muted mb-2 font-medium">متوسط الإنجاز</div>
+          <div class="flex items-baseline gap-2 mb-2">
+            <span class="text-3xl font-bold text-app-text font-mono" id="studyAvgProgress">0%</span>
             <span class="text-xs text-app-muted">إجمالي المسارات</span>
           </div>
-          <div class="w-full h-1.5 bg-app-surface-subtle rounded-full overflow-hidden border border-app-border">
-            <div id="studyAvgProgressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+          <div class="w-full h-1 bg-app-surface-subtle rounded-full overflow-hidden">
+            <div id="studyAvgProgressBar" class="h-full bg-brand rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
         </div>
 
         <!-- Metric 4: Study Sessions & Focus -->
-        <div class="bg-app-surface border border-app-border rounded-xl p-3.5 shadow-subtle hover:border-amber-500/40 transition-all">
-          <div class="flex items-center justify-between text-xs text-app-muted mb-2 font-medium">
-            <span>ساعات المذاكرة المركزة</span>
-            <svg class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
+        <div class="bg-app-surface border border-app-border rounded-xl p-4 shadow-subtle">
+          <div class="text-xs text-app-muted mb-2 font-medium">ساعات التركيز</div>
           <div class="flex items-baseline gap-2 mb-1.5">
             <span class="text-3xl font-bold text-app-text font-mono" id="studyTotalHours">0.0</span>
             <span class="text-xs text-app-muted">ساعة مسجلة</span>
           </div>
-          <div class="text-[11px] text-amber-500 font-mono flex items-center justify-between">
-            <span>جلسات اليوم: <span id="studyTodaySessions">0</span></span>
-            <button onclick="togglePomodoro()" class="hover:underline text-[10px]">بدء مؤقت المذاكرة ←</button>
+          <div class="text-xs text-app-muted font-mono flex items-center justify-between">
+            <span>جلسات اليوم: <span id="studyTodaySessions" class="text-app-text font-semibold">0</span></span>
+            <button onclick="togglePomodoro()" class="hover:text-brand text-xs transition-colors">مؤقت ←</button>
           </div>
         </div>
 
       </div>
 
       <!-- LEVEL 3: Courses Workspace & Filter Controls -->
-      <div class="bg-app-surface border border-app-border rounded-2xl p-4 sm:p-5 shadow-subtle space-y-4 transition-colors">
+      <div class="bg-app-surface border border-app-border rounded-xl p-4 sm:p-5 shadow-subtle space-y-4">
         
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-app-border">
           <div class="flex items-center gap-2">
-            <h3 class="text-sm font-bold text-app-text">قائمة المسارات والكورسات المسجلة</h3>
-            <span id="coursesBadgeCount" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-app-surface-subtle border border-app-border text-app-muted">0 كورس</span>
+            <h3 class="text-sm font-bold text-app-text">قائمة المسارات</h3>
+            <span id="coursesBadgeCount" class="text-xs font-mono px-2 py-0.5 rounded-md bg-app-surface-subtle text-app-muted border border-app-border">0 كورس</span>
           </div>
 
-          <!-- Category Filter Pills -->
-          <div class="flex items-center gap-1 p-0.5 bg-app-surface-subtle rounded-xl border border-app-border text-xs flex-wrap">
-            <button type="button" onclick="filterCoursesCategory('all')" id="cfPill-all" class="cf-pill px-3 py-1 text-center font-medium rounded-lg transition-all text-app-text bg-app-surface shadow-xs border border-app-border">الكل</button>
-            <button type="button" onclick="filterCoursesCategory('tech')" id="cfPill-tech" class="cf-pill px-3 py-1 text-center font-medium rounded-lg transition-all text-app-muted hover:text-app-text">💻 برمجة وتقنية</button>
-            <button type="button" onclick="filterCoursesCategory('business')" id="cfPill-business" class="cf-pill px-3 py-1 text-center font-medium rounded-lg transition-all text-app-muted hover:text-app-text">💼 إدارة وأعمال</button>
-            <button type="button" onclick="filterCoursesCategory('languages')" id="cfPill-languages" class="cf-pill px-3 py-1 text-center font-medium rounded-lg transition-all text-app-muted hover:text-app-text">🌐 لغات</button>
-            <button type="button" onclick="filterCoursesCategory('books')" id="cfPill-books" class="cf-pill px-3 py-1 text-center font-medium rounded-lg transition-all text-app-muted hover:text-app-text">📚 كتب</button>
+          <!-- Category Filter Pills (No cheesy emojis) -->
+          <div class="flex items-center gap-1 p-0.5 bg-app-surface-subtle rounded-lg border border-app-border text-xs flex-wrap">
+            <button type="button" onclick="filterCoursesCategory('all')" id="cfPill-all" class="cf-pill px-3 py-1 text-center font-medium rounded-md transition-all text-app-text bg-app-surface shadow-xs border border-app-border">الكل</button>
+            <button type="button" onclick="filterCoursesCategory('tech')" id="cfPill-tech" class="cf-pill px-3 py-1 text-center font-medium rounded-md transition-all text-app-muted hover:text-app-text">برمجة</button>
+            <button type="button" onclick="filterCoursesCategory('business')" id="cfPill-business" class="cf-pill px-3 py-1 text-center font-medium rounded-md transition-all text-app-muted hover:text-app-text">أعمال</button>
+            <button type="button" onclick="filterCoursesCategory('languages')" id="cfPill-languages" class="cf-pill px-3 py-1 text-center font-medium rounded-md transition-all text-app-muted hover:text-app-text">لغات</button>
+            <button type="button" onclick="filterCoursesCategory('books')" id="cfPill-books" class="cf-pill px-3 py-1 text-center font-medium rounded-md transition-all text-app-muted hover:text-app-text">كتب</button>
           </div>
         </div>
 
         <!-- Courses Cards Grid -->
-        <div id="coursesListContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div id="coursesListContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
           <!-- Injected dynamically via renderCoursesView() -->
         </div>
 
       </div>
 
-      <!-- LEVEL 4: Study Notes Vault & Quick Capture -->
-      <div class="bg-app-surface border border-app-border rounded-2xl p-4 sm:p-5 shadow-subtle space-y-3 transition-colors">
+      <!-- LEVEL 4: Study Notes -->
+      <div class="bg-app-surface border border-app-border rounded-xl p-4 sm:p-5 shadow-subtle space-y-3">
         <div class="flex items-center justify-between pb-2 border-b border-app-border">
           <div class="flex items-center gap-2">
             <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-            <h3 class="text-xs sm:text-sm font-semibold text-app-text">مفكرة التعلم والملخصات السريعة (Study Notes Vault)</h3>
+            <h3 class="text-sm font-semibold text-app-text">ملاحظات ومراجع الدراسة</h3>
           </div>
-          <span class="text-[11px] text-app-muted">تدوين أفكار وروابط المذاكرة</span>
+          <span class="text-xs text-app-muted">أفكار وروابط سريعة</span>
         </div>
 
         <div class="flex gap-2">
-          <input type="text" id="quickStudyNoteInput" placeholder="دوّن فائدة سريعة من درس اليوم، أو رابط مرجع مهم واضغط Enter..." class="flex-1 bg-app-surface-subtle border border-app-border rounded-xl px-3.5 py-2.5 text-sm sm:text-base text-app-text placeholder:text-app-muted focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addQuickStudyNote()">
-          <button onclick="addQuickStudyNote()" class="px-4 py-2.5 rounded-xl bg-brand hover:bg-brand-hover text-white text-sm font-semibold transition-colors shadow-xs flex-shrink-0">
-            حفظ الملاحظة
+          <input type="text" id="quickStudyNoteInput" placeholder="اكتب فائدة أو رابط مرجع مهم واضغط Enter..." class="flex-1 bg-app-surface-subtle border border-app-border rounded-lg px-3.5 py-2 text-sm text-app-text placeholder:text-app-muted focus:outline-none focus:border-brand" onkeydown="if(event.key==='Enter') addQuickStudyNote()">
+          <button onclick="addQuickStudyNote()" class="px-4 py-2 rounded-lg bg-app-surface hover:bg-app-surface-subtle border border-app-border text-app-text text-sm font-medium transition-colors shadow-xs flex-shrink-0">
+            حفظ
           </button>
         </div>
 
@@ -1279,6 +1202,7 @@
       </div>
 
     </section>
+
     <!-- ==========================================
          VIEW 3: HEALTH & AI NUTRITION (الصحة والتغذية والرياضة)
          ========================================== -->
@@ -5909,45 +5833,45 @@
       const sample = [
         {
           id: 'c_tech_1',
-          title: 'هندسة الويب الحديثة (Full-Stack Web Engineering)',
-          platform: 'Coursera & MDN',
+          title: 'هندسة الويب المتقدمة',
+          platform: 'Coursera',
           category: 'tech',
           totalLessons: 36,
           completedLessons: 12,
-          notes: 'إتقان TypeScript، React، Node.js، وقواعد البيانات السحابية.',
+          notes: 'إتقان TypeScript، React، وقواعد البيانات السحابية.',
           url: 'https://coursera.org',
           createdAt: new Date().toISOString()
         },
         {
           id: 'c_biz_1',
-          title: 'إدارة المنتجات الرقمية (Digital Product Leadership)',
-          platform: 'Udemy & Strategy',
+          title: 'إدارة المنتجات الرقمية',
+          platform: 'Udemy',
           category: 'business',
           totalLessons: 24,
           completedLessons: 16,
-          notes: 'نماذج Agile، تجربة المستخدم UX، وبناء خرائط المنتجات الرابحة.',
+          notes: 'نماذج Agile وتصميم خرائط طريق المنتجات.',
           url: 'https://udemy.com',
           createdAt: new Date().toISOString()
         },
         {
           id: 'c_lang_1',
-          title: 'اللغة الإنجليزية التخصصية للأعمال والتقنية (C1 Level)',
-          platform: 'BBC Learning & Cambly',
+          title: 'الإنجليزية المهنية للأعمال',
+          platform: 'BBC Learning',
           category: 'languages',
           totalLessons: 30,
           completedLessons: 9,
-          notes: 'المحادثة الاحترافية والمصطلحات التقنية في قيادة الفرق.',
+          notes: 'المحادثة الاحترافية وإدارة الاجتماعات الدولية.',
           url: 'https://bbc.co.uk/learningenglish',
           createdAt: new Date().toISOString()
         },
         {
           id: 'c_book_1',
-          title: 'كتاب: العادات الذرية (Atomic Habits - James Clear)',
-          platform: 'قراءة وتلخيص عميق',
+          title: 'كتاب: العادات الذرية',
+          platform: 'قراءة وتلخيص',
           category: 'books',
           totalLessons: 20,
           completedLessons: 14,
-          notes: 'قوانين التغيير الأربعة وتصميم المحيط الداعم للتركيز.',
+          notes: 'قوانين التغيير الأربعة وبناء الأنظمة اليومية.',
           url: '',
           createdAt: new Date().toISOString()
         }
@@ -6176,11 +6100,11 @@
           </div>`;
       } else {
         const catMap = {
-          'tech': { label: '💻 برمجة وتقنية', cls: 'bg-blue-500/10 text-blue-500 border border-blue-500/20' },
-          'business': { label: '💼 إدارة وأعمال', cls: 'bg-amber-500/10 text-amber-500 border border-amber-500/20' },
-          'languages': { label: '🌐 لغات', cls: 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' },
-          'books': { label: '📚 كتب وقراءات', cls: 'bg-purple-500/10 text-purple-500 border border-purple-500/20' },
-          'academic': { label: '🎓 أكاديمي', cls: 'bg-rose-500/10 text-rose-500 border border-rose-500/20' }
+          'tech': { label: 'برمجة', cls: 'bg-app-surface-subtle text-app-muted border border-app-border' },
+          'business': { label: 'أعمال', cls: 'bg-app-surface-subtle text-app-muted border border-app-border' },
+          'languages': { label: 'لغات', cls: 'bg-app-surface-subtle text-app-muted border border-app-border' },
+          'books': { label: 'كتب', cls: 'bg-app-surface-subtle text-app-muted border border-app-border' },
+          'academic': { label: 'أكاديمي', cls: 'bg-app-surface-subtle text-app-muted border border-app-border' }
         };
 
         container.innerHTML = displayed.map(c => {
@@ -6191,7 +6115,7 @@
           const isDone = comp >= tot;
 
           return `
-            <div class="bg-app-surface-subtle border border-app-border rounded-xl p-4 flex flex-col justify-between hover:border-brand/40 transition-all shadow-xs group">
+            <div class="bg-app-surface border border-app-border rounded-xl p-4 sm:p-5 flex flex-col justify-between hover:border-zinc-700/80 transition-all shadow-subtle group">
               <div>
                 <div class="flex items-center justify-between gap-2 mb-2">
                   <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${catInfo.cls}">
